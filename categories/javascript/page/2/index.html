@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Category: javascript | MZhou&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="MZhou's blog">
+<meta property="og:url" content="http://nodejs.in/categories/javascript/page/2/">
+<meta property="og:site_name" content="MZhou's blog">
+<meta property="og:description">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MZhou's blog">
+<meta name="twitter:description">
+
+  
+    <link rel="alternative" href="/atom.xml" title="MZhou&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">MZhou&#39;s blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">专注于Web前端开发！</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://nodejs.in"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-e5908ce4b880e6b58fe8a788e599a8e5a49ae9a1b5e99da2e997b4e9809ae8aeaf" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/08/16/e5908ce4b880e6b58fe8a788e599a8e5a49ae9a1b5e99da2e997b4e9809ae8aeaf/" class="article-date">
+  <time datetime="2012-08-15T18:04:00.000Z" itemprop="datePublished">Aug 16 2012</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/08/16/e5908ce4b880e6b58fe8a788e599a8e5a49ae9a1b5e99da2e997b4e9809ae8aeaf/">OneTask：同一浏览器多页面间协作</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>很久没有写博文了，马上博客的服务器租期要到期了。于是抓紧时间写些值得记录的东西，然后准备搬迁。言归正传，这次主要讲的是“同一浏览器多页面间通讯”。之所以要做这个是因为要做长轮训、服务器推送等耗费较多服务器资源的操作。对于单页面的web app这不是什么问题，因为很少有用户会打开多个同一页面的web app。但如果是普通的web page那就不同了，用户会打开多个页面。如果不对请求数做些控制那服务器的消耗会很大，而且都是无用开销。</p>
+<p><a href="http://mzhou.me/?attachment_id=95613" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/08/选区_006-600x227.png" alt="" title="可怕的用户习惯"></a></p>
+<p>这时就需要多个页面之间通讯了~</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2012/08/16/e5908ce4b880e6b58fe8a788e599a8e5a49ae9a1b5e99da2e997b4e9809ae8aeaf/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2012/08/16/e5908ce4b880e6b58fe8a788e599a8e5a49ae9a1b5e99da2e997b4e9809ae8aeaf/" data-id="hhj4tmhykri75g8x" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OneTask/">OneTask</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-javascripte7bba7e689bfe79a84e4b880e4ba9be5ba9fe8af9defbc88mixinefbc89" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/12/26/javascripte7bba7e689bfe79a84e4b880e4ba9be5ba9fe8af9defbc88mixinefbc89/" class="article-date">
+  <time datetime="2011-12-26T14:52:00.000Z" itemprop="datePublished">Dec 26 2011</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/12/26/javascripte7bba7e689bfe79a84e4b880e4ba9be5ba9fe8af9defbc88mixinefbc89/">Javascript继承的一些废话（Mixin）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>之前在<a href="http://mzhou.me/?p=65001" target="_blank" rel="external">Prototype库面向对象的实现原理</a>一文里面写过一些关于Javascript实现OO的方法。一些主流的库的OO也都是这么实现的：</p>
+<ol>
+<li><a href="http://prototypejs.org/" target="_blank" rel="external">Prototype</a></li>
+<li><a href="http://dustindiaz.com/klass" target="_blank" rel="external">Klass</a></li>
+<li><a href="http://mootools.net/docs/core/Class/Class" target="_blank" rel="external">MooTool</a><br>不过这种模式有些缺点：
+        
+          <p class="article-more-link">
+            <a href="/2011/12/26/javascripte7bba7e689bfe79a84e4b880e4ba9be5ba9fe8af9defbc88mixinefbc89/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2011/12/26/javascripte7bba7e689bfe79a84e4b880e4ba9be5ba9fe8af9defbc88mixinefbc89/" data-id="75phiyy16pt6irfd" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/class/">class</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascri/">javascri</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-e99d9eiee6b58fe8a788e599a8e79a84e781b0e998b6e58c96" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/07/09/e99d9eiee6b58fe8a788e599a8e79a84e781b0e998b6e58c96/" class="article-date">
+  <time datetime="2011-07-08T17:04:55.000Z" itemprop="datePublished">Jul 9 2011</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/07/09/e99d9eiee6b58fe8a788e599a8e79a84e781b0e998b6e58c96/">非IE浏览器的灰阶化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近网上疯传：“XXX死了”。所以难免过几天又要网站变黑白了。IE下面做到这点很容易，</p>
+<p><strong>使用滤镜就可以做到：</strong><br>javascript代码：</p>
+<p>[js]elem.style.filter = ‘progid:DXImageTransform.Microsoft.BasicImage(grayscale=1)’;[/js]</p>
+<p>CSS代码：</p>
+<p>[css]<br>elem {<br>    filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);<br>    /<em> Element must &quot;hasLayout&quot;! </em>/<br>    zoom: 1；<br>}<br>[/css]</p>
+<p>但是其他浏览器就比较困难了。这需要对图片和其他元素分别处理。对于其他元素比较简单，只要获取他们的color、backgroundColor、borderBottomColor,borderTopColor,borderLeftColor,borderRightColor属性值并且转换成灰阶化之后的值即可。注意这里说的是灰阶化不是去色，两者稍有不同：</p>
+<p>[js]<br>// 去色 Desaturate:<br>function RGBtoDesat(r,g,b) {<br>    var average = (r + g + b) / 3;<br>    return {<br>        r: average,<br>        g: average,<br>        b: average<br>    };<br>}</p>
+<p>// 灰阶化 Grayscale:<br>function RGBtoGrayscale(r,g,b) {<br>    var mono = parseInt( (0.2125 <em> r) + (0.7154 </em> g) + (0.0721 * b), 10 );<br>    return {<br>        r: mono,<br>        g: mono,<br>        b: mono<br>    };<br>}<br>[/js]</p>
+<p>所以只要遍历所有的元素，并修改他们的颜色相关属性，原颜色保留方便恢复。<br>但是图片元素能否被转换依赖于两件事情：</p>
+<ul>
+<li>浏览器是否支持canvas，以及它的getImageData方法；</li>
+<li>并且图片是同源的（不跨域）<br>接下来就需要依次遍历图片所有像素点的颜色值，将其灰阶化。这一过程非常的耗内存，即使是飞速的js引擎遇到了大图片也会消耗不少cpu。<br>这一切的工作都已经有人做好了：<a href="http://james.padolsey.com/demos/grayscale/" target="_blank" rel="external">http://james.padolsey.com/demos/grayscale/</a></li>
+</ul>
+<p><strong>grayScal API</strong><br>grayscale函数支持的参数不仅仅是dom，还可以是jquery对象：<br>[js]<br>var el = document.getElementById( ‘myEl’ );<br>grayscale( el );</p>
+<p>// Alternatively, pass a DOM collection<br>// (all elements will get &quot;grayscaled&quot;)<br>grayscale( document.getElementsByTagName(‘div’) );</p>
+<p>// Even works with jQuery collections:<br>grayscale( $(‘div’) );<br>[/js]</p>
+<p>重置颜色：<br>[js]<br>grayscale.reset( el );<br>// reset() also accepts DOM/jQuery collections<br>grayscale.reset( $(‘div’) );<br>[/js]</p>
+<p>prepare函数是用于处理大图片或多张小图片时候的情况，它使用了分时计算的方法防止页面UI卡死。注意图片越大需要的计算时间越多，一个300x300大小的PNG图片在prepare模式下就需要大概3秒时间。<strong>所以如果你的图片比较大那么这个方法的生效时间会相当的慢。</strong>优点是浏览器不会卡死！<br>The ‘prepare’ function, as discussed earlier, should be called when there’s a large image to process or even if there are several smaller images. Be aware that larger images will take quite a while to process (just a 300×300 PNG takes about 3 seconds in ‘prepare’ mode).<br>[js]<br>grayscale.prepare( document.getElementById(‘myEl’) );<br>// Also accepts DOM/jQuery collections<br>grayscale.prepare( $(‘.gall_img’) );<br>[/js]</p>
+<p>另外值得注意一点的是ie下面的灰阶化滤镜会对元素或子元素的其他滤镜产生影响。如果你使用了例如渐变这样的ie滤镜就会被影响：<br>[css]<br>elem {<br>    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=’#f9fcf7’, endColorstr=’#e6f4de’);<br>}<br>[/css]<br>所以如果你使用了其他滤镜，那么需要修改下样式。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2011/07/09/e99d9eiee6b58fe8a788e599a8e79a84e781b0e998b6e58c96/" data-id="lrx2dnfqjk658ddd" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/canvas/">canvas</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/filter/">filter</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/grayScale/">grayScale</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/灰阶化/">灰阶化</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-e3808ce8af91e3808dgeolocation-html5e59cb0e79086e5ae9ae4bd8d" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/06/23/e3808ce8af91e3808dgeolocation-html5e59cb0e79086e5ae9ae4bd8d/" class="article-date">
+  <time datetime="2011-06-22T17:13:05.000Z" itemprop="datePublished">Jun 23 2011</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/06/23/e3808ce8af91e3808dgeolocation-html5e59cb0e79086e5ae9ae4bd8d/">「译」Geolocation HTML5地理定位</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>参考自：<a href="http://html5doctor.com/finding-your-position-with-geolocation/" target="_blank" rel="external">http://html5doctor.com/finding-your-position-with-geolocation/</a></p>
+<p>Geolocation API提供了开发者获取用户位置的功能。接下来介绍下此API的相关信息。</p>
+<h2 id="浏览器兼容性">浏览器兼容性</h2>
+<p>目前（2011-6-22）如下浏览器支持Geolocation API：</p>
+<ul>
+<li>Firefox 3.5+</li>
+<li>Chrome 5.0+</li>
+<li>Safari 5.0+</li>
+<li>Opera 10.60+</li>
+<li>Internet Explorer 9.0+</li>
+<li>Android 2.0+</li>
+<li>iPhone 3.0+</li>
+<li>Opera Mobile 10.1+</li>
+<li>Symbian (S60 3rd &amp; 5th generation)</li>
+<li>Blackberry OS 6</li>
+<li>Maemo</li>
+</ul>
+<h2 id="数据保护">数据保护</h2>
+<p>此规范会将用户的位置暴露出去，所以需要用户的授权才能够使用。当你使用Geolocation api时，浏览器会提示用户“是否授权”。</p>
+<p><img src="http://html5doctor.com/wp-content/uploads/2011/06/safari-geolocation-permission.jpg" alt="" title="授权"></p>
+<h2 id="地理位置">地理位置</h2>
+<p>有很多方法可以定位用户的地理位置，并且每种方法都有不同的精度。桌面浏览器一般会使用WiFi（精确到20m）或者IP定位（只能精确到城市级别，并且有可能是假地址）。移动装置一般会使用GPS（精确到10m并且只能在外部使用），WiFi或GSM/CDMA网络信号定位（精确到1000m）。</p>
+<h3 id="使用API">使用API</h3>
+<p>先判断是否有此功能，代码如下：</p>
+<p>[js]<br>if (navigator.geolocation) {<br>// do fancy stuff<br>}<br>[/js]</p>
+<p>返回false则不支持此api。</p>
+<h3 id="getCurrentPosition_或_watchPosition">getCurrentPosition 或 watchPosition</h3>
+<p>这两个方法都是立即返回的，使用的是异步回调的方式来使用api。它们有相同的参数：</p>
+<ol>
+<li><code>successCallback</code> – 成功后的回调函数</li>
+<li><code>[errorCallback]</code> – 失败后的回调函数</li>
+<li><p>[options] – 相关配置参数：</p>
+<ul>
+<li><code>enableHighAccuracy</code> –  确保应用会给出最佳结果。这有可能会让浏览器的反应时间变慢。如果是移动装置，还有可能因为使用GPS而消耗更多电量。接受参数类型为boolean，默认为false。</li>
+<li><code>timeout</code> – 接受一个数字作为参数，默认为0微秒。设置浏览器的超时时间。</li>
+<li><code>maximumAge</code> – 表示程序能接受的被缓存位置的最大过期时间。接受一个数字作为参数，默认为0微秒。这就意味这默认每次获取位置都必需重新获取一个新位置。</li>
+</ul>
+</li>
+</ol>
+<h3 id="clearWatch">clearWatch</h3>
+<p>这个方法接受一个参数，需要清理的观察进程的id：<code>watchID（这个参数由``watchPosition``方法返回）。</code></p>
+<p><code>getCurrentPosition</code> 和 <code>watchPosition</code>方法的主要区别是<code>watchPosition</code>方法会持续告诉你位置的改变，所以基本上它一直在更新用户的位置。当你在移动的时候，这个功能会非常有利于追踪用户的位置。这个函数还会返回一个<code>watchID</code>值被<code>clearWatch</code>使用来停止监控。</p>
+<p>当用户的位置被返回，它包含了一个<code>Position</code>对象，它包含了如下属性：</p>
+<p><table></table></p>
+<p><thead></thead></p>
+<p><tr></tr></p>
+<p><th scope="col">Property</th></p>
+<p><th scope="col">Details</th><br><br></p>
+<p><tbody></tbody></p>
+<p><tr></tr></p>
+<p><th scope="row">coords.latitude</th></p>
+<p><td>十进制表示的纬度值</td><br></p>
+<p><tr></tr></p>
+<p><th scope="row">coords.longitude</th></p>
+<p><td>十进制表示的经度值</td><br></p>
+<p><tr></tr></p>
+<p><th scope="row">coords.altitude</th></p>
+<p><td>以米为单位的海拔值<a href="http://en.wikipedia.org/wiki/Reference_ellipsoid" target="_blank" rel="external">（reference ellipsoid）</a></td><br></p>
+<p><tr></tr></p>
+<p><th scope="row">coords.accuracy</th></p>
+<p><td>以米为单位，告诉应用经纬度值的精确度。这个用于帮助开发者决定是否使用返回的经纬度值。</td><br></p>
+<p><tr></tr></p>
+<p><th scope="row">coords.altitudeAccuracy</th></p>
+<p><td>海拔的精确度</td><br></p>
+<p><tr></tr></p>
+<p><th scope="row">coords.heading</th></p>
+<p><td>装置的方向，从正北顺时针方向</td><br></p>
+<p><tr></tr></p>
+<p><th scope="row">coords.speed</th></p>
+<p><td>装置的移动速度（米每秒）</td><br></p>
+<p><tr></tr></p>
+<p><th scope="row">timestamp</th></p>
+<p><td>获取位置时候的时间值</td><br><br><br><br>这些参数中只有<code>coords.latitude</code>, <code>coords.longitude</code> 和 <code>coords.accuracy是保证会有的，其他的值则可能是null。</code></p>
+<h3 id="例子">例子</h3>
+<p>[js]if (navigator.geolocation) {<br>    var timeoutVal = 10 <em> 1000 </em> 1000;<br>    navigator.geolocation.getCurrentPosition(<br>       displayPosition,<br>       displayError,<br>       { enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 }<br>    );<br>} else {<br>    alert(&quot;Geolocation is not supported by this browser&quot;);<br>}</p>
+<p>function displayPosition(position) {<br>    alert(&quot;Latitude: &quot; + position.coords.latitude + &quot;, Longitude: &quot; + position.coords.longitude);<br>}</p>
+<p>function displayError(error) {<br>    var errors = {<br>        1: ‘Permission denied’,<br>        2: ‘Position unavailable’,<br>        3: ‘Request timeout’<br>    };<br>    alert(&quot;Error: &quot; + errors[error.code]);<br>}<br>[/js]</p>
+<h3 id="Demo样例">Demo样例</h3>
+<ul>
+<li><a href="http://html5doctor.com/demos/geolocation/geolocation-getcurrentposition-example.html" target="_blank" rel="external">Plot a location on a Google Map using <code>getPosition</code></a></li>
+<li><a href="http://html5doctor.com/demos/geolocation/geolocation-watchposition-example.html" target="_blank" rel="external">Plot and update a location on a Google Map using <code>watchPosition</code></a> – 这个在移动设备上看效果更好，可以看到位置移动</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2011/06/23/e3808ce8af91e3808dgeolocation-html5e59cb0e79086e5ae9ae4bd8d/" data-id="ewfuz8v10ydcvt3w" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Geolocation/">Geolocation</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html5/">html5</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-e3808ce8af91e3808dcocos2d-javascripte585a5e997a8e69599e7a88be4b889" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/05/18/e3808ce8af91e3808dcocos2d-javascripte585a5e997a8e69599e7a88be4b889/" class="article-date">
+  <time datetime="2011-05-17T18:09:05.000Z" itemprop="datePublished">May 18 2011</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/05/18/e3808ce8af91e3808dcocos2d-javascripte585a5e997a8e69599e7a88be4b889/">「译」Cocos2d-javascript入门教程三</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我的唠叨：<a href="http://www.cocos2d-iphone.org/" target="_blank" rel="external">cocos2d-iphone</a>是iOS平台上非常不错的2D游戏引擎，它是基于python版的<a href="http://cocos2d.org/index.html" target="_blank" rel="external">cocos2d</a>设计的，这里主要说的是它的<a href="http://cocos2d-javascript.org/" target="_blank" rel="external">javascript版</a>。最近打算学习下这个游戏引擎，所以特来翻译下它的相关文档。相关系列译文：</p>
+<ol>
+<li><a href="http://mzhou.me/?p=95355#" target="_blank" rel="external">Cocos2d-javascript入门教程一</a></li>
+<li><a href="http://mzhou.me/?p=95390" target="_blank" rel="external">Cocos2d-javascript入门教程二</a></li>
+<li><a href="http://mzhou.me/?p=95425" target="_blank" rel="external">Cocos2d-javascript入门教程三</a>
+        
+          <p class="article-more-link">
+            <a href="/2011/05/18/e3808ce8af91e3808dcocos2d-javascripte585a5e997a8e69599e7a88be4b889/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2011/05/18/e3808ce8af91e3808dcocos2d-javascripte585a5e997a8e69599e7a88be4b889/" data-id="0dqa1kl0ed6kq051" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cocos2d-javascript/">cocos2d-javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/教程/">教程</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-jquery-1-6-prop-and-attr" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/05/15/jquery-1-6-prop-and-attr/" class="article-date">
+  <time datetime="2011-05-15T05:09:02.000Z" itemprop="datePublished">May 15 2011</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/05/15/jquery-1-6-prop-and-attr/">jQuery 1.6 prop and attr</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>jQuery 1.6有两个改动使得它不再完全兼容旧版本，虽然说这个改动本质上来说加快了性能，遵循了html5标准，更清晰的分离了API的职责，但是心理总有些不爽，这意味着很多网站不能轻易的升级。</p>
+<p>先来看下是哪两个改动：
+        
+          <p class="article-more-link">
+            <a href="/2011/05/15/jquery-1-6-prop-and-attr/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2011/05/15/jquery-1-6-prop-and-attr/" data-id="uxddj46dwxko28j6" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/16/">1.6</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/attr/">attr</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/prop/">prop</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-e3808ce8af91e3808dcocos2d-jse585a5e997a8e69599e7a88be4ba8c" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/05/10/e3808ce8af91e3808dcocos2d-jse585a5e997a8e69599e7a88be4ba8c/" class="article-date">
+  <time datetime="2011-05-09T17:40:46.000Z" itemprop="datePublished">May 10 2011</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/05/10/e3808ce8af91e3808dcocos2d-jse585a5e997a8e69599e7a88be4ba8c/">「译」Cocos2d-javascript入门教程二</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我的唠叨：<a href="http://www.cocos2d-iphone.org/" target="_blank" rel="external">cocos2d-iphone</a>是iOS平台上非常不错的2D游戏引擎，它是基于python版的<a href="http://cocos2d.org/index.html" target="_blank" rel="external">cocos2d</a>设计的，这里主要说的是它的<a href="http://cocos2d-javascript.org/" target="_blank" rel="external">javascript版</a>。最近打算学习下这个游戏引擎，所以特来翻译下它的相关文档。相关系列译文：</p>
+<ol>
+<li><a href="http://mzhou.me/?p=95355#" target="_blank" rel="external">Cocos2d-javascript入门教程一</a></li>
+<li><a href="http://mzhou.me/?p=95390" target="_blank" rel="external">Cocos2d-javascript入门教程二</a></li>
+<li><a href="http://mzhou.me/?p=95425" target="_blank" rel="external">Cocos2d-javascript入门教程三</a>
+        
+          <p class="article-more-link">
+            <a href="/2011/05/10/e3808ce8af91e3808dcocos2d-jse585a5e997a8e69599e7a88be4ba8c/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2011/05/10/e3808ce8af91e3808dcocos2d-jse585a5e997a8e69599e7a88be4ba8c/" data-id="lz3b0qlns4whmnqz" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cocos2d-javascript/">cocos2d-javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/教程/">教程</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-e3808ce7bfbbe8af91e3808dcocos2d-jse585a5e997a8e69599e7a88be4b880" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/04/22/e3808ce7bfbbe8af91e3808dcocos2d-jse585a5e997a8e69599e7a88be4b880/" class="article-date">
+  <time datetime="2011-04-21T17:40:19.000Z" itemprop="datePublished">Apr 22 2011</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/04/22/e3808ce7bfbbe8af91e3808dcocos2d-jse585a5e997a8e69599e7a88be4b880/">「译」Cocos2d-javascript入门教程一</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我的唠叨：<a href="http://www.cocos2d-iphone.org/" target="_blank" rel="external">cocos2d-iphone</a>是iOS平台上非常不错的2D游戏引擎，它是基于python版的<a href="http://cocos2d.org/index.html" target="_blank" rel="external">cocos2d</a>设计的，这里主要说的是它的<a href="http://cocos2d-javascript.org/" target="_blank" rel="external">javascript版</a>。最近打算学习下这个游戏引擎，所以特来翻译下它的相关文档。相关系列译文：</p>
+<ol>
+<li><a href="#">Cocos2d-javascript入门教程一</a></li>
+<li><a href="http://mzhou.me/?p=95390" target="_blank" rel="external">Cocos2d-javascript入门教程二</a></li>
+<li><a href="http://mzhou.me/?p=95425" target="_blank" rel="external">Cocos2d-javascript入门教程三</a>
+        
+          <p class="article-more-link">
+            <a href="/2011/04/22/e3808ce7bfbbe8af91e3808dcocos2d-jse585a5e997a8e69599e7a88be4b880/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2011/04/22/e3808ce7bfbbe8af91e3808dcocos2d-jse585a5e997a8e69599e7a88be4b880/" data-id="qqsf87p0von9jg17" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cocos2d-javascript/">cocos2d-javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/教程/">教程</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-e69e9ce5a3b3jse9878de69e84e8aea1e58892" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/01/19/e69e9ce5a3b3jse9878de69e84e8aea1e58892/" class="article-date">
+  <time datetime="2011-01-19T15:44:14.000Z" itemprop="datePublished">Jan 19 2011</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/01/19/e69e9ce5a3b3jse9878de69e84e8aea1e58892/">JS重构计划</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>记录我的JS重构计划，以后但凡有所改变都会更新直到重构完毕！目前“某网站”的JS处于一个混乱时期，可以看出除了我之外有不少人的code在里面…</p>
+<p><a href="http://mzhou.me/?attachment_id=95263" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2011/01/images.jpg" alt="" title="images"></a></p>
+<p>计划分为三个部分：
+        
+          <p class="article-more-link">
+            <a href="/2011/01/19/e69e9ce5a3b3jse9878de69e84e8aea1e58892/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2011/01/19/e69e9ce5a3b3jse9878de69e84e8aea1e58892/" data-id="9c0l68vn2i8615dz" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/重构/">重构</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-jse8afbbe58f96e69cace59cb0e79a84inputfilee8b7afe5be84e79a84e6b58be8af95" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/01/17/jse8afbbe58f96e69cace59cb0e79a84inputfilee8b7afe5be84e79a84e6b58be8af95/" class="article-date">
+  <time datetime="2011-01-16T16:02:26.000Z" itemprop="datePublished">Jan 17 2011</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/01/17/jse8afbbe58f96e69cace59cb0e79a84inputfilee8b7afe5be84e79a84e6b58be8af95/">JS读取本地的input:file路径的测试</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>代码如下：</strong></p>
+<p>[html]<br>&lt;!DOCTYPE HTML&gt;<br>&lt;html lang=&quot;en-US&quot;&gt;<br>&lt;head&gt;<br>&lt;meta charset=&quot;UTF-8&quot;&gt;<br>&lt;title&gt;&lt;/title&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>&lt;input type=&quot;file&quot; name=&quot;file&quot; id=&quot;file&quot; /&gt;<br>&lt;img src=&quot;&quot; alt=&quot;预览&quot; title=&quot;预览&quot; /&gt;<br>&lt;script type=&quot;text/javascript&quot; src=&quot;jquery.js&quot;&gt;&lt;/script&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>$(function() {<br>    var path,<br>        clip = $(&quot;img&quot;),<br>        FileReader = window.FileReader;<br>    alert(!!FileReader);<br>    $(&quot;#file&quot;).change(function() {<br>        if (FileReader) {<br>            var reader = new FileReader(),<br>                file = this.files[0];<br>            reader.onload = function(e) {<br>                clip.attr(&quot;src&quot;, e.target.result);<br>            };<br>            reader.readAsDataURL(file);<br>        }<br>        else {<br>            path = $(this).val();<br>            if (/&quot;\w\W&quot;/.test(path)) {<br>                path = path.slice(1,-1);<br>            }<br>            alert(path);<br>            clip.attr(&quot;src&quot;,path);<br>            alert(clip[0].src);<br>        }<br>    });<br>});<br>&lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;<br>[/html]</p>
+<p>代码主要做了读取input:file的路径并显示本地的图片。最终测试结果：</p>
+<h2 id="IE_6">IE 6</h2>
+<p>通过获取input:file的src值可以获取路径，并设置img的src值。</p>
+<p><span style="color: #ff0000;">结果：显示成功！</span></p>
+<h2 id="IE_7/8">IE 7/8</h2>
+<p>获取input:file的src值是fake值（c:\fakepath\filename.jpg）。<span style="color: #ff0000;">（注意线上测试得到这种结果，但是如果是本地的html则正常）</span></p>
+<p><span style="color: #ff0000;">结果：显示失败！</span></p>
+<h2 id="Firefox_3-6/Chrome_8">Firefox 3.6/Chrome 8</h2>
+<p>故获取input:file的src值只有文件名！故通过FileReader API获取image的data URI，并设置img的src。<span style="color: #ff0000;">（注意：chrome浏览器下html在本地则获取不到image的dataURI）</span></p>
+<p><span style="color: #ff0000;">结果：显示成功！</span></p>
+<h2 id="opera_10">opera 10</h2>
+<p>不支持FileReader API，故获取input:file的src值是fake值（c:\fakepath\filename.jpg）。</p>
+<p><span style="color: #ff0000;">结果：显示失败！</span></p>
+<h2 id="Safari_5">Safari 5</h2>
+<p>未测试</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2011/01/17/jse8afbbe58f96e69cace59cb0e79a84inputfilee8b7afe5be84e79a84e6b58be8af95/" data-id="e4u6cwl8k5isrb83" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/File/">File</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/image/">image</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/categories/javascript/">&laquo; Prev</a><a class="page-number" href="/categories/javascript/">1</a><span class="page-number current">2</span><a class="page-number" href="/categories/javascript/page/3/">3</a><a class="page-number" href="/categories/javascript/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/categories/javascript/page/6/">6</a><a class="extend next" rel="next" href="/categories/javascript/page/3/">Next &raquo;</a>
+    </nav>
+  
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/javascript/">javascript</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/javascript/Other/">Other</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/UI/">UI</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/design/">design</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/design/UI/">UI</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/design/javascript/">javascript</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">52</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/Other/">Other</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/Other/UI/">UI</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/UI/">UI</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/未分类/">未分类</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/&gt;/">&gt;</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/&lt;/">&lt;</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/++/">++</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/16/">1.6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalid/">:invalid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/valid/">:valid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/@PostConstruct/">@PostConstruct</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/">AOP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Closures/">Closures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Constraint-Validation/">Constraint Validation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DSL/">DSL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Delete/">Delete</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DoctorJS/">DoctorJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-6/">ECMAScript 6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/File/">File</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Geolocation/">Geolocation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Get/">Get</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/H5F/">H5F</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hibernate/">Hibernate</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hql/">Hql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IE/">IE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSLint/">JSLint</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONP/">JSONP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/">Math</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mobile-Safari/">Mobile Safari</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeList/">NodeList</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OAuth/">OAuth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/">OOP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ObjectdefineProperty/">Object.defineProperty</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OneTask/">OneTask</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Other/">Other</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PPT/">PPT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Package/">Package</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PrototypeJS/">PrototypeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SimpleSVGMap/">SimpleSVGMap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sinon/">Sinon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SyntaxHighlighter/">SyntaxHighlighter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SyntaxHighlighter-Evolved/">SyntaxHighlighter Evolved</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TheSimplest/">TheSimplest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI/">UI</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webshims/">Webshims</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/and/">and</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ant/">ant</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/arguments/">arguments</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/attr/">attr</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/auto/">auto</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/br/">br</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bug/">bug</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/canvas/">canvas</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/checkbox/">checkbox</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/class/">class</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/classloader/">classloader</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/click/">click</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocos2d-javascript/">cocos2d-javascript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding/">coding</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/contenteditable/">contenteditable</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/context/">context</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css-target/">css target</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css3/">css3</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/db2/">db2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/emphasis/">emphasis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/event/">event</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/false/">false</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/filter/">filter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/firefox/">firefox</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/getElementByTagName/">getElementByTagName</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/google-code-prettify/">google-code-prettify</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grayScale/">grayScale</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html解析/">html解析</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ifElse/">ifElse</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/image/">image</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inline/">inline</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/input/">input</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios/">ios</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQueryemphasis/">jQuery.emphasis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-bean/">java bean</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascri/">javascri</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">46</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsoup/">jsoup</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label/">label</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/margin/">margin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/memorize/">memorize</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mocks/">mocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/module/">module</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/module-loader/">module loader</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/moon/">moon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mozilla/">mozilla</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nudging/">nudging</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/overflow/">overflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/overflowchanged/">overflowchanged</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plugin/">plugin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pre/">pre</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presentation/">presentation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prop/">prop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prototype/">prototype</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/querySelectorAll/">querySelectorAll</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/referer/">referer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/safari/">safari</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scope/">scope</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setMonth/">setMonth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spies/">spies</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/">spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stubs/">stubs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/style/">style</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sun/">sun</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svg/">svg</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tdd/">tdd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/text/">text</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/text-emphasis/">text-emphasis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/text-size-adjust/">text-size-adjust</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/true/">true</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/type/">type</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/underflow/">underflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/watchjs/">watch.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/weakmap/">weakmap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webStorage/">webStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/white-space/">white-space</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windowname/">window.name</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/">wordpress</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/上下文/">上下文</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/中文乱码/">中文乱码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/中点/">中点</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/主题/">主题</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二进制/">二进制</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/传参/">传参</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/作用域/">作用域</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/使用方法/">使用方法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/函数式编程/">函数式编程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分时处理/">分时处理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端组件/">前端组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/十进制/">十进制</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/十进制与二进制/">十进制与二进制</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原型链/">原型链</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原码/">原码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/反码/">反码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/叠加/">叠加</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/命令/">命令</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式设计/">响应式设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/囚犯与灯泡/">囚犯与灯泡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/圆规/">圆规</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/块框/">块框</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/塌陷/">塌陷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多行匹配/">多行匹配</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字体/">字体</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安装步骤/">安装步骤</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小数/">小数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/居中/">居中</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/幻灯片/">幻灯片</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/循环依赖/">循环依赖</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/换行/">换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/换行符/">换行符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/整数/">整数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/新浪微博/">新浪微博</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/替换元素/">替换元素</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试框架/">测试框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/浮点数计算/">浮点数计算</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/灰阶化/">灰阶化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/着重符/">着重符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/移码/">移码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/空白符/">空白符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/等高布局/">等高布局</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/类型推理/">类型推理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/约束验证/">约束验证</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程模型/">线程模型</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缩放/">缩放</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/能力域/">能力域</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/行内元素/">行内元素</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/补码/">补码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观察者模式/">观察者模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/记住密码/">记住密码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/跨域/">跨域</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/跨域请求/">跨域请求</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/转换/">转换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/通知/">通知</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/重构/">重构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/钢之炼金术师/">钢之炼金术师</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/闭包/">闭包</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/霓虹灯/">霓虹灯</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/非替换元素/">非替换元素</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面向对象/">面向对象</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面向方面/">面向方面</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/风格/">风格</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高宽自动扩展/">高宽自动扩展</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/&gt;/" style="font-size: 10.00px;">&gt;</a><a href="/tags/&lt;/" style="font-size: 10.00px;">&lt;</a><a href="/tags/++/" style="font-size: 10.00px;">++</a><a href="/tags/16/" style="font-size: 10.00px;">1.6</a><a href="/tags/invalid/" style="font-size: 10.00px;">:invalid</a><a href="/tags/valid/" style="font-size: 10.00px;">:valid</a><a href="/tags/@PostConstruct/" style="font-size: 10.00px;">@PostConstruct</a><a href="/tags/AOP/" style="font-size: 13.33px;">AOP</a><a href="/tags/Android/" style="font-size: 10.00px;">Android</a><a href="/tags/Closures/" style="font-size: 10.00px;">Closures</a><a href="/tags/Constraint-Validation/" style="font-size: 10.00px;">Constraint Validation</a><a href="/tags/DSL/" style="font-size: 10.00px;">DSL</a><a href="/tags/Delete/" style="font-size: 10.00px;">Delete</a><a href="/tags/DoctorJS/" style="font-size: 10.00px;">DoctorJS</a><a href="/tags/ECMAScript-6/" style="font-size: 10.00px;">ECMAScript 6</a><a href="/tags/File/" style="font-size: 10.00px;">File</a><a href="/tags/Geolocation/" style="font-size: 10.00px;">Geolocation</a><a href="/tags/Get/" style="font-size: 10.00px;">Get</a><a href="/tags/H5F/" style="font-size: 10.00px;">H5F</a><a href="/tags/Hibernate/" style="font-size: 16.67px;">Hibernate</a><a href="/tags/Hql/" style="font-size: 10.00px;">Hql</a><a href="/tags/IE/" style="font-size: 10.00px;">IE</a><a href="/tags/JSLint/" style="font-size: 10.00px;">JSLint</a><a href="/tags/JSONP/" style="font-size: 10.00px;">JSONP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Javascript/" style="font-size: 10.00px;">Javascript</a><a href="/tags/Math/" style="font-size: 10.00px;">Math</a><a href="/tags/Mobile-Safari/" style="font-size: 10.00px;">Mobile Safari</a><a href="/tags/NodeList/" style="font-size: 10.00px;">NodeList</a><a href="/tags/OAuth/" style="font-size: 10.00px;">OAuth</a><a href="/tags/OOP/" style="font-size: 10.00px;">OOP</a><a href="/tags/ObjectdefineProperty/" style="font-size: 10.00px;">Object.defineProperty</a><a href="/tags/OneTask/" style="font-size: 10.00px;">OneTask</a><a href="/tags/Other/" style="font-size: 10.00px;">Other</a><a href="/tags/PPT/" style="font-size: 10.00px;">PPT</a><a href="/tags/Package/" style="font-size: 10.00px;">Package</a><a href="/tags/PrototypeJS/" style="font-size: 10.00px;">PrototypeJS</a><a href="/tags/SimpleSVGMap/" style="font-size: 10.00px;">SimpleSVGMap</a><a href="/tags/Sinon/" style="font-size: 10.00px;">Sinon</a><a href="/tags/SyntaxHighlighter/" style="font-size: 10.00px;">SyntaxHighlighter</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">March 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">February 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10">October 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09">September 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06">June 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/03">March 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12">December 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07">July 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06">June 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05">May 2011</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03">March 2011</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01">January 2011</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12">December 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11">November 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10">October 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09">September 2010</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08">August 2010</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06">June 2010</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2014/09/02/Atom-Shell入门/">Atom Shell入门</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/让你的站点支持触屏/">让你的站点支持触屏</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/[译]学习CSS布局/">[译]学习CSS布局</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/中文排版二三事/">中文排版二三事</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/hello-world/">CSS Counters</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 mzhou / zmmbreeze<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

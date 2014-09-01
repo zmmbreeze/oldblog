@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Archives: 2014/9 | MZhou&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="MZhou's blog">
+<meta property="og:url" content="http://nodejs.in/archives/2014/09/">
+<meta property="og:site_name" content="MZhou's blog">
+<meta property="og:description">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MZhou's blog">
+<meta name="twitter:description">
+
+  
+    <link rel="alternative" href="/atom.xml" title="MZhou&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">MZhou&#39;s blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">专注于Web前端开发！</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://nodejs.in"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Atom-Shell入门" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/09/02/Atom-Shell入门/" class="article-date">
+  <time datetime="2014-09-01T16:00:28.000Z" itemprop="datePublished">Sep 2 2014</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/02/Atom-Shell入门/">Atom Shell入门</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>现在已经有很多框架可以让我们用JavaScript、HTML和CSS来编写跨平台桌面应用，Atom Shell便是其中之一。Atom Shell基于nodejs和Chromium实现，Github的开源编辑器Atom便是基于Atom shell和Coffee scrpit开发的。</p>
+<p>Chromium浏览器可以分为两个部分：Browser端和Render端。Browser端负责与本地系统交互：创建窗口、控制托盘图标等等。Render端负责绘制页面。两者通过IPC交互。Atom Shell的实现是在Browser端和Render端分别嵌入了nodejs。这样Browser和Render两部分就都可以使用nodejs提供的api了，也可以在Browser端用javascript来调用本地系统相关的API。</p>
+<h2 id="Browser端">Browser端</h2>
+<p>在Web app中我们通常会有两种javascript脚本：服务器端脚本和客户端端脚本。客户端端脚本运行于浏览器中，服务器端脚本运行于nodejs中。在Atom Shell中有类似的概念，运行于Render端页面中的脚本和运行于browser端中的脚本。分别可以称它们为：Render端脚本和Browser端脚本。</p>
+<p>在传统的Web app中，服务器端脚本和客户端脚本通常使用web sockets来通信。在Atom Shell中，Render端脚本需要使用<a href="https://github.com/atom/atom-shell/blob/master/docs/api/ipc-renderer.md" target="_blank" rel="external">ipc模块</a>来发送信息给rowser端。同时Atom Shell还提供了一个更易用的<a href="https://github.com/atom/atom-shell/blob/master/docs/api/remote.md" target="_blank" rel="external">remote</a>模块来支持通信。</p>
+<h2 id="Render端">Render端</h2>
+<p>普通的网页是无法操作浏览器以外的本地系统的。而在Atom Shell中nodejs api可以在网页中使用，所以开发者可以在网页中访问本地资源，就像<a href="https://github.com/rogerwang/node-webkit" target="_blank" rel="external">Node-Webkit</a>一样。</p>
+<p>但是和Node-Webkit不一样的是：不能直接在网页中（Render端）操作本地资源，只能通过remote模块调用Browser端脚本操作本地资源。</p>
+<h2 id="DEMO">DEMO</h2>
+<p>通常一个Atom Shell app的文件目录如下：</p>
+<pre><code>your-app/
+├── <span class="keyword">package</span>.json
+├── main.js
+└── <span class="keyword">index</span>.html
+</code></pre><p><code>package.json</code>的格式和普通的Node模块中的一样。其中属性<code>main</code>的值表示app的入口脚本，这个脚本会运行在Browser端中。如下是package.json文件的样例：</p>
+<pre><code>{
+    "<span class="attribute">name</span>"    : <span class="value"><span class="string">"your-app"</span></span>,
+    "<span class="attribute">version</span>" : <span class="value"><span class="string">"0.1.0"</span></span>,
+    "<span class="attribute">main</span>"    : <span class="value"><span class="string">"main.js"</span>
+</span>}
+</code></pre><p>在<code>main.js</code>中应该创建窗口并处理相应的系统事件，下面是一个典型的样例：</p>
+<pre><code><span class="comment">// 用于控制app的life circle</span>
+<span class="keyword">var</span> app = <span class="built_in">require</span>(<span class="string">'app'</span>);
+<span class="comment">// 用于创建本地窗口的模块</span>
+<span class="keyword">var</span> BrowserWindow = <span class="built_in">require</span>(<span class="string">'browser-window'</span>);    
+<span class="comment">// 把app的crash情况发送给服务器</span>
+<span class="built_in">require</span>(<span class="string">'crash-reporter'</span>).start();
+
+<span class="comment">// 保持一个全局的window对象引用，</span>
+<span class="comment">// 如果你不这么做，window对象会在GC启动后被自动垃圾收集机制释放</span>
+<span class="keyword">var</span> mainWindow = <span class="literal">null</span>;
+
+<span class="comment">// 在所有窗口关闭后关闭app</span>
+app.on(<span class="string">'window-all-closed'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
+  <span class="keyword">if</span> (process.platform != <span class="string">'darwin'</span>)
+    app.quit();
+});
+
+<span class="comment">// 这个方法会在Atom Shell初始化结束后调用回调函数</span>
+app.on(<span class="string">'ready'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
+  <span class="comment">// 创建窗口</span>
+  mainWindow = <span class="keyword">new</span> BrowserWindow({width: <span class="number">800</span>, height: <span class="number">600</span>});
+
+  <span class="comment">// 加载index.html</span>
+  mainWindow.loadUrl(<span class="string">'file://'</span> + __dirname + <span class="string">'/index.html'</span>);
+
+  <span class="comment">// 在窗口关闭时触发</span>
+  mainWindow.on(<span class="string">'closed'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
+      <span class="comment">// 移除window对象的引用</span>
+      <span class="comment">// 通常如果是多窗口的app，你需要把window对象存储到一个数组里面，而在close时把对应的window对象移除掉</span>
+    mainWindow = <span class="literal">null</span>;
+  });
+});
+</code></pre><p>最后创建需要在窗口中显示的<code>index.html</code>：</p>
+<pre><code><span class="doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;<span class="title">html</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">head</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Hello World!<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">body</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">h1</span>&gt;</span>Hello World!<span class="tag">&lt;/<span class="title">h1</span>&gt;</span>
+    We are using node.js <span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript"><span class="built_in">document</span>.write(process.version)</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span> and atom-shell <span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript"><span class="built_in">document</span>.write(process.versions[<span class="string">'atom-shell'</span>])</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>.
+  <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span>
+</code></pre><h2 id="运行App">运行App</h2>
+<p>首先下载Atom Shell的<a href="https://github.com/atom/atom-shell/releases" target="_blank" rel="external">可执行文件</a>。然后运行如下命令执行app：</p>
+<ol>
+<li>windows：<code>.\atom-shell\atom.exe your-app\</code></li>
+<li>Linux: <code>./atom-shell/atom your-app/</code></li>
+<li>Mac OS X: <code>./Atom.app/Contents/MacOS/Atom your-app/</code></li>
+</ol>
+<h2 id="打包">打包</h2>
+<p>你只需要把app的文件夹命名为<code>app</code>，并把它放在Atom Shell的资源目录下。在OS X系统中为<code>Atom.app/Contents/Resources/</code>，在Linux和Windows上为<code>resources/</code>。然后执行<code>Atom.app</code>（在Linux中为<code>atom</code>，在windows中为<code>atom.exe</code>）即可。然后把<code>atom-shell</code>文件夹压缩打包分发给用户即可。</p>
+<p>如果你用的打包工具是<code>grunt</code>，那么可以用<a href="https://github.com/atom/grunt-download-atom-shell" target="_blank" rel="external">grunt-download-atom-shell</a>来自动下载对应平台的Atom Shell。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2014/09/02/Atom-Shell入门/" data-id="0sga1ca03d5603sh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-让你的站点支持触屏" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/09/01/让你的站点支持触屏/" class="article-date">
+  <time datetime="2014-09-01T15:58:55.000Z" itemprop="datePublished">Sep 1 2014</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/01/让你的站点支持触屏/">让你的站点支持触屏</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>从手机到桌面屏幕，越来越多的设备拥有了触摸屏。当用户使用你的界面时，你的app应该直观且优雅的支持触摸操作。</p>
+<h2 id="让页面元素响应触摸状态">让页面元素响应触摸状态</h2>
+<p>从手机到桌面屏幕，越来越多的设备拥有了触摸屏。当用户使用你的界面时，你的app应该直观且优雅的支持触摸操作。</p>
+<h3 id="添加触摸状态的样式">添加触摸状态的样式</h3>
+<p>你有没有触摸或点击一个页面上的元素，有没有奇怪为什么这个站点的页面元素可以检测这些状态？</p>
+<p>当用户触摸你的界面中的元素时，仅仅是简单地修改元素的颜色就可以让用户感知你的站点可以正常工作。不只是这个作用，还可以让用户感受到页面的即时响应。</p>
+<h4 id="使用伪类来切换不同触摸状态下的样式">使用伪类来切换不同触摸状态下的样式</h4>
+<p>最快地支持触摸的方式就是在页面元素的触摸状态切换时修改其样式。</p>
+<p>关键点：</p>
+<ul>
+<li>修改<code>:hover</code>、<code>:active</code>和<code>:focus</code>状态下的UI，让用户感觉你的站点是可以即时响应的。</li>
+<li>不要覆盖浏览器的默认touch和focus行为，除非你自己实现了对应的UI变化。</li>
+<li>对于用户可能进行触摸操作的页面元素，禁用其文字选择功能。除非用户有需要会拷贝或选择文字。</li>
+</ul>
+<p>DOM元素可以处于以下四种状态：默认、focus、hover和active。如果你想要改变这些状态下的UI，我们需要使用这三种伪类：<code>:hover</code>、<code>:focus</code>和<code>:active</code>。例如：</p>
+<pre><code><span class="class">.btn</span> <span class="rules">{
+  <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#4285f4</span></span></span>;
+<span class="rule">}</span></span>
+
+<span class="class">.btn</span><span class="pseudo">:hover</span> <span class="rules">{
+  <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#296CDB</span></span></span>;
+<span class="rule">}</span></span>
+
+<span class="class">.btn</span><span class="pseudo">:focus</span> <span class="rules">{
+  <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#0F52C1</span></span></span>;
+
+  <span class="comment">/* The outline parameter surpresses the border
+  color / outline when focused */</span>
+  <span class="rule"><span class="attribute">outline</span>:<span class="value"> <span class="number">0</span></span></span>;
+<span class="rule">}</span></span>
+
+<span class="class">.btn</span><span class="pseudo">:active</span> <span class="rules">{
+  <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#0039A8</span></span></span>;
+<span class="rule">}</span></span>
+</code></pre><p><a href="">查看样例</a></p>
+<p>看下<a href="">伪类所对应的触摸状态</a></p>
+<p><img src="https://developers.google.com/web/fundamentals/documentation/user-input/touch-input/activestates/images/button-states.png" alt=""></p>
+<h3 id="覆盖浏览器默认的触摸状态样式">覆盖浏览器默认的触摸状态样式</h3>
+<p>不同的浏览器实现了它们自己特有的触摸状态样式。当你想要实现自己的样式时，就需要同时覆盖掉浏览器的默认样式。</p>
+<p>记住：</p>
+<ul>
+<li>只有当你实现了自己的样式时，才需要覆盖浏览器的默认样式。</li>
+</ul>
+<h4 id="覆盖Tap高亮样式">覆盖Tap高亮样式</h4>
+<p>当移动设备刚出现的时候，很多站点都没有激活状态下的样式。结果很多浏览器在用户触摸浏览器的时候添加了高亮颜色或是其他样式。</p>
+<p>Safari和Chrome添加了一个高亮颜色作为Tap高亮样式。这可以通过设置CSS样式<code>-webkit-tap-highlight-color</code>来修改默认样式。</p>
+<pre><code><span class="comment">/* Webkit / Chrome Specific CSS to remove tap
+highlight color */</span>
+<span class="class">.btn</span> <span class="rules">{
+  <span class="rule"><span class="attribute">-webkit-tap-highlight-color</span>:<span class="value"> transparent</span></span>;
+<span class="rule">}</span></span>
+</code></pre><p>Windows Phone上的Internet Explorer有一个类似的行为，但是它需要meta标签来重写：</p>
+<pre><code>&lt;meta <span class="variable">name=</span><span class="string">"msapplication-tap-highlight"</span> <span class="variable">content=</span><span class="string">"no"</span> /&gt;
+</code></pre><h4 id="重写FirefoxOS按钮的状态样式">重写FirefoxOS按钮的状态样式</h4>
+<p>Firefox的伪类<code>-moz-focus-inner</code>为每个可触摸元素默认添加了一个outline样式。你可以通过设置<code>border:0</code>来移除outline样式。</p>
+<p>如果你使用了<code>&lt;button&gt;</code>元素，FirefoxOS会其默认添加个渐变的背景。你可以通过设置<code>background-image:none</code>来覆盖这样式。</p>
+<pre><code><span class="comment">/* Firefox Specific CSS to remove button
+differences and focus ring */</span>
+<span class="class">.btn</span> <span class="rules">{
+  <span class="rule"><span class="attribute">background-image</span>:<span class="value"> none</span></span>;
+<span class="rule">}</span></span>
+
+<span class="class">.btn</span><span class="pseudo">::-moz-focus-inner</span> <span class="rules">{
+  <span class="rule"><span class="attribute">border</span>:<span class="value"> <span class="number">0</span></span></span>;
+<span class="rule">}</span></span>
+</code></pre><h4 id="重写Focus状态下的ouline样式">重写Focus状态下的ouline样式</h4>
+<p>使用<code>outline:0</code>可以覆盖focused元素的outline颜色。</p>
+<pre><code><span class="class">.btn</span><span class="pseudo">:focus</span> {
+  <span class="attribute">outline</span><span class="value">: <span class="number">0</span>;</span>
+
+  <span class="comment">// Add replacement focus styling here</span>
+}
+</code></pre><h5 id="禁用可触摸UI的user-select功能">禁用可触摸UI的user-select功能</h5>
+<p>在一些移动浏览器上，用户长按屏幕就可以选择文字。但当用户不小心按一个按钮时间太长，并不会触发点击事件而会触发按钮文字的选择，这并不是好的用户体验。</p>
+<pre><code>-moz-<span class="literal">user</span>-select: <span class="literal">none</span><span class="comment">;</span>
+-webkit-<span class="literal">user</span>-select: <span class="literal">none</span><span class="comment">;</span>
+-ms-<span class="literal">user</span>-select: <span class="literal">none</span><span class="comment">;</span>
+<span class="literal">user</span>-select: <span class="literal">none</span><span class="comment">;</span>
+</code></pre><p>记住：</p>
+<ul>
+<li>如果页面元素中的信息对用户有用，例如电话号码、email地址等等的东西，你不应该轻易地禁用<code>user-select</code>。</li>
+</ul>
+<h3 id="引用">引用</h3>
+<p>触摸状态的伪类。</p>
+<ul>
+<li>伪类：<code>:focus</code></li>
+<li>例子：<img src="https://developers.google.com/web/fundamentals/documentation/user-input/touch-input/activestates/images/btn-focus-state.png" alt=""></li>
+<li><p>描述：当你通过tab键切换焦点时，Focus状态可以提示用户哪个元素处于激活状态</p>
+</li>
+<li><p>伪类：<code>:active</code></p>
+</li>
+<li>例子：<img src="https://developers.google.com/web/fundamentals/documentation/user-input/touch-input/activestates/images/btn-pressed-state.png" alt=""></li>
+<li><p>描述：这个状态表示页面元素被选中，例如用户正在点击或触摸一个元素</p>
+</li>
+<li><p>伪类：<code>:hover</code></p>
+</li>
+<li>例子：<img src="https://developers.google.com/web/fundamentals/documentation/user-input/touch-input/activestates/images/btn-hover-state.png" alt=""></li>
+<li>描述：当用户的鼠标处于页面元素之上时，这个元素就会进入这个状态。在hover是改变UI可以鼓励用户与此元素交互</li>
+</ul>
+<h2 id="实现自定义手势">实现自定义手势</h2>
+<p>如果你想要为自己的站点实现一个自定义的交互和手势，那么有两点要记住：要支持哪些移动浏览器和如何保持高帧率。在这篇文章中我们讲一探究竟。</p>
+<h3 id="使用事件来响应触摸操作">使用事件来响应触摸操作</h3>
+<p>根据你想要实现的touch操作，你就需要在如下阵营中选其一：</p>
+<ul>
+<li>用户同时只与一个特别的元素交互</li>
+<li>用户与多个元素在同一时间交互</li>
+</ul>
+<p>两者必选其一。</p>
+<p>如果用户只需要和一个元素交互，那么只要手势操作开始，你可能就需要把所有的touch事件放在那个元素上。例如，在其他元素上滑动也可以控制要移动的元素。</p>
+<p><img src="https://developers.google.com/web/fundamentals/documentation/user-input/touch-input/touchevents/images/touch-document-level.gif" alt=""></p>
+<p>然后，如果你期望用户与多个元素在同一时间交互，你应该将touch操作限制到特定的元素上。<br><img src="https://developers.google.com/web/fundamentals/documentation/user-input/touch-input/touchevents/images/touch-element-level.gif" alt=""></p>
+<p>TL;DR</p>
+<ul>
+<li>要支持所有的设备，那就需要处理touch、mouse和MS Pointer事件</li>
+<li>永远将开始整个交互的事件监听器绑定在元素本身上</li>
+<li>如果你想让用户与一个指定的元素交互，那么将移动和结束的监听器绑定在document上面；确保在结束的监听器中解绑移动和结束的监听器</li>
+<li>如果你想要支持多点触摸，要么在各个元素上绑定与其对应的移动和结束touch事件，要么在一个元素上处理所有的touch事件</li>
+</ul>
+<h4 id="添加事件监听器">添加事件监听器</h4>
+<p>大多数移动浏览器都实现了Touch事件和鼠标事件。</p>
+<p>你需要绑定的事件名是：<code>touchstart</code>、<code>touchmove</code>、<code>touchend</code>和<code>touchcancel</code>。</p>
+<p>在某些情况下，你可能也需要支持鼠标的交互；那么你可以使用这些事件：<code>mousedown</code>、<code>mousemove</code>和<code>mouseup</code>。</p>
+<p>对与Windows Phone的设备，你需要支持一系列Pointer Events。Pointer Events是鼠标和touch事件的合集。目前这只在IE 10+上支持，事件名分别是<code>MSPointerDown</code>、<code>MSPointerMove</code>和<code>MSPointerUp</code>。</p>
+<p>Touch、鼠标和Pointer Events是在你的应用中增加手势操作的重要基础。（查看下<a href="https://developers.google.com/web/fundamentals/documentation/user-input/touch-input/touchevents/index#touch-mouse-and-ms-pointer-events" target="_blank" rel="external">Touch、鼠标和Pointer Events</a>）</p>
+<p>使用<code>addEventListener()</code>方法可以注册这些事件，同时还要传递回调函数和一个布尔值。这个布尔值决定了是否使用捕获模式。为<code>true</code>时表示使用捕获模式时，你可以在其他元素之前捕获或打断事件。</p>
+<pre><code><span class="comment">// Check if pointer events are supported.</span>
+<span class="keyword">if</span> (<span class="built_in">window</span>.navigator.msPointerEnabled) {
+  <span class="comment">// Add Pointer Event Listener</span>
+  swipeFrontElement.addEventListener(<span class="string">'MSPointerDown'</span>, <span class="keyword">this</span>.handleGestureStart, <span class="literal">true</span>);
+} <span class="keyword">else</span> {
+  <span class="comment">// Add Touch Listener</span>
+  swipeFrontElement.addEventListener(<span class="string">'touchstart'</span>, <span class="keyword">this</span>.handleGestureStart, <span class="literal">true</span>);
+
+  <span class="comment">// Add Mouse Listener</span>
+  swipeFrontElement.addEventListener(<span class="string">'mousedown'</span>, <span class="keyword">this</span>.handleGestureStart, <span class="literal">true</span>);
+}
+</code></pre><p>这段代码一开始先检查<code>window.navigator.msPointerEnabled</code>来判断是否支持Pointer Events。如果不支持就在添加touch和鼠标事件的监控。</p>
+<h4 id="处理单个元素的交互">处理单个元素的交互</h4>
+<p>你可能已经注意到，在上面的代码片段中只是添加了开始手势的事件。这是故意这么写的。</p>
+<p>一旦手势操作在元素上开始，就添加移动和结束的事件监听器。这样浏览器可以通过touch事件监听器来检查touch操作是否发生了。并且处理地更快，因为在平时（手势操作开始前）不需要运行额外的javascript。</p>
+<p><img src="https://developers.google.com/web/fundamentals/documentation/user-input/touch-input/touchevents/images/scroll-bottleneck.gif" alt=""></p>
+<p>实现的步骤如下：</p>
+<ol>
+<li>添加开始事件监听器到指定元素上；</li>
+<li>在开始事件的监听器中，绑定移动和结束事件的监听器到document上。之所以要绑定在document上，是因为我们需要监控所有的事件，不仅仅是那个指定的元素；（译者注：用户的手势操作有时很快，可能会超出指定的元素）</li>
+<li>处理移动事件；</li>
+<li>在结束事件的监听器中，移除移动和结束事件的监听器；</li>
+</ol>
+<p>如下是<code>handleGestureStart</code>方法的代码片段，它添加了移动和结束的事件监听器到document上：</p>
+<pre><code><span class="comment">// Handle the start of gestures</span>
+<span class="keyword">this</span>.handleGestureStart = <span class="function"><span class="keyword">function</span><span class="params">(evt)</span> </span>{
+  evt.preventDefault();
+
+  <span class="keyword">if</span>(evt.touches &amp;&amp; evt.touches.length &gt; <span class="number">1</span>) {
+    <span class="keyword">return</span>;
+  }
+
+  <span class="comment">// Add the move and end listeners</span>
+  <span class="keyword">if</span> (<span class="built_in">window</span>.navigator.msPointerEnabled) {
+    <span class="comment">// Pointer events are supported.</span>
+    <span class="built_in">document</span>.addEventListener(<span class="string">'MSPointerMove'</span>, <span class="keyword">this</span>.handleGestureMove, <span class="literal">true</span>);
+    <span class="built_in">document</span>.addEventListener(<span class="string">'MSPointerUp'</span>, <span class="keyword">this</span>.handleGestureEnd, <span class="literal">true</span>);
+  } <span class="keyword">else</span> {
+    <span class="comment">// Add Touch Listeners</span>
+    <span class="built_in">document</span>.addEventListener(<span class="string">'touchmove'</span>, <span class="keyword">this</span>.handleGestureMove, <span class="literal">true</span>);
+    <span class="built_in">document</span>.addEventListener(<span class="string">'touchend'</span>, <span class="keyword">this</span>.handleGestureEnd, <span class="literal">true</span>);
+    <span class="built_in">document</span>.addEventListener(<span class="string">'touchcancel'</span>, <span class="keyword">this</span>.handleGestureEnd, <span class="literal">true</span>);
+
+    <span class="comment">// Add Mouse Listeners</span>
+    <span class="built_in">document</span>.addEventListener(<span class="string">'mousemove'</span>, <span class="keyword">this</span>.handleGestureMove, <span class="literal">true</span>);
+    <span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, <span class="keyword">this</span>.handleGestureEnd, <span class="literal">true</span>);
+  }
+
+  initialTouchPos = getGesturePointFromEvent(evt);
+
+  swipeFrontElement.style.transition = <span class="string">'initial'</span>;
+}.bind(<span class="keyword">this</span>);
+</code></pre><p>我们使用的结束事件的回调函数是<code>handleGestureEnd</code>。在手势操作结束后它移除了移动和结束事件的监听器。</p>
+<pre><code><span class="comment">// Handle end gestures</span>
+<span class="keyword">this</span>.handleGestureEnd = <span class="function"><span class="keyword">function</span><span class="params">(evt)</span> </span>{
+  evt.preventDefault();
+
+  <span class="keyword">if</span>(evt.touches &amp;&amp; evt.touches.length &gt; <span class="number">0</span>) {
+    <span class="keyword">return</span>;
+  }
+
+  isAnimating = <span class="literal">false</span>;
+
+  <span class="comment">// Remove Event Listeners</span>
+  <span class="keyword">if</span> (<span class="built_in">window</span>.navigator.msPointerEnabled) {
+    <span class="comment">// Remove Pointer Event Listeners</span>
+    <span class="built_in">document</span>.removeEventListener(<span class="string">'MSPointerMove'</span>, <span class="keyword">this</span>.handleGestureMove, <span class="literal">true</span>);
+    <span class="built_in">document</span>.removeEventListener(<span class="string">'MSPointerUp'</span>, <span class="keyword">this</span>.handleGestureEnd, <span class="literal">true</span>);
+  } <span class="keyword">else</span> {
+    <span class="comment">// Remove Touch Listeners</span>
+    <span class="built_in">document</span>.removeEventListener(<span class="string">'touchmove'</span>, <span class="keyword">this</span>.handleGestureMove, <span class="literal">true</span>);
+    <span class="built_in">document</span>.removeEventListener(<span class="string">'touchend'</span>, <span class="keyword">this</span>.handleGestureEnd, <span class="literal">true</span>);
+    <span class="built_in">document</span>.removeEventListener(<span class="string">'touchcancel'</span>, <span class="keyword">this</span>.handleGestureEnd, <span class="literal">true</span>);
+
+    <span class="comment">// Remove Mouse Listeners</span>
+    <span class="built_in">document</span>.removeEventListener(<span class="string">'mousemove'</span>, <span class="keyword">this</span>.handleGestureMove, <span class="literal">true</span>);
+    <span class="built_in">document</span>.removeEventListener(<span class="string">'mouseup'</span>, <span class="keyword">this</span>.handleGestureEnd, <span class="literal">true</span>);
+  }
+
+  updateSwipeRestPosition();
+}.bind(<span class="keyword">this</span>);
+</code></pre><p>鼠标事件也使用相同的处理方法，因为用户的鼠标很可能会不小心移动到指定元素的外面。如果只是将移动事件绑定在元素上，那么很容易会不触发事件。相反地如果绑定在document上面，移动事件将继续触发不论鼠标在页面的哪个地方。</p>
+<p>你可以使用Chrome DevTool中的“Show potential scroll bottlenecks”功能来了解touch事件的实现：</p>
+<p><img src="https://developers.google.com/web/fundamentals/documentation/user-input/touch-input/touchevents/images/scroll-bottleneck-devtool.png" alt=""></p>
+<h4 id="处理多元素的交互">处理多元素的交互</h4>
+<p>如果你期望用户在同一时间与多个页面元素交互，你可以将对应的移动和结束事件直接绑定到那些元素上。但是这只适用于touch事件。对于鼠标事件，你依旧需要将<code>mousemove</code>和<code>mouseup</code>事件绑定到document上面。</p>
+<p>如果我们只想要监控特定元素上的touch操作，那么我们可以把touch和pinter事件的移动和结束监听器直接绑定在元素上：</p>
+<pre><code><span class="comment">// Check if pointer events are supported.</span>
+<span class="keyword">if</span> (<span class="built_in">window</span>.navigator.msPointerEnabled) {
+  <span class="comment">// Add Pointer Event Listener</span>
+  elementHold.addEventListener(<span class="string">'MSPointerDown'</span>, <span class="keyword">this</span>.handleGestureStart, <span class="literal">true</span>);
+  elementHold.addEventListener(<span class="string">'MSPointerMove'</span>, <span class="keyword">this</span>.handleGestureMove, <span class="literal">true</span>);
+  elementHold.addEventListener(<span class="string">'MSPointerUp'</span>, <span class="keyword">this</span>.handleGestureEnd, <span class="literal">true</span>);
+} <span class="keyword">else</span> {
+  <span class="comment">// Add Touch Listeners</span>
+  elementHold.addEventListener(<span class="string">'touchstart'</span>, <span class="keyword">this</span>.handleGestureStart, <span class="literal">true</span>);
+  elementHold.addEventListener(<span class="string">'touchmove'</span>, <span class="keyword">this</span>.handleGestureMove, <span class="literal">true</span>);
+  elementHold.addEventListener(<span class="string">'touchend'</span>, <span class="keyword">this</span>.handleGestureEnd, <span class="literal">true</span>);
+  elementHold.addEventListener(<span class="string">'touchcancel'</span>, <span class="keyword">this</span>.handleGestureEnd, <span class="literal">true</span>);
+
+  <span class="comment">// Add Mouse Listeners</span>
+  elementHold.addEventListener(<span class="string">'mousedown'</span>, <span class="keyword">this</span>.handleGestureStart, <span class="literal">true</span>);
+}
+</code></pre><p>在<code>handleGestureStart</code>和<code>handleGestureEnd</code>函数中，添加和移除鼠标事件的监听器到document上。</p>
+<pre><code><span class="comment">// Handle the start of gestures</span>
+<span class="keyword">this</span>.handleGestureStart = <span class="function"><span class="keyword">function</span><span class="params">(evt)</span> </span>{
+  evt.preventDefault();
+
+          <span class="keyword">var</span> point = getGesturePointFromEvent(evt);
+  initialYPos = point.y;
+
+  <span class="keyword">if</span> (!<span class="built_in">window</span>.navigator.msPointerEnabled) {
+    <span class="comment">// Add Mouse Listeners</span>
+    <span class="built_in">document</span>.addEventListener(<span class="string">'mousemove'</span>, <span class="keyword">this</span>.handleGestureMove, <span class="literal">true</span>);
+    <span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, <span class="keyword">this</span>.handleGestureEnd, <span class="literal">true</span>);
+  }
+}.bind(<span class="keyword">this</span>);
+
+<span class="keyword">this</span>.handleGestureEnd = <span class="function"><span class="keyword">function</span><span class="params">(evt)</span> </span>{
+  evt.preventDefault();
+
+  <span class="keyword">if</span>(evt.targetTouches &amp;&amp; evt.targetTouches.length &gt; <span class="number">0</span>) {
+    <span class="keyword">return</span>;
+  }
+
+  <span class="keyword">if</span> (!<span class="built_in">window</span>.navigator.msPointerEnabled) {
+    <span class="comment">// Remove Mouse Listeners</span>
+    <span class="built_in">document</span>.removeEventListener(<span class="string">'mousemove'</span>, <span class="keyword">this</span>.handleGestureMove, <span class="literal">true</span>);
+    <span class="built_in">document</span>.removeEventListener(<span class="string">'mouseup'</span>, <span class="keyword">this</span>.handleGestureEnd, <span class="literal">true</span>);
+  }
+
+  isAnimating = <span class="literal">false</span>;
+  lastHolderPos = lastHolderPos + -(initialYPos - lastYPos);
+}.bind(<span class="keyword">this</span>);
+</code></pre><h3 id="Touch操作时保持60fps">Touch操作时保持60fps</h3>
+<p>现在我们已经处理好开始和结束事件，我们就可以真正地实现touch事件了。</p>
+<h4 id="获取和存储Touch事件的坐标">获取和存储Touch事件的坐标</h4>
+<p>对于任何开始和移动事件，你可以轻松地提取出<code>x</code>和<code>y</code>坐标。</p>
+<p>如下代码片段中通过<code>targetTouches</code>来判断是否是一个touch事件对象。如果事件对象是鼠标或者pointer事件，那么直接获取事件对象的<code>clientX</code>和<code>clientY</code>值。</p>
+<pre><code>function getGesturePointFromEvent(evt) {
+    var <span class="keyword">point</span> = {};
+
+    <span class="keyword">if</span>(evt.targetTouches) {
+      <span class="comment">// Prefer Touch Events</span>
+      <span class="keyword">point</span>.x = evt.targetTouches[<span class="number">0</span>].clientX;
+      <span class="keyword">point</span>.y = evt.targetTouches[<span class="number">0</span>].clientY;
+    } <span class="keyword">else</span> {
+      <span class="comment">// Either Mouse event or Pointer Event</span>
+      <span class="keyword">point</span>.x = evt.clientX;
+      <span class="keyword">point</span>.y = evt.clientY;
+    }
+
+    <span class="keyword">return</span> <span class="keyword">point</span>;
+  }
+</code></pre><p>每个touch事件都有三种TouchList属性（见<a href="https://developers.google.com/web/fundamentals/documentation/user-input/touch-input/touchevents/index#touch-lists" target="_blank" rel="external">touch列表属性</a>）：</p>
+<ul>
+<li><code>touches</code>：包含了所有当前屏幕上Touch对象，无论它们起始于哪个元素上</li>
+<li><code>targetTouches</code>：包含了所有起始于当前事件所绑定的元素的touch对象</li>
+<li><code>changedTouches</code>：包含了所有因为事件触发而状态发生改变的Touch对象（译者注：例如touchmove事件中，触摸点移动touch对象为changedTouches，不动则不是）</li>
+</ul>
+<p>大多数情况下<code>targetTouches</code>属性就足够了。</p>
+<h4 id="Request_Animation_Frame">Request Animation Frame</h4>
+<p>因为事件回调函数在主线程中触发，我们就需要让回调的运行时间尽量短，以保持高帧率，并且避免卡顿。</p>
+<p>在事件回调中使用<code>requestAnimationFrame</code>来修改UI。它可以让你可以在浏览器绘制一帧时更新UI，也可以帮你把一些操作放在回调函数外面。</p>
+<p>一个典型的实现在开始和移动事件中把<code>x</code>和<code>y</code>坐标保存下来。然后在移动事件的回调函数中调用<code>requestAnimationFrame</code>。</p>
+<p>在我们的DEMO中，我们在<code>handleGestureStart</code>中存储touch的初始化位置：</p>
+<pre><code><span class="comment">// Handle the start of gestures</span>
+<span class="keyword">this</span>.handleGestureStart = <span class="function"><span class="keyword">function</span><span class="params">(evt)</span> </span>{
+  evt.preventDefault();
+
+  <span class="keyword">if</span>(evt.touches &amp;&amp; evt.touches.length &gt; <span class="number">1</span>) {
+    <span class="keyword">return</span>;
+  }
+
+  <span class="comment">// Add the move and end listeners</span>
+  <span class="keyword">if</span> (<span class="built_in">window</span>.navigator.msPointerEnabled) {
+    <span class="comment">// Pointer events are supported.</span>
+    <span class="built_in">document</span>.addEventListener(<span class="string">'MSPointerMove'</span>, <span class="keyword">this</span>.handleGestureMove, <span class="literal">true</span>);
+    <span class="built_in">document</span>.addEventListener(<span class="string">'MSPointerUp'</span>, <span class="keyword">this</span>.handleGestureEnd, <span class="literal">true</span>);
+  } <span class="keyword">else</span> {
+    <span class="comment">// Add Touch Listeners</span>
+    <span class="built_in">document</span>.addEventListener(<span class="string">'touchmove'</span>, <span class="keyword">this</span>.handleGestureMove, <span class="literal">true</span>);
+    <span class="built_in">document</span>.addEventListener(<span class="string">'touchend'</span>, <span class="keyword">this</span>.handleGestureEnd, <span class="literal">true</span>);
+    <span class="built_in">document</span>.addEventListener(<span class="string">'touchcancel'</span>, <span class="keyword">this</span>.handleGestureEnd, <span class="literal">true</span>);
+
+    <span class="comment">// Add Mouse Listeners</span>
+    <span class="built_in">document</span>.addEventListener(<span class="string">'mousemove'</span>, <span class="keyword">this</span>.handleGestureMove, <span class="literal">true</span>);
+    <span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, <span class="keyword">this</span>.handleGestureEnd, <span class="literal">true</span>);
+  }
+
+  initialTouchPos = getGesturePointFromEvent(evt);
+
+  swipeFrontElement.style.transition = <span class="string">'initial'</span>;
+}.bind(<span class="keyword">this</span>);
+</code></pre><p>在<code>handleGestureMove</code>方法中，如果需要则会在<code>requestAnimationFrame</code>之前存储<code>y</code>位置，然后将<code>onAnimFrame</code>函数传递作为回调函数：</p>
+<pre><code><span class="keyword">var</span> point = getGesturePointFromEvent(evt);
+lastYPos = point.y;
+
+  <span class="keyword">if</span>(isAnimating) {
+    <span class="keyword">return</span>;
+  }
+
+  isAnimating = <span class="literal">true</span>;
+  <span class="built_in">window</span>.requestAnimFrame(onAnimFrame);
+</code></pre><p>在<code>onAnimFrame</code>函数中，我们修改UI来移动元素。一开始我们先检查手势是否还在进行，来决定是否继续执行动画。如果需要执行动画，你们我们先计算出新的transform值。</p>
+<p>一旦我们设置好transform，我们就将<code>isAnimating</code>变量设置为<code>false</code>，这样下一次touch事件中可以执行新的<code>requestAnimationFrame</code>。</p>
+<pre><code> <span class="function"><span class="keyword">function</span> <span class="title">onAnimFrame</span><span class="params">()</span> </span>{
+    <span class="keyword">if</span>(!isAnimating) {
+      <span class="keyword">return</span>;
+    }
+
+    <span class="keyword">var</span> newYTransform = lastHolderPos + -(initialYPos - lastYPos);
+
+    newYTransform = limitValueToSlider(newYTransform);
+
+    <span class="keyword">var</span> transformStyle = <span class="string">'translateY('</span>+newYTransform+<span class="string">'px)'</span>;
+    elementHold.style.msTransform = transformStyle;
+    elementHold.style.MozTransform = transformStyle;
+    elementHold.style.webkitTransform = transformStyle;
+    elementHold.style.transform = transformStyle;
+
+    isAnimating = <span class="literal">false</span>;
+}
+</code></pre><h4 id="使用touch-action来控制滚动">使用touch-action来控制滚动</h4>
+<p>CSS属性<code>touch-action</code>允许你在触摸时控制滚动行为。在我们的例子中，使用<code>touch-action: none</code>来禁用触摸滚屏功能。</p>
+<pre><code><span class="comment">/* Pass all touches to javascript */</span>
+-ms-touch-action: <span class="literal">none</span><span class="comment">;</span>
+touch-action: <span class="literal">none</span><span class="comment">;</span>
+</code></pre><p>如下是<code>touch-action</code>的所有可能值。</p>
+<ul>
+<li>属性名：<code>touch-action: auto</code><ul>
+<li>描述：滚动正常工作，只要浏览支持触摸操作依旧可以触发水平或是垂直的滚动。</li>
+</ul>
+</li>
+<li>属性名：<code>touch-action: none</code><ul>
+<li>描述：触摸操作不能触发滚动</li>
+</ul>
+</li>
+<li>属性名：<code>touch-action: pan-x</code><ul>
+<li>描述：触摸操作可以触发水平滚动；但垂直滚动被禁止；</li>
+</ul>
+</li>
+<li>属性名：<code>touch-action: pan-y</code><ul>
+<li>描述：触摸操作可以触发垂直滚动；但水平滚动被禁止；</li>
+</ul>
+</li>
+</ul>
+<p>记住：</p>
+<ol>
+<li>使用<code>touch-action: pan-x</code>或<code>touch-action: pan-y</code>更好，因为你的目的明确，用户只能在元素上水平或垂直的滚动。</li>
+</ol>
+<h3 id="引用-1">引用</h3>
+<p>touch事件的标准定义可以通过<a href="http://www.w3.org/TR/touch-events/" target="_blank" rel="external">w3 Touch Event</a>来获取。</p>
+<h4 id="Touch事件、鼠标事件和MS_Pointer事件">Touch事件、鼠标事件和MS Pointer事件</h4>
+<p>这些事件是在你的应用中增加手势操作的重要基础。</p>
+<ul>
+<li>事件名：<code>touchstart</code>、<code>mousedown</code>、<code>MSPointerDown</code><ul>
+<li>描述：当手指第一次触摸一个元素或者鼠标按下时触发。</li>
+</ul>
+</li>
+<li>事件名：<code>touchmove</code>、<code>mousemove</code>、<code>MSPointerMove</code><ul>
+<li>描述：当手指在屏幕上移动或者用鼠标拖动时触发。</li>
+</ul>
+</li>
+<li>事件名：<code>touchend</code>、<code>mouseup</code>、<code>MSPointerUp</code><ul>
+<li>描述：当手指离开屏幕或者鼠标松开时触发。</li>
+</ul>
+</li>
+<li>事件名：<code>touchcancel</code><ul>
+<li>描述：当浏览器取消手势操作是触发此事件。</li>
+</ul>
+</li>
+</ul>
+<h4 id="Touch_list对象">Touch list对象</h4>
+<p>每个touch事件对象都包含三种touch list属性：</p>
+<ul>
+<li>属性：<code>touches</code><ul>
+<li>描述：包含了所有当前屏幕上Touch对象，无论它们起始于哪个元素上</li>
+</ul>
+</li>
+<li>属性：<code>targetTouches</code><ul>
+<li>描述：包含了所有起始于当前事件所绑定的元素的touch对象。例如，如果你的事件绑定在一个<code>&lt;button&gt;</code>上，那么这个属性就只包含起始于这个按钮的touch对象。如果你的事件绑定在document上，那么这个属性就包含这个document上的所有touch对象。</li>
+</ul>
+</li>
+<li>属性：<code>changedTouches</code><ul>
+<li>描述：包含了所有因为事件触发而状态发生改变的Touch对象<ol>
+<li>对于<a href="http://www.w3.org/TR/touch-events/#dfn-touchstart" target="_blank" rel="external">touchstart</a>事件，这个属性包含了在当前事件中刚刚激活的touch对象</li>
+<li>对于<a href="http://www.w3.org/TR/touch-events/#dfn-touchmove" target="_blank" rel="external">touchmove</a>事件，这个属性包含了自从上一次move事件触发后位置移动的touch对象</li>
+<li>对于<a href="http://www.w3.org/TR/touch-events/#dfn-touchend" target="_blank" rel="external">touchend</a>和<a href="http://www.w3.org/TR/touch-events/#dfn-touchcancel" target="_blank" rel="external">touchcancel</a>，这个属性包含了刚刚离开屏幕的touch对象。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2014/09/01/让你的站点支持触屏/" data-id="696h3mvkhoyt9g40" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-[译]学习CSS布局" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/09/01/[译]学习CSS布局/" class="article-date">
+  <time datetime="2014-09-01T15:55:09.000Z" itemprop="datePublished">Sep 1 2014</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/01/[译]学习CSS布局/">[译]学习CSS布局</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一直认为CSS布局是前端的精华所在。优秀的前端工程师不仅仅是精通javascript，更应该对CSS了如指掌。作为一个从后端转向前端的开发，我有过一段时间的状态是：刚学完了CSS的标准，但却不知道从何下手去真正地做一个网页。在这几年接触的前端同学中，发现这是一个比较普遍的现象。因为CSS真的相当灵活，并且它是如此的“不平易近人”。</p>
+<p>举个比较简单例子，CSS中有个外边距样式是<code>margin</code>，它有个值是<code>auto</code>。它表示浏览器会自动计算外边距的宽度。如果不经别人提醒你很难想到可以用<code>margin:auto</code>来实现水平居中。当然肯定有很多聪明的同学会自己联想到这个用处，然后口口相传。</p>
+<p>主要想说明的是：CSS是一个标准，而使用这标准的方法有很多很多。我想肯定有些用法是连CSS标准制定者都想不到，个人觉得用纯CSS绘制等腰三角形就属其中之一。说的有些远了，最近翻译了一篇入门级别的<a href="http://nodejs.in/csslayoutsite/dev/" target="_blank">CSS布局教程</a>，希望可以帮到初学者们。</p>
+<p>欢迎指正其中的不妥之处～<a href="https://github.com/zmmbreeze/csslayoutsite" target="_blank">github</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2014/09/01/[译]学习CSS布局/" data-id="5h20n5r91oehrfnx" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-中文排版二三事" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/09/01/中文排版二三事/" class="article-date">
+  <time datetime="2014-09-01T15:53:13.000Z" itemprop="datePublished">Sep 1 2014</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/01/中文排版二三事/">中文排版二三事</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前段时间一直在折腾中文排版相关的事情，自认为结果还算不错。故开源之，即是<a href="http://nodejs.in/Entry.css" target="_blank">Entry.css</a>。这是一个可配置的、更适合阅读的中文文章样式库，可以用来快速搭建中文博客主题或是用于项目文档的样式。在这篇博文中会介绍下在做这个库过程中学到的一些中文排版知识，以及它的特色。</p>
+<p>
+        
+          <p class="article-more-link">
+            <a href="/2014/09/01/中文排版二三事/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2014/09/01/中文排版二三事/" data-id="syblkpzgduvft7zu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/09/01/hello-world/" class="article-date">
+  <time datetime="2014-09-01T15:48:16.000Z" itemprop="datePublished">Sep 1 2014</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/01/hello-world/">CSS Counters</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>CSS Counters是一个很有意思的特性，它配合 content 属性和伪元素可以实现自动编号的效果。它是<a href="http://www.w3.org/TR/CSS21/generate.html#counters" target="_blank">CSS2.1</a>提出的标准，主流浏览器对它的支持很好，即使是<a href="http://quirksmode.org/css/css2/" target="_blank">IE8都支持</a>。利用CSS Counters可以实现“标题自动编号”、“复杂样式的有序列表”等等以前需要后端配合才能实现的样式。例如下面是由<a href="http://www.red-team-design.com/css3-ordered-list-styles" target="_blank">RED TEAM DESIGN</a>提供的特殊有序列表样式：</p>
+<p><img class="alignnone size-full wp-image-95936" alt="屏幕快照 2013-05-11 上午8.10.21" src="http://mzhou.me/wp-content/uploads/2013/05/屏幕快照-2013-05-11-上午8.10.21.png" width="636" height="300"></p>
+<p><h2>counter-reset与counter-increment的使用</h2><br>在CSS2.1中<code>counter-reset</code>和<code>counter-increment</code>两个属性负责控制Counters，然后通过<code>content</code>属性的<code>counter()</code>函数来显示。每个Counters都有一个名字，<code>counter-reset</code>就是用于重置Counters。它的值是一个或以上的Counter名字和对应的可选初始值。例如：</p>
+<pre><code><span class="class">.ol1</span> <span class="rules">{
+    <span class="rule"><span class="attribute">counter-reset</span>:<span class="value"> ol <span class="number">2</span></span></span>;
+<span class="rule">}</span></span>
+<span class="class">.ol2</span> <span class="rules">{
+    <span class="rule"><span class="attribute">counter-reset</span>:<span class="value"> ol1 ol2 <span class="number">3</span></span></span>;
+<span class="rule">}</span></span>
+<span class="class">.ol2</span> <span class="rules">{
+    <span class="rule"><span class="attribute">counter-reset</span>:<span class="value"> ol1 ol1 <span class="number">3</span></span></span>;
+<span class="rule">}</span></span>
+</code></pre><p>上例中第一种情况重置Counter ol初始值2，第二种情况重置Counter ol1的初始值为0、ol2的初始值为3，第三种情况重置了ol1的初始值为3。可见对于重复重置，CSS会默认覆盖前者的初始化值。<code>counter-increment</code>则用于控制Counters的增长，它的值是一个或以上的Counter名字和对应的可选增量值。例如：</p>
+<pre><code><span class="class">.li1</span> <span class="rules">{
+    <span class="rule"><span class="attribute">counter-increment</span>:<span class="value"> ol <span class="number">2</span></span></span>;
+<span class="rule">}</span></span>
+<span class="class">.li2</span> <span class="rules">{
+    <span class="rule"><span class="attribute">counter-increment</span>:<span class="value"> ol ol <span class="number">1</span></span></span>;
+<span class="rule">}</span></span>
+</code></pre><p>上例中第一种情况设置了Counter ol增长了2，第二种情况Counter ol增长了2，可见对于重复的设置增长值，CSS会作为是增量处理。然后在CSS的content属性中调用counter()函数即可显示出当前计数器值，如下：</p>
+<pre><code><span class="tag">li</span><span class="pseudo">:before</span> <span class="rules">{
+  <span class="rule"><span class="attribute">content</span>:<span class="value"> <span class="function">counter</span>(ol) <span class="string">"."</span></span></span>;
+  <span class="rule"><span class="attribute">counter-increment</span>:<span class="value"> ol</span></span>;
+<span class="rule">}</span></span>
+</code></pre><p>counter()函数默认显示成数字的样式，它还可以设置第二个参数来修改输出。所有<a href="http://www.w3.org/TR/CSS21/generate.html#propdef-list-style-type" target="_blank" rel="external">list-style-type</a>支持的样式它都支持，例如：’disc’、’circle’、’square’、和’none’等等，例子如下：</p>
+<pre><code><span class="tag">li</span><span class="pseudo">:before</span> <span class="rules">{
+  <span class="rule"><span class="attribute">content</span>:<span class="value"> <span class="function">counter</span>(ol, disc) <span class="string">"."</span></span></span>;
+  <span class="rule"><span class="attribute">counter-increment</span>:<span class="value"> ol</span></span>;
+<span class="rule">}</span></span>
+</code></pre><p>总结一下，有几个注意点要留心：</p>
+<ol>
+<li>如果一个元素即使用了reset/increment又使用了content函数，那么先reset/increment再显示；</li>
+<li>如果一个元素同时使用了reset和increment，那么先reset</li>
+<li>如果一个counter被reset或increment多次，则按照顺序做覆盖或增量处理；</li>
+</ol>
+<p>看到目前为止，你已经可以使用Counters来作出自己的效果了。但是这篇博文想要谈的不仅仅如此，很显然如果仅仅凭借目前这些规范还没办法实现一个嵌套的有序列表。要模仿如下例一样的ol列表嵌套，目前的功能还不够。</p>
+<pre><code><span class="tag">&lt;<span class="title">ol</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span>&gt;</span>here’s one line from a numbered list<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span>&gt;</span>here’s another
+<span class="tag">&lt;<span class="title">ol</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span>&gt;</span>Here's one inner ol tag<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span>&gt;</span>another line<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span>&gt;</span>Last line.<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">ol</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span>&gt;</span>第三列<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">ol</span>&gt;</span>
+</code></pre><p><h2>嵌套Counters与作用域</h2><br>为了模拟上面的效果，CSS增加了嵌套Counters与作用域的支持。如果一个元素有<code>counter-reset</code>的样式，则它会生成一个Counters实例，这个实例的作用域包含了它的子孙元素、它的伪元素和它的兄弟元素。举个例子：</p>
+<p><a class="jsbin-embed" href="http://jsbin.com/elaqox/2/embed?live" target="_blank" rel="external">作用域例子</a><script type="text/javascript" src="http://static.jsbin.com/js/embed.js"></script></p>
+<p>从上面的例子可以发现，“父元素”和“其他元素”都处于作用域之外，故它们都是以1（默认值0，且增加1）开始。而兄弟元素、伪元素和子元素都按照顺序计数（after伪元素在子元素之后，before伪元素在子元素之前）。另外如果之前没有Counter实例（即没有<code>counter-reset</code>样式），那么<code>counter-increment</code>也会创建一个实例。</p>
+<p>除了作用域之外，还有个很重要的概念“嵌套”。所谓嵌套Counters是指“自我嵌套”。如果在一个Counter实例的作用域内再次重置相同名字的Counter实例，那么新的同名Counter会嵌套在其父Counter下。看下面的例子会比较清晰：</p>
+<pre><code><span class="tag">&lt;<span class="title">style</span>&gt;</span><span class="css">
+  <span class="tag">ol</span> <span class="rules">{
+    <span class="rule"><span class="attribute">counter-reset</span>:<span class="value"> ol</span></span>;
+  <span class="rule">}</span></span>
+  <span class="tag">li</span> <span class="rules">{
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> relative</span></span>;
+    <span class="rule"><span class="attribute">display</span>:<span class="value"> block</span></span>;
+    <span class="rule"><span class="attribute">padding-left</span>:<span class="value"> <span class="number">34px</span></span></span>;
+  <span class="rule">}</span></span>
+  <span class="tag">li</span><span class="pseudo">:before</span> <span class="rules">{
+    <span class="rule"><span class="attribute">content</span>:<span class="value"> <span class="function">counter</span>(ol) <span class="string">"."</span></span></span>;
+    <span class="rule"><span class="attribute">counter-increment</span>:<span class="value"> ol</span></span>;
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>;
+    <span class="rule"><span class="attribute">top</span>:<span class="value"> <span class="number">0</span></span></span>;
+    <span class="rule"><span class="attribute">left</span>:<span class="value"> <span class="number">0</span></span></span>;
+  <span class="rule">}</span></span>
+</span><span class="tag">&lt;/<span class="title">style</span>&gt;</span>
+<span class="tag">&lt;<span class="title">ol</span>&gt;</span>                                             <span class="comment">&lt;!-- {item[0]=0 重置，作用域开始 --&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span>&gt;</span>here’s one line from a numbered list<span class="tag">&lt;/<span class="title">li</span>&gt;</span><span class="comment">&lt;!--  item[0]++ (=1)    --&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span>&gt;</span>here’s another                           <span class="comment">&lt;!--  item[0]++ (=2)    --&gt;</span>
+        <span class="tag">&lt;<span class="title">ol</span>&gt;</span>                                     <span class="comment">&lt;!--    {item[1]=0 嵌套作用域开始 --&gt;</span>
+            <span class="tag">&lt;<span class="title">li</span>&gt;</span>Here's one inner ol tag<span class="tag">&lt;/<span class="title">li</span>&gt;</span>     <span class="comment">&lt;!--    item[1]++ (=1)  --&gt;</span>
+            <span class="tag">&lt;<span class="title">li</span>&gt;</span>another line<span class="tag">&lt;/<span class="title">li</span>&gt;</span>                <span class="comment">&lt;!--    item[1]++ (=2)  --&gt;</span>
+        <span class="tag">&lt;/<span class="title">ol</span>&gt;</span>                                    <span class="comment">&lt;!--    } 嵌套作用域结束  --&gt;</span>
+    <span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span>&gt;</span>Last line.<span class="tag">&lt;/<span class="title">li</span>&gt;</span>                          <span class="comment">&lt;!--  item[0]++ (=3)    --&gt;</span>
+<span class="tag">&lt;/<span class="title">ol</span>&gt;</span>                                            <span class="comment">&lt;!-- } 作用域结束         --&gt;</span>
+</code></pre><p>嵌套Counters配合作用域，就可以模拟默认的嵌套ol列表效果了。这里面比较容易踩坑的点是<strong>伪元素的顺序问题</strong>。如果把上例里面的before换成after，则得到的效果会不一样。更奇特的事情是即使换成了after，在IE8下效果仍旧是正确的。个人猜测是因为IE8认为after也是和before伪元素一样，先于子元素来处理。目前还没在IE9下测试过，其他主流PC浏览器都符合标准。这里有个<a class="jsbin-embed" href="http://jsbin.com/izecop/4/" target="_blank" rel="external">demo</a>展示了这种情况。</p>
+<p>2013-06-14补充：不仅仅<code>counter-reset</code>可以生成嵌套，未reset之前直接increment也会生成嵌套。这很容易导致出现意料之外地结果，所以确保increment之前一定要reset。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2014/09/01/hello-world/" data-id="3wcsk1yi2n7qrhn5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+  
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/javascript/">javascript</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/javascript/Other/">Other</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/UI/">UI</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/design/">design</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/design/UI/">UI</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/design/javascript/">javascript</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">52</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/Other/">Other</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/Other/UI/">UI</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/UI/">UI</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/未分类/">未分类</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/&gt;/">&gt;</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/&lt;/">&lt;</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/++/">++</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/16/">1.6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalid/">:invalid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/valid/">:valid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/@PostConstruct/">@PostConstruct</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/">AOP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Closures/">Closures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Constraint-Validation/">Constraint Validation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DSL/">DSL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Delete/">Delete</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DoctorJS/">DoctorJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-6/">ECMAScript 6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/File/">File</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Geolocation/">Geolocation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Get/">Get</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/H5F/">H5F</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hibernate/">Hibernate</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hql/">Hql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IE/">IE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSLint/">JSLint</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONP/">JSONP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/">Math</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mobile-Safari/">Mobile Safari</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeList/">NodeList</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OAuth/">OAuth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/">OOP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ObjectdefineProperty/">Object.defineProperty</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OneTask/">OneTask</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Other/">Other</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PPT/">PPT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Package/">Package</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PrototypeJS/">PrototypeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SimpleSVGMap/">SimpleSVGMap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sinon/">Sinon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SyntaxHighlighter/">SyntaxHighlighter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SyntaxHighlighter-Evolved/">SyntaxHighlighter Evolved</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TheSimplest/">TheSimplest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI/">UI</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webshims/">Webshims</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/and/">and</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ant/">ant</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/arguments/">arguments</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/attr/">attr</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/auto/">auto</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/br/">br</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bug/">bug</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/canvas/">canvas</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/checkbox/">checkbox</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/class/">class</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/classloader/">classloader</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/click/">click</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocos2d-javascript/">cocos2d-javascript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding/">coding</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/contenteditable/">contenteditable</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/context/">context</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css-target/">css target</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css3/">css3</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/db2/">db2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/emphasis/">emphasis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/event/">event</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/false/">false</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/filter/">filter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/firefox/">firefox</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/getElementByTagName/">getElementByTagName</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/google-code-prettify/">google-code-prettify</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grayScale/">grayScale</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html解析/">html解析</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ifElse/">ifElse</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/image/">image</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inline/">inline</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/input/">input</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios/">ios</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQueryemphasis/">jQuery.emphasis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-bean/">java bean</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascri/">javascri</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">46</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsoup/">jsoup</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label/">label</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/margin/">margin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/memorize/">memorize</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mocks/">mocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/module/">module</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/module-loader/">module loader</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/moon/">moon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mozilla/">mozilla</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nudging/">nudging</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/overflow/">overflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/overflowchanged/">overflowchanged</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plugin/">plugin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pre/">pre</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presentation/">presentation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prop/">prop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prototype/">prototype</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/querySelectorAll/">querySelectorAll</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/referer/">referer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/safari/">safari</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scope/">scope</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setMonth/">setMonth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spies/">spies</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/">spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stubs/">stubs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/style/">style</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sun/">sun</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svg/">svg</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tdd/">tdd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/text/">text</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/text-emphasis/">text-emphasis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/text-size-adjust/">text-size-adjust</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/true/">true</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/type/">type</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/underflow/">underflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/watchjs/">watch.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/weakmap/">weakmap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webStorage/">webStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/white-space/">white-space</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windowname/">window.name</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/">wordpress</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/上下文/">上下文</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/中文乱码/">中文乱码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/中点/">中点</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/主题/">主题</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二进制/">二进制</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/传参/">传参</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/作用域/">作用域</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/使用方法/">使用方法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/函数式编程/">函数式编程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分时处理/">分时处理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端组件/">前端组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/十进制/">十进制</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/十进制与二进制/">十进制与二进制</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原型链/">原型链</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原码/">原码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/反码/">反码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/叠加/">叠加</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/命令/">命令</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式设计/">响应式设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/囚犯与灯泡/">囚犯与灯泡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/圆规/">圆规</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/块框/">块框</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/塌陷/">塌陷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多行匹配/">多行匹配</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字体/">字体</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安装步骤/">安装步骤</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小数/">小数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/居中/">居中</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/幻灯片/">幻灯片</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/循环依赖/">循环依赖</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/换行/">换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/换行符/">换行符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/整数/">整数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/新浪微博/">新浪微博</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/替换元素/">替换元素</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试框架/">测试框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/浮点数计算/">浮点数计算</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/灰阶化/">灰阶化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/着重符/">着重符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/移码/">移码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/空白符/">空白符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/等高布局/">等高布局</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/类型推理/">类型推理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/约束验证/">约束验证</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程模型/">线程模型</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缩放/">缩放</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/能力域/">能力域</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/行内元素/">行内元素</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/补码/">补码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观察者模式/">观察者模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/记住密码/">记住密码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/跨域/">跨域</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/跨域请求/">跨域请求</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/转换/">转换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/通知/">通知</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/重构/">重构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/钢之炼金术师/">钢之炼金术师</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/闭包/">闭包</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/霓虹灯/">霓虹灯</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/非替换元素/">非替换元素</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面向对象/">面向对象</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面向方面/">面向方面</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/风格/">风格</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高宽自动扩展/">高宽自动扩展</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/&gt;/" style="font-size: 10.00px;">&gt;</a><a href="/tags/&lt;/" style="font-size: 10.00px;">&lt;</a><a href="/tags/++/" style="font-size: 10.00px;">++</a><a href="/tags/16/" style="font-size: 10.00px;">1.6</a><a href="/tags/invalid/" style="font-size: 10.00px;">:invalid</a><a href="/tags/valid/" style="font-size: 10.00px;">:valid</a><a href="/tags/@PostConstruct/" style="font-size: 10.00px;">@PostConstruct</a><a href="/tags/AOP/" style="font-size: 13.33px;">AOP</a><a href="/tags/Android/" style="font-size: 10.00px;">Android</a><a href="/tags/Closures/" style="font-size: 10.00px;">Closures</a><a href="/tags/Constraint-Validation/" style="font-size: 10.00px;">Constraint Validation</a><a href="/tags/DSL/" style="font-size: 10.00px;">DSL</a><a href="/tags/Delete/" style="font-size: 10.00px;">Delete</a><a href="/tags/DoctorJS/" style="font-size: 10.00px;">DoctorJS</a><a href="/tags/ECMAScript-6/" style="font-size: 10.00px;">ECMAScript 6</a><a href="/tags/File/" style="font-size: 10.00px;">File</a><a href="/tags/Geolocation/" style="font-size: 10.00px;">Geolocation</a><a href="/tags/Get/" style="font-size: 10.00px;">Get</a><a href="/tags/H5F/" style="font-size: 10.00px;">H5F</a><a href="/tags/Hibernate/" style="font-size: 16.67px;">Hibernate</a><a href="/tags/Hql/" style="font-size: 10.00px;">Hql</a><a href="/tags/IE/" style="font-size: 10.00px;">IE</a><a href="/tags/JSLint/" style="font-size: 10.00px;">JSLint</a><a href="/tags/JSONP/" style="font-size: 10.00px;">JSONP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Javascript/" style="font-size: 10.00px;">Javascript</a><a href="/tags/Math/" style="font-size: 10.00px;">Math</a><a href="/tags/Mobile-Safari/" style="font-size: 10.00px;">Mobile Safari</a><a href="/tags/NodeList/" style="font-size: 10.00px;">NodeList</a><a href="/tags/OAuth/" style="font-size: 10.00px;">OAuth</a><a href="/tags/OOP/" style="font-size: 10.00px;">OOP</a><a href="/tags/ObjectdefineProperty/" style="font-size: 10.00px;">Object.defineProperty</a><a href="/tags/OneTask/" style="font-size: 10.00px;">OneTask</a><a href="/tags/Other/" style="font-size: 10.00px;">Other</a><a href="/tags/PPT/" style="font-size: 10.00px;">PPT</a><a href="/tags/Package/" style="font-size: 10.00px;">Package</a><a href="/tags/PrototypeJS/" style="font-size: 10.00px;">PrototypeJS</a><a href="/tags/SimpleSVGMap/" style="font-size: 10.00px;">SimpleSVGMap</a><a href="/tags/Sinon/" style="font-size: 10.00px;">Sinon</a><a href="/tags/SyntaxHighlighter/" style="font-size: 10.00px;">SyntaxHighlighter</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">March 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">February 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10">October 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09">September 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06">June 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/03">March 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12">December 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07">July 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06">June 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05">May 2011</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03">March 2011</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01">January 2011</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12">December 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11">November 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10">October 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09">September 2010</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08">August 2010</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06">June 2010</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2014/09/02/Atom-Shell入门/">Atom Shell入门</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/让你的站点支持触屏/">让你的站点支持触屏</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/[译]学习CSS布局/">[译]学习CSS布局</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/中文排版二三事/">中文排版二三事</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/hello-world/">CSS Counters</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 mzhou / zmmbreeze<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

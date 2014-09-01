@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Category: Java | MZhou&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="MZhou's blog">
+<meta property="og:url" content="http://nodejs.in/categories/Java/">
+<meta property="og:site_name" content="MZhou's blog">
+<meta property="og:description">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MZhou's blog">
+<meta name="twitter:description">
+
+  
+    <link rel="alternative" href="/atom.xml" title="MZhou&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">MZhou&#39;s blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">专注于Web前端开发！</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://nodejs.in"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-httpe58d8fe8aeaegete696b9e6b395e4bca0e58f82e68ea2e7a9b6" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2010/09/06/httpe58d8fe8aeaegete696b9e6b395e4bca0e58f82e68ea2e7a9b6/" class="article-date">
+  <time datetime="2010-09-06T06:00:59.000Z" itemprop="datePublished">Sep 6 2010</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>►<a class="article-category-link" href="/categories/Java/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/09/06/httpe58d8fe8aeaegete696b9e6b395e4bca0e58f82e68ea2e7a9b6/">Http协议Get方法传参探究</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>用Get方式传中文参数存在很多问题！一不小心就会造成服务器收到的是乱码！所以一般情况下，都是尽量使用Post方法实现中文参数的传参。但是有的时候会出现意料之外的情况不得不用Get方法。解决方法有很多：</p>
+<ol>
+<li>使用Javascript（encodeURI/encodeURIComponent函数）对URI或参数进行UTF-8编码，然后在服务器端解码</li>
+<li>不使用Get头部存放参数，而是用实体部分存放参数（对于Java servlet来说可以，其他情况不知道。因为一般情况Get方法的Http通讯只有头部没有实体。所以此方法有局限性，Javascript实现不了）</li>
+<li>使用Post（与之前说的一样，有特殊情况用不了Post，如用js直接打开一个url并下载其内容）</li>
+</ol>
+<p>接下来详细解释下其中原委！
+        
+          <p class="article-more-link">
+            <a href="/2010/09/06/httpe58d8fe8aeaegete696b9e6b395e4bca0e58f82e68ea2e7a9b6/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2010/09/06/httpe58d8fe8aeaegete696b9e6b395e4bca0e58f82e68ea2e7a9b6/" data-id="acynx5sw5c4mq017" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Get/">Get</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/中文乱码/">中文乱码</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/传参/">传参</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-javae4b8ade79a84jqueryefbc9ae5bc80e6ba90htmle8a7a3e69e90e5b7a5e585b7e58c85jsoup" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2010/08/30/javae4b8ade79a84jqueryefbc9ae5bc80e6ba90htmle8a7a3e69e90e5b7a5e585b7e58c85jsoup/" class="article-date">
+  <time datetime="2010-08-30T03:14:40.000Z" itemprop="datePublished">Aug 30 2010</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/08/30/javae4b8ade79a84jqueryefbc9ae5bc80e6ba90htmle8a7a3e69e90e5b7a5e585b7e58c85jsoup/">Java中的jQuery：开源HTML解析工具包jsoup</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&nbsp;</p>
+<p>jsoup是一款开源的HTML解析工具包，采用Java语言编写，通过精巧的API充分利用DOM、CSS和类jquery的方法抽取和操作数 据。最近，jsoup 1.3.1正式发布，对上一版（1.2.3）做了重要更新，包括完成自主实现（无外部依赖）、改进Web连接方法等。</p>
+<p>随着Web应用的不断发展，开发人员有时需要通过HTML解析功能实现客户需求。读者朋友可能对老牌<a href="http://htmlparser.sourceforge.net/" title="HTML Parser" target="_blank" rel="external">HTML Parser</a>&nbsp;Java库比较熟悉。其实，jsoup也是为了方便开发人员实现HTML解析而刚刚诞生（2010年初发起）的一款工具包。jsoup的主要功能包括：</p>
+<ul>
+<li><a href="http://jsoup.org/cookbook/input/parse-document-from-string" title="解析" target="_blank" rel="external">解析</a>，通过URL、文件或者字符串来分析HTML文档。</li>
+<li><a href="http://jsoup.org/cookbook/extracting-data/selector-syntax" title="查找" target="_blank" rel="external">查找</a>，通过DOM遍历或者CSS选择器来寻找和抽取数据。</li>
+<li><a href="http://jsoup.org/cookbook/modifying-data/set-html" title="操作" target="_blank" rel="external">操作</a>，处理HTML元素、属性和文本。</li>
+<li><a href="http://jsoup.org/cookbook/cleaning-html/whitelist-sanitizer" title="检查" target="_blank" rel="external">检查</a>，通过白名单机制来保护HTML内容的安全。</li>
+</ul>
+<p>jsoup 1.3.1的<a href="http://jsoup.org/news/release-1.3.1" title="主要更新" target="_blank" rel="external">主要更新</a>包括：</p>
+<ul>
+<li><strong>完成了自主实现</strong>，在之前的版本中，jsoup依赖于Apache Commons-Lang的一些方法，如HTML内容解析等。在新版中，这些方法完全自主实现，不再需要外部依赖。一方面减少JVM的内存消耗，另一方面有助于开发人员入门。</li>
+<li><p><strong>改进Web连接方法</strong>，jsoup现在支持一种方便的connection接口，即Jsoup.connect(String url)。这种方法允许开发人员快捷地创建HTTP请求，包括指定用户代理、cookie、超时等等。方法的返回值可以直接被解析成Document。示例代码如下：</p>
+<blockquote>
+<p><span>Document doc = Jsoup.connect(“<a href="http://example.com/" target="_blank" rel="external">http://example.com</a>“)</span><br> &nbsp;&nbsp;.data(“query”, “Java”)<br> &nbsp;&nbsp;.userAgent(“Mozilla”)<br> &nbsp;&nbsp;.cookie(“auth”, “token”)<br> &nbsp;&nbsp;.timeout(3000)<br> &nbsp;&nbsp;.post(); &nbsp;</p>
+</blockquote>
+</li>
+<li><p><strong>增加了一些便捷方法</strong>，如Element.ownText()、Document.OutputSettings.prettyPrint(boolean)等。</p>
+</li>
+<li><strong>改进了文档解析的性能</strong>。</li>
+<li><strong>修补了一些Bug</strong>。</li>
+</ul>
+<p>感兴趣的读者朋友可以<a href="http://jsoup.org/download" title="下载" target="_blank" rel="external">下载</a>jsoup试用，查看其<a href="http://jsoup.org/cookbook/" title="使用手册" target="_blank" rel="external">使用手册</a>和<a href="http://jsoup.org/apidocs/" title="文档说明" target="_blank" rel="external">文档说明</a>。jsoup采用<a href="http://jsoup.org/license" title="MIT" target="_blank" rel="external">MIT</a>协议开源，目前在GitHub上进行开发和维护，喜欢深究的朋友可以在此查看<a href="http://github.com/jhy/jsoup/" title="源代码" target="_blank" rel="external">源代码</a>。</p>
+<p>&nbsp;</p>
+<p>转自：<a href="http://www.infoq.com/cn/news/2010/08/jsoup1.3.1" target="_blank" rel="external">http://www.infoq.com/cn/news/2010/08/jsoup1.3.1</a></p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2010/08/30/javae4b8ade79a84jqueryefbc9ae5bc80e6ba90htmle8a7a3e69e90e5b7a5e585b7e58c85jsoup/" data-id="pjm3nnvnuii1pfi0" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html解析/">html解析</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jsoup/">jsoup</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-0-10-20-30000000000000004e997aee9a298e79a84e68ea2e7a9b6" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2010/08/29/0-10-20-30000000000000004e997aee9a298e79a84e68ea2e7a9b6/" class="article-date">
+  <time datetime="2010-08-29T04:00:50.000Z" itemprop="datePublished">Aug 29 2010</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>►<a class="article-category-link" href="/categories/Java/javascript/">javascript</a>►<a class="article-category-link" href="/categories/Java/javascript/Other/">Other</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/08/29/0-10-20-30000000000000004e997aee9a298e79a84e68ea2e7a9b6/">0.1+0.2=0.30000000000000004问题的探究</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天花了一整天的时间复习二进制相关知识，在这里写下这篇blog作为总结！</p>
+<h2 id="为什么“0-1+0-2=0-30000000000000004”？">为什么“0.1+0.2=0.30000000000000004”？</h2>
+<p>首先声明这不是bug，原因在与十进制到二进制的转换导致的精度问题！其次这几乎出现在很多的编程语言中：C/C++,Java,Javascript中，准确的说：“使用了IEEE 754浮点数格式”来存储浮点类型(float 32,double 64)的任何编程语言都有这个问题！</p>
+<p>简要介绍下<a href="http://www.ibm.com/developerworks/cn/java/j-jtp0114/index.html" target="_blank" rel="external">IEEE 754浮点格式</a>：它用科学记数法以底数为2的小数来表示浮点数。IEEE浮点数（共32位）用1位表示数字符号，用8为表示指数，用23为来表示尾数（即小数部分）。此处指数用移码存储，尾数则是原码（没有符号位）。之所以用移码是因为移码的负数的符号位为0，这可以保证浮点数0的所有位都是0。双精度浮点数(64位)，使用1位符号位、11位指数位、52位尾数位来表示。</p>
+<p>因为科学记数法有很多种方式来表示给定的数字，所以要规范化浮点数，以便用底数为2并且小数点左边为1的小数来表示（注意是二进制的，所以只要不为0则一定有一位为1），按照需要调节指数就可以得到所需的数字。例如：十进制的1.25 =&gt; 二进制的1.01 =&gt; 则存储时指数为0、尾数为1.01、符号位为0.（<a href="../?p=44001">十进制转二进制</a>）</p>
+<p>回到开头，为什么“<span style="background-color: #ffff00;">0.1+0.2=0.30000000000000004</span>”？首先声明这是javascript语言计算的结果（<span style="background-color: #ffff00;">注意Javascript的数字类型是以64位的IEEE 754格式存储的</span>）。正如同十进制无法精确表示1/3(0.33333…)一样，二进制也有无法精确表示的值。例如1/10。64位浮点数情况下：</p>
+<pre>十进制0.1
+=&gt; 二进制0.00011001100110011...(循环0011)
+=&gt;尾数为1.1001100110011001100...1100（共52位，除了小数点左边的1），指数为-4（二进制移码为00000000010）,符号位为0
+=&gt; 存储为：0 00000000100 10011001100110011...11001
+=&gt; 因为尾数最多52位，所以实际存储的值为0.00011001100110011001100110011001100110011001100110011001
+
+十进制0.2
+=&gt; 二进制0.0011001100110011...(循环0011)
+=&gt;尾数为1.1001100110011001100...1100（共52位，除了小数点左边的1），指数为-3（二进制移码为00000000011）,符号位为0
+=&gt; 存储为：0 00000000011 10011001100110011...11001
+因为尾数最多52位，所以实际存储的值为0.00110011001100110011001100110011001100110011001100110011
+
+两者相加：
+0.00011001100110011001100110011001100110011001100110011001 +  0.00110011001100110011001100110011001100110011001100110011 =  <span style="background-color: #ffff00;">0.01001100110011001100110011001100110011001100110011001100
+</span>转换成10进制之后得到:<span style="background-color: #ffff00;">0.30000000000000004</span>!</pre>
+
+<h2 id="浮点数中的特殊数字">浮点数中的特殊数字</h2>
+<p>除了一般范围内的数字之外，还有一些特殊数字：无穷大、负无穷大、-0和NaN（“代表不是数字”）。造成了如下一些特殊情况：</p>
+<p>[java]<br>public class FloatTest {<br>    public static void main(String[] args) {<br>        System.out.println(0.1f+0.2f); //0.3<br>        System.out.println(0.1d+0.2d); //0.30000000000000004<br>        System.out.println(Math.sqrt(-1.0)); //NaN<br>        System.out.println(0.0 / 0.0);//NaN<br>        System.out.println(1.0 / 0.0);//Infinity<br>        System.out.println(-1.0 / 0.0);//-Infinity<br>        System.out.println(0.0 / 0.0 + 1.0);//NaN + 1.0 = NaN<br>        System.out.println(1.0 / 0.0 + 1.0);//无穷大 + 1.0 = Infinity<br>        System.out.println(1.0 / 0.0 + 1.0 / 0.0);//无穷大 + 无穷大 = Infinity<br>        System.out.println(0.0 / 0.0 &gt; 1.0);//NaN &gt; 1.0 = false<br>        System.out.println(0.0 / 0.0 == 1.0);//NaN == 1.0 = false<br>        System.out.println(0.0 / 0.0 &lt; 1.0);//NaN &lt; 1.0 = false<br>        System.out.println(0.0 / 0.0 == 0.0 / 0.0);//NaN == NaN = false<br>        System.out.println(0.0 == -0.01); //false<br>        }<br>}<br>[/java]</p>
+<h2 id="更精确的计算">更精确的计算</h2>
+<p>既然一般的浮点数计算有这么多问题，那么如何实现更精确的计算呢？Java中提供了<strong>BigDecimal</strong>类实现基于十进制的浮点数计算。在Javascript 2（目前浏览器不支持）中提供一种use decimal;实现十进制浮点数计算：</p>
+<p>[js]<br>{<br>    use decimal;<br>    var a = 0.1; // a is a decimal<br>    var b = 0.2; // b is a decimal<br>    var c = a + b; // c is a decimal (0.3)<br>}<br>var d = 0.1 + 0.2; // d is a double (0.30000000000000004)<br>var a = 0.1m; // a is a decimal<br>var b = 0.2m; // b is a decimal<br>var c = a + b; // c == 0.3m<br>[/js]</p>
+<p>C#也支持如上的m操作符实现十进制浮点数计算。</p>
+<p>2013/07/12 更新：Javascript 目前有<a href="http://mathjs.org/" target="_blank" rel="external">MathJs</a>这样的第三方库可以实现精确的计算。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2010/08/29/0-10-20-30000000000000004e997aee9a298e79a84e68ea2e7a9b6/" data-id="atvkbfjvd9ld76or" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/二进制/">二进制</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/十进制/">十进制</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/浮点数计算/">浮点数计算</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-springe5beaae78eafe4be9de8b596e5afbce887b4e6adbbe99481" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2010/08/27/springe5beaae78eafe4be9de8b596e5afbce887b4e6adbbe99481/" class="article-date">
+  <time datetime="2010-08-26T18:31:45.000Z" itemprop="datePublished">Aug 27 2010</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/08/27/springe5beaae78eafe4be9de8b596e5afbce887b4e6adbbe99481/">spring循环依赖导致死锁</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一直让spring以为能导致循环死锁的原因是两个类都是用构造注入方法的可能性，如下：</p>
+<pre class="brush: java;fontsize: 100; first-line: 1; ">@Service
+public class A {
+    private B b;
+    @Autowired
+    public A(B b) {
+        this.b = b;
+    }
+}
+
+@Service
+public class B {
+    private A a;
+    @Autowired
+    public B(A a) {
+        this.a = a;
+    }
+}</pre>
+
+<p>以上情况是死锁的特例，一般也没人会这么写…</p>
+<p>今天遇到了个类似问题不过更加复杂点。先看一个稍微复杂的的例子：</p>
+<pre class="brush: java;fontsize: 100; first-line: 1; ">@Service
+public class A {
+    public A() {
+        System.out.println("A inited!");
+    }
+}
+
+@Service
+public class B {
+    @Autowired
+    private A a;
+    public B() {
+        System.out.println("B inited!");
+        System.out.println(a);
+    }
+}</pre>
+
+<p>最终打印结果是:</p>
+<blockquote>
+<p>A inited!</p>
+<p>B inited!</p>
+<p>null</p>
+</blockquote>
+<p>即使A先被初始化，B中打印出来的值还是null。可见装载生效是在B初始化完成之后的。（不过这很显而易见，因为没有初始化，又怎么去set呢！）这个例子不是关键！下面个例子十分特别，涉及到@PostConstruct注解。</p>
+<p>由上例子可见无法在初始化方法中调用其他的bean，但是如果需要为bean做些初始化工作，那怎么办呢？这就需要用到@PostConstruct注解。它会在bean被装配完之后执行！很完美的解决了这个问题！</p>
+<p>代码如下：</p>
+<pre class="brush: java;fontsize: 100; first-line: 1; ">@Service
+public class A {
+    public A() {
+        System.out.println("A inited!");
+    }
+    @Override
+    public String toString() {
+        return "a";
+    }
+}
+
+@Service
+public class B {
+    @Autowired
+    private A a;
+    public B() {
+        System.out.println("B inited!");
+    }
+    @PostConstruct
+    public void init() {
+        System.out.println(a);
+    }
+}</pre>
+
+<p>执行结果是：</p>
+<blockquote>
+<p>A inited!</p>
+<p>B inited!</p>
+<p>a</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>执行正确！但是当情况在复杂一点，如下的代码：</p>
+<pre class="brush: java;fontsize: 100; first-line: 1; highlight: [12]; ">@Service
+public class A {
+    @Autowired
+    private B b;
+    public A() {
+        System.out.println("A inited!");
+    }
+    @PostConstruct
+    public void init() {
+        System.out.println("A post init!");
+    try {
+        Thread.sleep(100);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+        System.out.println("A post inited!");
+    }
+    @Override
+    public String toString() {
+        return "a";
+    }
+}
+
+@Service
+public class B {
+    @Autowired
+    private A a;
+    public B() {
+        System.out.println("B inited!");
+    }
+    @PostConstruct
+    public void init() {
+        System.out.println("B post init!");
+        System.out.println(a);
+    }
+}</pre>
+
+<p>执行的时候，奇怪的事情发生了，执行结果是：</p>
+<blockquote>
+<p>A inited!</p>
+<p>B inited!</p>
+<p>A post init!</p>
+<p>A post inited!</p>
+<p>B post init!</p>
+<p><strong>然后进程死锁，停止运行！</strong></p>
+</blockquote>
+<p>结果令人匪夷所思，特别的是如果A的init方法sleep时间短一点，如10，那么不会发生这种事情！另外如果在sleep之前打印b，那么b正常输出而不是null(因为b已经初始化完成了)。</p>
+<p>暂时想到的原因是A的init方法耗时较长，如果B<strong>在准备进入init时</strong>，A正在执行，则会导致B无法正常获取A的实例，导致死锁！</p>
+<p>执行环境是spring 3.0 RELEASE版</p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2010/08/27/springe5beaae78eafe4be9de8b596e5afbce887b4e6adbbe99481/" data-id="td4hvlcahey4vqhc" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/@PostConstruct/">@PostConstruct</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bug/">bug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java-bean/">java bean</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/">spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/循环依赖/">循环依赖</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hibernatee585b3e994aee5ad97is-nulle59ca8db2e4b8ade79a84bug" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2010/08/26/hibernatee585b3e994aee5ad97is-nulle59ca8db2e4b8ade79a84bug/" class="article-date">
+  <time datetime="2010-08-26T07:44:42.000Z" itemprop="datePublished">Aug 26 2010</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/08/26/hibernatee585b3e994aee5ad97is-nulle59ca8db2e4b8ade79a84bug/">Hibernate关键字is null在db2中的bug</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>有两个实体MessageLog和SendTask是OneToOne关系。MessageLog通过sendTask属性对应到SendTask的id，实现一对一关系。表的列名分别是：LOG.SEND_TASK_ID和SEND_TASK.ID.</p>
+<p>示例KJAVA代码：</p>
+<pre class="brush: java;fontsize: 100; first-line: 1; highlight: [4]; ">public Pagination queryPage(SendStatus status,int pageNumber, int pageSize) {
+    StringBuilder hql = new StringBuilder("from MessageLog  where 1=1");
+    List params = new ArrayList();
+    hql.append("and (sendTask.sendFlag = ? or sendTask.id is null)");
+    params.add(status);
+    Long count = super.querySize(COUNT_ID + hql.toString(), params.toArray());
+    return super.pageQuery(count, hql.toString(), params.toArray(), pageNumber, pageSize);
+}</pre>
+
+<p>&nbsp;</p>
+<p>上面的代码看似没问题，实际上在oracle下执行没什么问题，但是放到db2下就有问题：  虽然执行条件是： 但是实际生效的部分只有</p>
+<pre class="brush: java;fontsize: 100; first-line: 1; highlight: [10]; ">sendTask.sendFlag = ?</pre>
+
+<p>&nbsp;</p>
+<p>仔细看到hql被解析之后得到类似如下的sql：</p>
+<pre class="brush: sql;fontsize: 100; first-line: 1; ">Hibernate: select * from ( select rownumber() over() as rownumber_, messagelog0_.id as id43_, messagelog0_.content as content43_, messagelog0_.event as event43_, messagelog0_.receiver as receiver43_, messagelog0_.SEND_TASK_ID as SEND6_43_, time as time43_ from MHMOT.SMS_LOG messagelog0_ cross join XTT.T_SENDTASK sendtask1_ where messagelog0_.SEND_TASK_ID=sendtask1_.TASKID and 1=1 and (sendtask1_.sendFlag=? or messagelog0_.SEND_TASK_ID is null) ) as temp_ where rownumber_ &lt;= ?</pre>
+
+<p>如果条件只是sendTask.id is null，得到的sql是：</p>
+<pre class="brush: sql;fontsize: 100; first-line: 1; ">Hibernate: select * from ( select rownumber() over() as rownumber_, messagelog0_.id as id43_, messagelog0_.content as content43_, messagelog0_.event as event43_, messagelog0_.receiver as receiver43_, messagelog0_.SEND_TASK_ID as SEND6_43_, time as time43_ from MHMOT.SMS_LOG messagelog0_ cross join XTT.T_SENDTASK sendtask1_ where messagelog0_.SEND_TASK_ID=sendtask1_.TASKID and 1=1 and (sendtask1_.sendFlag=? or messagelog0_.SEND_TASK_ID is null) ) as temp_ where rownumber_ &lt;= ?</pre>
+
+<p>可以看到第一句sql多出了where messagelog0<em>.SEND_TASK_ID=sendtask1</em>.TASKID一部分，也就是说db2在此时去除了sendTask.id为null的情况，确保了sendTask.id必需存在。所以is null在db2下失效是因为在联接(join)两个表时，db2默认判断了联接用的列表项不能为null，所以导致了is null的失效。实际上，如果不使用表的联接，那么is null是可以正常工作的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2010/08/26/hibernatee585b3e994aee5ad97is-nulle59ca8db2e4b8ade79a84bug/" data-id="9xka5ovuv0h8h5ek" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hibernate/">Hibernate</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bug/">bug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/db2/">db2</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-java-packagee68ea2e7a9b6" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2010/08/24/java-packagee68ea2e7a9b6/" class="article-date">
+  <time datetime="2010-08-24T07:29:47.000Z" itemprop="datePublished">Aug 24 2010</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/08/24/java-packagee68ea2e7a9b6/">Java Package探究</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Java的每个类都放在包里面，对于包一直抱有一个疑惑！</p>
+<p>如下的包结构：</p>
+<blockquote>
+<p><span style="background-color: #ffffff;">PackageTest.java</span></p>
+<p><span style="background-color: #ffffff;">———test</span></p>
+<p><span style="background-color: #ffffff;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PackageTest2.java</span></p>
+<p><span style="background-color: #ffffff;">———test.test</span></p>
+<p><span style="background-color: #ffffff;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PackageTest3.java</span></p>
+</blockquote>
+<p><span style="background-color: #ffffff;"><strong>test包和test.test包之间有没有包含关系？PackageTest3能不能访问到PackageTest和PackageTest2的默认权限的方法？</strong></span></p>
+<p><span style="background-color: #ffffff;">一般在使用spring时，如果用注解来配置单例实体bean，那么就需要设置要扫描的包。如上的结构设置了test那么test.test包也会被扫描到。表面上看起来这两包似乎有着包含关系。</span></p>
+<p><span style="background-color: #ffffff;">假设PackageTest.java、<span style="background-color: #ffffff;">PackageTest2.java和<span style="background-color: #ffffff;">PackageTest3.java的<strong>初始化方法是默认的，即非public</strong>。那么他们无法访问到对方的初始化方法的。因为Java的访问权限如下：</span></span></span></p>
+<p><strong>&nbsp;</strong></p>
+<table border="0" cellspacing="0" cellpadding="2" width="437"><br><tbody><br><tr><br><td width="81" valign="top">&nbsp;</td><br><td width="80" valign="top"><strong>同一个类</strong></td><br><td width="80" valign="top"><strong>同一个包</strong></td><br><td width="95" valign="top"><strong>不同包的子类</strong></td><br><td width="99" valign="top"><strong>不同包的非子类</strong></td><br></tr><br><tr><br><td width="81" valign="top">Private</td><br><td width="80" valign="top">可以</td><br><td width="80" valign="top">&nbsp;</td><br><td width="95" valign="top">&nbsp;</td><br><td width="99" valign="top">&nbsp;</td><br></tr><br><tr><br><td width="81" valign="top">默认</td><br><td width="80" valign="top">可以</td><br><td width="80" valign="top">可以</td><br><td width="95" valign="top">&nbsp;</td><br><td width="99" valign="top">&nbsp;</td><br></tr><br><tr><br><td width="81" valign="top">Protected</td><br><td width="80" valign="top">可以</td><br><td width="80" valign="top">可以</td><br><td width="95" valign="top">可以</td><br><td width="99" valign="top">&nbsp;</td><br></tr><br><tr><br><td width="81" valign="top">Public</td><br><td width="80" valign="top">可以</td><br><td width="80" valign="top">可以</td><br><td width="95" valign="top">可以</td><br><td width="99" valign="top">可以</td><br></tr><br></tbody><br></table>
+
+<p>可见，test与test.test是两个不同的包。</p>
+<p>既然一般方法不行，那么走些不寻常的路试试：</p>
+<pre class="brush: java;fontsize: 100; first-line: 1; ">    public class PackageTest3 {
+
+        public PackageTest3() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+            Class&lt;PackageTest2&gt; test2 = (Class&lt;PackageTest2&gt;)this.getClass().getClassLoader().loadClass("test.PackageTest2");
+            test2.newInstance();
+        }
+
+        public static void main(String[] args) {
+            try {
+                new PackageTest3();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+</pre>
+
+<p>&nbsp;</p>
+<p>直接使用classloader载入PackageTest2，但是结果是：</p>
+<pre class="brush: java;fontsize: 100; first-line: 1; ">java.lang.IllegalAccessException: Class test.test.PackageTest3 can not access a member of class test.PackageTest2 with modifiers ""
+    at sun.reflect.Reflection.ensureMemberAccess(Unknown Source)
+    at java.lang.Class.newInstance0(Unknown Source)
+    at java.lang.Class.newInstance(Unknown Source)
+    at test.test.PackageTest3.&lt;init&gt;(PackageTest3.java:11)
+    at test.test.PackageTest3.main(PackageTest3.java:16)</pre>
+
+<p>&nbsp;</p>
+<p>看来除非直接修改.class的字节码来修改其访问权限，否则是无法访问到了。</p>
+<p>特殊注意点：<span style="color: #ff0000;">Interface</span>。接口的所有方法都是public的，接口不允许有private和protected方法，其默认的方法也被解析为public类型。所以继承自接口的方法必须是public的。</p>
+<p>另外：<span style="color: #ff0000;">abstract class</span>.的方法除了不能是private之外，其他都可以。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2010/08/24/java-packagee68ea2e7a9b6/" data-id="tpo9dy8idixmppu6" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Package/">Package</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/classloader/">classloader</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hibernatee59ba0e4ba8be58aa1e8808ce5afbce887b4e79a84e58685e5ad98e6baa2e587ba" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2010/08/23/hibernatee59ba0e4ba8be58aa1e8808ce5afbce887b4e79a84e58685e5ad98e6baa2e587ba/" class="article-date">
+  <time datetime="2010-08-22T20:39:58.000Z" itemprop="datePublished">Aug 23 2010</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/08/23/hibernatee59ba0e4ba8be58aa1e8808ce5afbce887b4e79a84e58685e5ad98e6baa2e587ba/">Hibernate因事务而导致的内存溢出</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>环境是在删除数据库记录时先读取确定此记录是否需要保存到历史表中，然后再删除记录。<br> 代码：</p>
+<pre class="brush: java;fontsize: 100; first-line: 1; ">@Transactional
+public void delete(int time) {
+    List&lt;A&gt; result = findByTime(time);//查找前100条记录
+    while (result.size()&gt;0) {
+        for (A a:result) {
+            if (a.time &gt; 0)
+            historyADao.saveA(a);
+        }
+        aDao.deleteAll(result);
+        result = findByTime(time);//继续查找
+    }
+}</pre>
+
+<p>&nbsp;</p>
+<p>最终执行的结果是内存溢出。为什么呢？</p>
+<p>原因在于事务。delete方法是一个事务所以对数据库的修改操作不会马上提交到数据库，��会在事务结束时提交。故findByTime得到的永远是同样的前100条记录，这是一个死循环（极端情况）。有的时候findByTime得到的不是一样的结果，使我们可以成功删除记录。但因为事务存在更新不会被马上提交到数据库，所以对象a将会一直被保存，这在大数据量情况下（过万）就会导致内存溢出。</p>
+<p>解决方案：</p>
+<pre class="brush: java;fontsize: 100; first-line: 1; ">public void delete(int time) {
+    List&lt;A&gt; result = findByTime(time);//查找前100条记录
+    while (result.size()&gt;0) {
+        deleteList(result);
+        result = findByTime(time);//继续查找
+    }
+}
+
+@Transactional
+public void deleteList(List&lt;A&gt; result) {
+    for (A a:result) {
+    if (a.time &gt; 0)
+        historyADao.saveA(a);
+    }
+    aDao.deleteAll(result);
+}</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2010/08/23/hibernatee59ba0e4ba8be58aa1e8808ce5afbce887b4e79a84e58685e5ad98e6baa2e587ba/" data-id="evvs5jv670am7c7z" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hibernate/">Hibernate</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bug/">bug</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hqle79a84deletee8afade58fa5e8a7a3e9878ae99499e8afafe58f8ae8a7a3e586b3e696b9e6a188" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2010/08/23/hqle79a84deletee8afade58fa5e8a7a3e9878ae99499e8afafe58f8ae8a7a3e586b3e696b9e6a188/" class="article-date">
+  <time datetime="2010-08-22T17:49:41.000Z" itemprop="datePublished">Aug 23 2010</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/08/23/hqle79a84deletee8afade58fa5e8a7a3e9878ae99499e8afafe58f8ae8a7a3e586b3e696b9e6a188/">Hql的delete语句解释错误及解决方案</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&nbsp;</p>
+<pre class="brush: java;fontsize: 100; first-line: 1; ">如下两个类：
+@Entity
+class SDAwosEle {
+    @Cloumn("id")
+    private String id;
+    @ManyToOne
+    @JoinCloumn("rpt_id")
+    private SDAwosRpt rpt;
+}
+@Entity
+class SDAwosRpt {
+    @Cloumn("id")
+    private String id;
+    @Cloumn("time")
+    private String time;
+}</pre>
+
+<p>&nbsp;</p>
+<p>写如下的hql：</p>
+<p>&nbsp;</p>
+<pre class="brush: sql;fontsize: 100; first-line: 1; ">DELETE FROM SDAwosEle as ele WHERE ele.rpt.time &gt; ?;
+</pre>
+
+<p>翻译之后得到的sql是错误的，数据库环境是Oracle，查资料：<a href="http://opensource.atlassian.com/projects/hibernate/browse/HHH-2812" target="_blank" rel="external">http://opensource.atlassian.com/projects/hibernate/browse/HHH-2812</a><br>发现postgres 8.2上也有类似错误，可能是因为Delete不支持JoinCloumn（关联关系）</p>
+<p>修改hql为如下：</p>
+<pre class="brush: sql;fontsize: 100; first-line: 1; ">DELETE FROM SDAwosEle as ele WHERE ele.id in(SELECT e.id FROM " + "SDAwosEle as e WHERE e.rpt.otime &lt; ?)
+</pre>
+
+<p>则正常删除了！</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2010/08/23/hqle79a84deletee8afade58fa5e8a7a3e9878ae99499e8afafe58f8ae8a7a3e586b3e696b9e6a188/" data-id="qwxvk2xu3q6ta8xw" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Delete/">Delete</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hibernate/">Hibernate</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hql/">Hql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-androide5bc80e58f91e4b98befbc9asecurity-and-permissions" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2010/08/22/androide5bc80e58f91e4b98befbc9asecurity-and-permissions/" class="article-date">
+  <time datetime="2010-08-22T06:55:07.000Z" itemprop="datePublished">Aug 22 2010</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/08/22/androide5bc80e58f91e4b98befbc9asecurity-and-permissions/">Android开发之：Security and Permissions</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android系统是一个多进程系统，每个程序（系统的一部分）都是在自己的进程中运行。大部分程序与系统之间的安全保障是通过标准的linux进程级别方法实现的，比如说：用户和用户组ID（<span style="color: red;">每个程序都被分配一个唯一用户ID</span>）。另外”permission”机制也提供了细颗粒度的安全特性，这种机制限制了特定的操作由一个特定的进程来执行，并且每个permisstion提供一个URI来保证访问特定的数据集。</p>
+<p><strong>Security Architecture</strong><br>Android安全架构的中心设计思想就是：默认没有任何一个程序可以运行任何会影响其他程序的操作，不论是操作系统或用户进程。这包括了读写用户的私人数据（例如：联系人、e-mails），读写其他程序的文件，连接网络，保持设备工作等等。</p>
+<p>一个应用程序进程运行在一个安全沙箱之中。这个沙箱被设计用于防止程序之间相互扰乱，除了明确的声明了基本的sandbox所不能提供的额外的<em>permissions</em>。这个系统处理permissions请求的方法有很多，典型的方法是通过验证或者让用户决定来确定允许与否。一个应用程序的permissions在程序内部被事先声明了，所以它们<span style="color: red;">在安装的时候就决定了权限并且之后不会改变！</span></p>
+<p><strong>Application Signing</strong><br>所有的Android程序（.apk文件）必须被一个认证签名，这些认证的私有key是由他们的开发者所持有的。这个认证标志着程序的作者。如下情况时程序不需要被认证权限签名：它是完全允许的、典型的使用自我签名认证的android程序。这个认证只用于建立程序之间信任关系，而不是用于控制是否一个程序能被安装。<span style="color: red;">签名影响安全的最重大的方法就是通过决定：谁可以访问基于签名的permissions，谁可以共享用户ID</span>。</p>
+<p><strong>User IDs and File Access</strong><br><span style="color: red;">每个被安装到设备上的Android包（.apk）文件都被指定一个唯一的linux用户ID，用于为这个程序创建一个沙箱并且防止它访问其他程序（或防止其他程序访问它）。</span>用户ID会在程序安装的时候被指定，并且在程序的整个生命中都不会改变（知道被卸载）。</p>
+<p>因为安全执行保障运行于进程级别，而且不同的程序由不同的Linux用户执行，所以两个程序包的代码不会在同一个进程中执行！你可以使用AndroidManifest.xml文件中的manifest标签的属性<a href="http://androidappdocs.appspot.com/reference/android/R.attr.html#sharedUserId" target="_blank" rel="external">sharedUserId</a>来给每个程序包分配一个相同的id。当进行此操作时，为了安全的目的，这两个包会被当作同一个程序处理（拥有相同用户id和文件权限）。注意：为了保证安全，只有当两个程序签了相同的签名（并且请求了相同的共享id）才会被给予相同的用户id。</p>
+<p><span style="color: red;">任何被程序存储的数据文件会被分配此程序的用户id，并且通常不能被其他包访问。</span>当 用getSharedPreferences(String, int), openFileOutput(String,  int),或者openOrCreateDatabase(String, int,  SQLiteDatabase.CursorFactory)来创建新文件时，你可以使用MODE_WORLD_READABLE 和/或  MODE_WORLD_WRITEABLE标志位来允许任何其他包读写文件。当设置那些标志位时，文件仍旧被你的程序所拥有，但是它的全局读（和/或）写 权限被设置为可用，所以其他程序也可见了。</p>
+<p><strong>Using Permissions</strong><br>一个基本的Android程序没有与之相关联的权限，这就意味着它就不能做任何不利于用户体验或设备上数据的事。为了利用好设备被保护的特性，你必需在你的AndroidManifest.xml文件中包含一个或多个<a href="http://androidappdocs.appspot.com/reference/android/R.styleable.html#AndroidManifestUsesPermission" target="_blank" rel="external">&lt;uses-permission&gt;</a>标签来声明程序需要的权限。</p>
+<p>例如，一个程序需要监控收到短信的权限，如下：</p>
+<pre><code>&amp;lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<span class="code">    package="com.android.app.myapp" &amp;gt;</span>
+
+<span class="code">    &amp;lt;uses-permission android:name="android.permission.RECEIVE_SMS" /&amp;gt;</span>
+
+&amp;lt;/manifest&amp;gt;`<span class="xml"><span class="tag">&lt;/<span class="title">pre</span>&gt;</span></span>
+
+在 程序安装时，程序请求的权限被包安装器所确保。安装器通过检查程序签名所声明的权限、与用户交互来确保程序请求的权限。在程序运行的时候不会向用户请求检 查程序的权限，因为权限在安装时就被保证了，并且如果有权限就可以随意使用这些特性，如果没有权限任何尝试使用这些特性都会失败。
+
+大多数 情况下一个权限操作失败会导致抛出一个异常SecurityException。然而，这不能保证在任何地方都会出现。例如 sendBroadcast(Intent)方法在数据被发送到每个接收者并返回之后检查权限，所以如果权限请求失败你不会收到一个异常。在大多数情况 下，一个请求失败会打印到系统log中。
+
+Android系统提供的系统权限可以在[<span class="link_label">Manifest.permission</span>](<span class="link_url">http://androidappdocs.appspot.com/reference/android/Manifest.permission.html</span>)中找到。<span class="xml"><span class="tag">&lt;<span class="title">span</span> <span class="attribute">style</span>=<span class="value">"color: red;"</span>&gt;</span></span>任何程序可能也会定义和执行它自己的permissions，所以没有一个全面的可用权限的列表。<span class="xml"><span class="tag">&lt;/<span class="title">span</span>&gt;</span></span>
+
+一个特定的权限可能会在很多地方被程序的操作执行：
+</code></pre><ul>
+<li>在调用系统函数时，为了防止程序执行特定的函数；</li>
+<li>在开始一个activity时，为了防止程序启动其他程序的activities；</li>
+<li>在发送和接受广播（broadcasts）时，为了控制谁可以接收你的广播或者谁可以发送广播给你；</li>
+<li>在访问和操作一个content provider；</li>
+<li><p>绑定（Binding）或者开始一个service；</p>
+<p><strong>Declaring and Enforcing Permissions</strong><br>为了执行你自己的permissions，你必须先在AndroidManifest.xml文件中声明使用一个或多个<a href="http://androidappdocs.appspot.com/reference/android/R.styleable.html#AndroidManifestPermission" target="_blank" rel="external">&lt;permission&gt;</a>标签。<br>例如，一个程序想要控制谁可以启动他的其中一个activities，就可以像下面那样声明：</p>
+<pre>`&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.me.app.myapp" &gt;
+
+    &lt;permission android:name="com.me.app.myapp.permission.DEADLY_ACTIVITY"
+        android:label="@string/permlab_deadlyActivity"
+        android:description="@string/permdesc_deadlyActivity"
+        android:permissionGroup="android.permission-group.COST_MONEY"
+        android:protectionLevel="dangerous" /&gt;
+
+&lt;/manifest&gt;`</pre>
+
+<p><a href="http://androidappdocs.appspot.com/reference/android/R.styleable.html#AndroidManifestPermission_protectionLevel" target="_blank" rel="external">&lt;protectionLevel&gt;</a>属性是必要的，它告诉系统如何告诉用户程序在请求权限，或者谁被允许持有那些权限。</p>
+<p><a href="http://androidappdocs.appspot.com/reference/android/R.styleable.html#AndroidManifestPermission_permissionGroup" target="_blank" rel="external">&lt;permissionGroup&gt;</a>属 性是可选的，并且只用于帮助系统显示权限给用户。你通常会想要设置这个属性，在一个标准的系统组(listed in  android.Manifest.permission_group)或者更少情况下你自己定义。它更倾向于使用以及存在的组，所以这简化了显示给用户 的权限UI。</p>
+<p>注意label和description应该被提供给permission。它们是string资源，用来显示给用户。 label应该简短，description是能描述这个权限所保护的功能的关键字。description有两个作用：1.描述这个权限，2.警告用户 权限被授予的副作用！</p>
+<p>如下是CALL_PHONE权限的label和description：</p>
+<pre>`&lt;string name="permlab_callPhone"&gt;directly call phone numbers&lt;/string&gt;
+    &lt;string name="permdesc_callPhone"&gt;Allows the application to call
+        phone numbers without your intervention. Malicious applications may
+        cause unexpected calls on your phone bill. Note that this does not
+        allow the application to call emergency numbers.&lt;/string&gt;`</pre>
+
+<p><span style="color: red;">你可以通过命令<span style="color: green;">adb shell pm list permissions</span>来查看系统已经定义的所有权限。</span>特别关注的是，&lsquo;-s&rsquo;选项可以在一个表单里显示permissions，如下：</p>
+<p><pre>`$ adb shell pm list permissions -s<br>All Permissions:</pre></p>
+<p>Network communication: view Wi-Fi state, create Bluetooth connections, full<br>Internet access, view network state</p>
+<p>Your location: access extra location provider commands, fine (GPS) location,<br>mock location sources for testing, coarse (network-based) location</p>
+<p>Services that cost you money: send SMS messages, directly call phone numbers</p>
+<p>…</p>
+</li>
+</ul>
+<p><strong>Enforcing Permissions in AndroidManifest.xml</strong><br>高层次的权限可以通过修改AndroidManifest.xml文件实现。所需要的只是在所需要的组件上添加一个android:permission属性，声明需要控制的权限。</p>
+<p>Activity   permissions（设置在&lt;activity&gt;标签中）限制了谁可以start这个关联的activity。这个权限会在 Context.startActivity()和Activity.startActivityForResult()时调用。如果调用者没有这个权限 那么会在调用时抛出SecurityException。</p>
+<p>Service  permission（设置在&lt;service&gt;标签中）限制了谁可以start或bind这个关联的service。这个权限会在  Context.startService(),  Context.stopService()和Context.bindService()时被检查。如果调用者没有权限那么会在调用时抛出 SecurityException。</p>
+<p>BroadcastReceiver  permissions（设置在&lt;receiver&gt;标签中）限制了谁可以发送broadcasts给相关的receiver。当系统尝试发 送提交的broadcast给需要的receiver，Context.sendBroadcast()返回时会检查这个权限。结果，没有权限会导致抛出 一个异常给调用者；它不会发送给intent。相同地，Context.registerReceiver()时也需要权限来控制谁可以程序上注册成为 receiver。另外，当调用  Context.sendBroadcast()时也需要权限来限制那个BroadcastReceiver对象被允许接收broadcast（如下）。</p>
+<p>ContentProvider  permissions（设置在&lt;provider&gt;标签中）限制了谁能够访问ContentProvider中的数据。（Content  providers有一个用于调用的重要的附加安全设施叫做URI  permissions，这个接下来会描述。）不想其他组件，这有两个属性可以用来设置权限：android:readPermission限制读权 限,android:writePermission限制写权限。注意如果一个provider拥有了读写两个权限，拥有写的权限并不能保证可以读取 provider。权限会在取得provider时检查（如果没有权限，则抛出异常），并且你在provider上操作时也会检查。使用  ContentResolver.query()需要持有读权限；使用ContentResolver.insert(),  ContentResolver.update(),  ContentResolver.delete()需要持有写权限。在所有那些情况下，没有权限执行操作会抛出异常。</p>
+<p><strong>Enforcing Permissions when Sending Broadcasts</strong><br>为 了补充谁能够发送Intents给注册的BroadcastReceiver的权限控制（之前提到过），你也可以在发送一个broadcast时指定一个 需要的权限。通过调用  Context.sendBroadcast()和一个权限字符串，你需要接收者的程序必须持有那个权限来接收你的broadcast。</p>
+<p>注意一个receiver和broadcaster可以请求一个权限。当这发生时，这两个权限的检查都必需同通过后才能发送Intent给相关联的目标。</p>
+<p><strong>Other Permission Enforcement</strong><br>我 们无法武断地保证权限你可以在service中调用其资源。我们可以通过Context.checkCallingPermission()方法来检查是 否拥有此权限。这个函数需要一个权限字符串，并且返回一个integer表明是否被保证有用此权限。注意这只能被用在你执行调用其他进程的基础上，通常通 过IDL接口从service发布或者其他方法给其他进程。</p>
+<p>还有很多有用的方法来检查permissions。如果你有另外一个程序的 pid，你可以使用Context方法 Context.checkPermission(String, int,  int)来检查是否有权限于那个对应的进程。如果你有其他程序的package名字，你可以使用直接的PackageManager方法 PackageManager.checkPermission(String, String)来找到一个具体的包是否授予了一个特定的权限给你。</p>
+<p><strong>URI Permissions</strong><br>当 使用content providers的时候，标准的permission系统描述的大多不够充足。一个content  provider可以想要保护它自己的读写权限，然而它的直接客户端也需要处理操作其他特定程序的URIs。一个典型的例子就是mail程序的附件。访问 一个mail的权限需要被保护，因为这些用户数据是敏感的。然而，如果一个URI图像附件的权限也被授权给了图像显示程序，那么图像显示程序就没有权限打 开附件因为它没有理由持有一个访问e-mail的权限。</p>
+<p>这个问题的解决方案是每个权限一个URI：<span style="color: orange;">当 开始一个activity或者返回一个结果给activity时，调用者可以设置  Intent.FLAG_GRANT_READ_URI_PERMISSION 与/或  Intent.FLAG_GRANT_WRITE_URI_PERMISSION。这保证了接收activity的权限来访问Intent中指定的数据的 URI，无论它是否有权限来访问相应的Intent的content provider中的数据。</span></p>
+<p>这个机制提供了一个用于用户交互（打开附件、从列表中选择联系人等等）的常用的功能式的模型。这可能是最关键的用于减少权限需要的功能。</p>
+<p>以上方法实现了细颗粒度的URI权限控制，然而，需要content provider持有那些URIs。强烈推荐contentproviders实现这些功能，并且通过<a href="http://androidappdocs.appspot.com/reference/android/R.styleable.html#AndroidManifestProvider_grantUriPermissions" target="_blank" rel="external">android:grantUriPermissions</a>属性或者<a href="http://androidappdocs.appspot.com/reference/android/R.styleable.html#AndroidManifestGrantUriPermission" target="_blank" rel="external">&lt;grant-uri-permissions&gt;</a>标签来声明支持。</p>
+<p>更多的信息可以在 <a href="http://androidappdocs.appspot.com/reference/android/content/Context.html#grantUriPermission%28java.lang.String,%20android.net.Uri,%20int%29" target="_blank" rel="external">Context.grantUriPermission()</a>, <a href="http://androidappdocs.appspot.com/reference/android/content/Context.html#revokeUriPermission%28android.net.Uri,%20int%29" target="_blank" rel="external">Context.revokeUriPermission()</a>,和<a href="http://androidappdocs.appspot.com/reference/android/content/Context.html#checkUriPermission%28android.net.Uri,%20int,%20int,%20int%29" target="_blank" rel="external">Context.checkUriPermission()</a>方法中找到。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2010/08/22/androide5bc80e58f91e4b98befbc9asecurity-and-permissions/" data-id="ig0uqkwaoxfi3knu" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+  
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/javascript/">javascript</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/javascript/Other/">Other</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/UI/">UI</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/design/">design</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/design/UI/">UI</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/design/javascript/">javascript</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">52</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/Other/">Other</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/Other/UI/">UI</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/UI/">UI</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/未分类/">未分类</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/&gt;/">&gt;</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/&lt;/">&lt;</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/++/">++</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/16/">1.6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalid/">:invalid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/valid/">:valid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/@PostConstruct/">@PostConstruct</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/">AOP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Closures/">Closures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Constraint-Validation/">Constraint Validation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DSL/">DSL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Delete/">Delete</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DoctorJS/">DoctorJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-6/">ECMAScript 6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/File/">File</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Geolocation/">Geolocation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Get/">Get</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/H5F/">H5F</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hibernate/">Hibernate</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hql/">Hql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IE/">IE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSLint/">JSLint</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONP/">JSONP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/">Math</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mobile-Safari/">Mobile Safari</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeList/">NodeList</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OAuth/">OAuth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/">OOP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ObjectdefineProperty/">Object.defineProperty</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OneTask/">OneTask</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Other/">Other</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PPT/">PPT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Package/">Package</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PrototypeJS/">PrototypeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SimpleSVGMap/">SimpleSVGMap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sinon/">Sinon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SyntaxHighlighter/">SyntaxHighlighter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SyntaxHighlighter-Evolved/">SyntaxHighlighter Evolved</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TheSimplest/">TheSimplest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI/">UI</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webshims/">Webshims</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/and/">and</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ant/">ant</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/arguments/">arguments</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/attr/">attr</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/auto/">auto</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/br/">br</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bug/">bug</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/canvas/">canvas</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/checkbox/">checkbox</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/class/">class</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/classloader/">classloader</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/click/">click</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocos2d-javascript/">cocos2d-javascript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding/">coding</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/contenteditable/">contenteditable</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/context/">context</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css-target/">css target</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css3/">css3</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/db2/">db2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/emphasis/">emphasis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/event/">event</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/false/">false</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/filter/">filter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/firefox/">firefox</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/getElementByTagName/">getElementByTagName</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/google-code-prettify/">google-code-prettify</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grayScale/">grayScale</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html解析/">html解析</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ifElse/">ifElse</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/image/">image</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inline/">inline</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/input/">input</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios/">ios</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQueryemphasis/">jQuery.emphasis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-bean/">java bean</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascri/">javascri</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">46</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsoup/">jsoup</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label/">label</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/margin/">margin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/memorize/">memorize</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mocks/">mocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/module/">module</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/module-loader/">module loader</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/moon/">moon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mozilla/">mozilla</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nudging/">nudging</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/overflow/">overflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/overflowchanged/">overflowchanged</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plugin/">plugin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pre/">pre</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presentation/">presentation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prop/">prop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prototype/">prototype</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/querySelectorAll/">querySelectorAll</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/referer/">referer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/safari/">safari</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scope/">scope</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setMonth/">setMonth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spies/">spies</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/">spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stubs/">stubs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/style/">style</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sun/">sun</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svg/">svg</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tdd/">tdd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/text/">text</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/text-emphasis/">text-emphasis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/text-size-adjust/">text-size-adjust</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/true/">true</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/type/">type</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/underflow/">underflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/watchjs/">watch.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/weakmap/">weakmap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webStorage/">webStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/white-space/">white-space</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windowname/">window.name</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/">wordpress</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/上下文/">上下文</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/中文乱码/">中文乱码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/中点/">中点</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/主题/">主题</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二进制/">二进制</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/传参/">传参</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/作用域/">作用域</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/使用方法/">使用方法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/函数式编程/">函数式编程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分时处理/">分时处理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端组件/">前端组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/十进制/">十进制</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/十进制与二进制/">十进制与二进制</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原型链/">原型链</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原码/">原码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/反码/">反码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/叠加/">叠加</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/命令/">命令</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式设计/">响应式设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/囚犯与灯泡/">囚犯与灯泡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/圆规/">圆规</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/块框/">块框</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/塌陷/">塌陷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多行匹配/">多行匹配</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字体/">字体</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安装步骤/">安装步骤</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小数/">小数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/居中/">居中</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/幻灯片/">幻灯片</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/循环依赖/">循环依赖</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/换行/">换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/换行符/">换行符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/整数/">整数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/新浪微博/">新浪微博</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/替换元素/">替换元素</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试框架/">测试框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/浮点数计算/">浮点数计算</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/灰阶化/">灰阶化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/着重符/">着重符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/移码/">移码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/空白符/">空白符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/等高布局/">等高布局</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/类型推理/">类型推理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/约束验证/">约束验证</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程模型/">线程模型</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缩放/">缩放</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/能力域/">能力域</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/行内元素/">行内元素</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/补码/">补码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观察者模式/">观察者模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/记住密码/">记住密码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/跨域/">跨域</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/跨域请求/">跨域请求</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/转换/">转换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/通知/">通知</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/重构/">重构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/钢之炼金术师/">钢之炼金术师</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/闭包/">闭包</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/霓虹灯/">霓虹灯</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/非替换元素/">非替换元素</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面向对象/">面向对象</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面向方面/">面向方面</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/风格/">风格</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高宽自动扩展/">高宽自动扩展</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/&gt;/" style="font-size: 10.00px;">&gt;</a><a href="/tags/&lt;/" style="font-size: 10.00px;">&lt;</a><a href="/tags/++/" style="font-size: 10.00px;">++</a><a href="/tags/16/" style="font-size: 10.00px;">1.6</a><a href="/tags/invalid/" style="font-size: 10.00px;">:invalid</a><a href="/tags/valid/" style="font-size: 10.00px;">:valid</a><a href="/tags/@PostConstruct/" style="font-size: 10.00px;">@PostConstruct</a><a href="/tags/AOP/" style="font-size: 13.33px;">AOP</a><a href="/tags/Android/" style="font-size: 10.00px;">Android</a><a href="/tags/Closures/" style="font-size: 10.00px;">Closures</a><a href="/tags/Constraint-Validation/" style="font-size: 10.00px;">Constraint Validation</a><a href="/tags/DSL/" style="font-size: 10.00px;">DSL</a><a href="/tags/Delete/" style="font-size: 10.00px;">Delete</a><a href="/tags/DoctorJS/" style="font-size: 10.00px;">DoctorJS</a><a href="/tags/ECMAScript-6/" style="font-size: 10.00px;">ECMAScript 6</a><a href="/tags/File/" style="font-size: 10.00px;">File</a><a href="/tags/Geolocation/" style="font-size: 10.00px;">Geolocation</a><a href="/tags/Get/" style="font-size: 10.00px;">Get</a><a href="/tags/H5F/" style="font-size: 10.00px;">H5F</a><a href="/tags/Hibernate/" style="font-size: 16.67px;">Hibernate</a><a href="/tags/Hql/" style="font-size: 10.00px;">Hql</a><a href="/tags/IE/" style="font-size: 10.00px;">IE</a><a href="/tags/JSLint/" style="font-size: 10.00px;">JSLint</a><a href="/tags/JSONP/" style="font-size: 10.00px;">JSONP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Javascript/" style="font-size: 10.00px;">Javascript</a><a href="/tags/Math/" style="font-size: 10.00px;">Math</a><a href="/tags/Mobile-Safari/" style="font-size: 10.00px;">Mobile Safari</a><a href="/tags/NodeList/" style="font-size: 10.00px;">NodeList</a><a href="/tags/OAuth/" style="font-size: 10.00px;">OAuth</a><a href="/tags/OOP/" style="font-size: 10.00px;">OOP</a><a href="/tags/ObjectdefineProperty/" style="font-size: 10.00px;">Object.defineProperty</a><a href="/tags/OneTask/" style="font-size: 10.00px;">OneTask</a><a href="/tags/Other/" style="font-size: 10.00px;">Other</a><a href="/tags/PPT/" style="font-size: 10.00px;">PPT</a><a href="/tags/Package/" style="font-size: 10.00px;">Package</a><a href="/tags/PrototypeJS/" style="font-size: 10.00px;">PrototypeJS</a><a href="/tags/SimpleSVGMap/" style="font-size: 10.00px;">SimpleSVGMap</a><a href="/tags/Sinon/" style="font-size: 10.00px;">Sinon</a><a href="/tags/SyntaxHighlighter/" style="font-size: 10.00px;">SyntaxHighlighter</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">March 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">February 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10">October 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09">September 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06">June 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/03">March 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12">December 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07">July 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06">June 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05">May 2011</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03">March 2011</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01">January 2011</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12">December 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11">November 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10">October 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09">September 2010</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08">August 2010</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06">June 2010</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2014/09/02/Atom-Shell入门/">Atom Shell入门</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/让你的站点支持触屏/">让你的站点支持触屏</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/[译]学习CSS布局/">[译]学习CSS布局</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/中文排版二三事/">中文排版二三事</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/hello-world/">CSS Counters</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 mzhou / zmmbreeze<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>约束验证：网页表单的本地客户端验证 | MZhou&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="译者言：此文翻译自Constraint Validation: Native Client Side Validation for Web Forms众所周知，验证表单一直有很痛苦的开发体验。实现一种用户体验好、开发体验好且可访问性好的客户端验证是很困难的事情。在HTML5出现之前没有一种本地实现的验证，所以开发者使用了各种各样基于javascript的验证方案。
+
+为了解放开发者，HTML5引">
+<meta property="og:type" content="article">
+<meta property="og:title" content="约束验证：网页表单的本地客户端验证">
+<meta property="og:url" content="http://nodejs.in/2012/10/22/e7baa6e69d9fe9aa8ce8af81efbc9ae7bd91e9a1b5e8a1a8e58d95e79a84e69cace59cb0e5aea2e688b7e7abafe9aa8ce8af81/">
+<meta property="og:site_name" content="MZhou's blog">
+<meta property="og:description" content="译者言：此文翻译自Constraint Validation: Native Client Side Validation for Web Forms众所周知，验证表单一直有很痛苦的开发体验。实现一种用户体验好、开发体验好且可访问性好的客户端验证是很困难的事情。在HTML5出现之前没有一种本地实现的验证，所以开发者使用了各种各样基于javascript的验证方案。
+
+为了解放开发者，HTML5引">
+<meta property="og:image" content="http://mzhou.me/wp-content/uploads/2012/10/demo-01.png">
+<meta property="og:image" content="http://mzhou.me/wp-content/uploads/2012/10/demo-02.png">
+<meta property="og:image" content="http://mzhou.me/wp-content/uploads/2012/10/demo-03.png">
+<meta property="og:image" content="http://mzhou.me/wp-content/uploads/2012/10/demo-04.png">
+<meta property="og:image" content="http://mzhou.me/wp-content/uploads/2012/10/demo-05-300x108.png">
+<meta property="og:image" content="http://mzhou.me/wp-content/uploads/2012/10/demo-06-300x111.png">
+<meta property="og:image" content="http://mzhou.me/wp-content/uploads/2012/10/demo-07-300x102.jpg">
+<meta property="og:image" content="http://mzhou.me/wp-content/uploads/2012/10/demo-08.png">
+<meta property="og:image" content="http://mzhou.me/wp-content/uploads/2012/10/demo-09.png">
+<meta property="og:image" content="http://mzhou.me/wp-content/uploads/2012/10/demo-12.png">
+<meta property="og:image" content="http://mzhou.me/wp-content/uploads/2012/10/demo-11.png">
+<meta property="og:image" content="http://mzhou.me/wp-content/uploads/2012/10/demo-12.png">
+<meta property="og:image" content="http://mzhou.me/wp-content/uploads/2012/10/demo-13.jpg">
+<meta property="og:image" content="http://mzhou.me/wp-content/uploads/2012/10/demo-14.png">
+<meta property="og:image" content="http://mzhou.me/wp-content/uploads/2012/10/demo-15.png">
+<meta property="og:image" content="http://mzhou.me/wp-content/uploads/2012/10/demo-16.png">
+<meta property="og:image" content="http://mzhou.me/wp-content/uploads/2012/10/demo-17.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="约束验证：网页表单的本地客户端验证">
+<meta name="twitter:description" content="译者言：此文翻译自Constraint Validation: Native Client Side Validation for Web Forms众所周知，验证表单一直有很痛苦的开发体验。实现一种用户体验好、开发体验好且可访问性好的客户端验证是很困难的事情。在HTML5出现之前没有一种本地实现的验证，所以开发者使用了各种各样基于javascript的验证方案。
+
+为了解放开发者，HTML5引">
+
+  
+    <link rel="alternative" href="/atom.xml" title="MZhou&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">MZhou&#39;s blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">专注于Web前端开发！</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://nodejs.in"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-e7baa6e69d9fe9aa8ce8af81efbc9ae7bd91e9a1b5e8a1a8e58d95e79a84e69cace59cb0e5aea2e688b7e7abafe9aa8ce8af81" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/10/22/e7baa6e69d9fe9aa8ce8af81efbc9ae7bd91e9a1b5e8a1a8e58d95e79a84e69cace59cb0e5aea2e688b7e7abafe9aa8ce8af81/" class="article-date">
+  <time datetime="2012-10-22T03:25:31.000Z" itemprop="datePublished">Oct 22 2012</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>►<a class="article-category-link" href="/categories/javascript/Other/">Other</a>►<a class="article-category-link" href="/categories/javascript/Other/UI/">UI</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      约束验证：网页表单的本地客户端验证
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>译者言：此文翻译自<a href="http://www.html5rocks.com/en/tutorials/forms/constraintvalidation/" target="_blank" rel="external">Constraint Validation: Native Client Side Validation for Web Forms</a><br>众所周知，验证表单一直有很痛苦的开发体验。实现一种用户体验好、开发体验好且可访问性好的客户端验证是很困难的事情。在HTML5出现之前没有一种本地实现的验证，所以开发者使用了各种各样基于javascript的验证方案。</p>
+</blockquote>
+<p>为了解放开发者，HTML5引入了<a href="http://www.whatwg.org/specs/web-apps/current-work/#constraint-validation" target="_blank" rel="external">约束验证</a>的概念，一种本地实现的网页表单验证。</p>
+<p>尽管所有主流浏览器的最新版本都支持了这个特性，约束验证目前还仅限于展示和demo的阶段。写这篇文章的目的就是帮助开发了解这个新的api，做出更好的网页表单。</p>
+<p>在这个教程中作者会：</p>
+<ol>
+<li>全面地展示约束验证是什么；</li>
+<li>发现现今标准和浏览器实现上的限制；</li>
+<li>讨论现在如何在你的表单中使用约束验证；</li>
+</ol>
+<h2 id="约束验证是什么？">约束验证是什么？</h2>
+<p>约束验证的核心是浏览器在提交表单时判断其是否合法的算法。为了做这个判断，算法利用了几个新的HTML5属性：<a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-input-min" target="_blank" rel="external">min</a>、<a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-input-max" target="_blank" rel="external">max</a>、<a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-input-step" target="_blank" rel="external">step</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/#the-pattern-attribute" target="_blank" rel="external">pattern</a>, 和 <a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-input-required" target="_blank" rel="external">required</a> 以及已经存在的 <a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-fe-maxlength" target="_blank" rel="external">maxlength</a> 和 <a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-input-type" target="_blank" rel="external">type</a>。</p>
+<p>下面的这个例子中Text input使用了一个值为空的 <code>required</code> 属性：</p>
+<p>[html]<br>&lt;form&gt;<br>  &lt;input type=&quot;text&quot; value=&quot;&quot; required /&gt;<br>&lt;/form&gt;<br>[/html]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/HdSqt/" target="_blank" rel="external">在线查看demo</a></p>
+<p>如果你在<a href="http://caniuse.com/#feat=form-validation" target="_blank" rel="external">支持约束验证的浏览器</a>中提交表单，那么浏览器会阻止表单提交并显示成如下效果：</p>
+<p>Chrome 21</p>
+<p><pre><a href="http://mzhou.me/article/95798/demo-01/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-01.png" alt="" title="demo-01"></a></pre><br>Firefox 15</p>
+<p><a href="http://mzhou.me/article/95798/demo-02/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-02.png" alt="" title="demo-02"></a></p>
+<p>Internet Explorer 10</p>
+<p><a href="http://mzhou.me/article/95798/demo-03/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-03.png" alt="" title="demo-03"></a><br>Opera 12</p>
+<p><a href="http://mzhou.me/article/95798/demo-04/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-04.png" alt="" title="demo-04"></a><br>Opera Mobile</p>
+<p><a href="http://mzhou.me/article/95798/demo-05/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-05-300x108.png" alt="" title="demo-05"></a><br>Chrome for Android</p>
+<p><a href="http://mzhou.me/article/95798/demo-06/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-06-300x111.png" alt="" title="demo-06"></a><br>Firefox for Android</p>
+<p><a href="http://mzhou.me/article/95798/demo-07/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-07-300x102.jpg" alt="" title="demo-07"></a></p>
+<p>标准中没有规定浏览器应该如何显示错误信息，这是由浏览器自己约定的。不过标准提供了一套DOM API、新HTML属性和CSS钩子帮助开发者自定义样式。</p>
+<h2 id="DOM_API">DOM API</h2>
+<p><a href="http://www.whatwg.org/specs/web-apps/current-work/#constraint-validation-api" target="_blank" rel="external">约束验证的API</a>添加了如下属性和方法到DOM节点中。</p>
+<h3 id="WILLVALIDATE">WILLVALIDATE</h3>
+<p><code>willValidate</code> 属性标识了这个DOM节点是否使用约束验证。对于<a href="http://www.whatwg.org/specs/web-apps/current-work/#category-submit" target="_blank" rel="external">可以提交的元素</a>来说这个属性会被设置成 <code>true</code> 除非因为某些原因被<a href="http://www.whatwg.org/specs/web-apps/current-work/#barred-from-constraint-validation" target="_blank" rel="external">禁止使用约束验证</a>，例如有 <code>disabled</code> 属性时。</p>
+<p>[html]<br>&lt;div id=&quot;one&quot;&gt;&lt;/div&gt;</p>
+<p>&lt;input id=&quot;two&quot; type=&quot;text&quot; /&gt;<br>&lt;input id=&quot;three&quot; type=&quot;text&quot; disabled /&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>    document.getElementById(‘one’).willValidate; //false<br>    document.getElementById(‘two’).willValidate; //true<br>    document.getElementById(‘three’).willValidate; //false<br>&lt;/script&gt;<br>[/html]</p>
+<h3 id="validity">validity</h3>
+<p>Dom节点的<a href="http://www.whatwg.org/specs/web-apps/current-work/#dom-cva-validity" target="_blank" rel="external"><code>validity</code></a> 属性会返回一个 <a href="http://www.whatwg.org/specs/web-apps/current-work/#validitystate" target="_blank" rel="external"><code>ValidityState</code></a>对象，它包含了一系列与节点相关的布尔属性的验证结果。</p>
+<ul>
+<li><code>customError</code>: <code>true</code> 标识是否使用了自定义的验证消息，可以通过<code>setCustomValidity()</code>来设置验证消息；<br>[html]<br>&lt;input id=&quot;foo&quot; type=&quot;text&quot; /&gt;<br>&lt;input id=&quot;bar&quot; type=&quot;text&quot; /&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>document.getElementById(‘foo’).validity.customError; //false<br>document.getElementById(‘bar’).setCustomValidity(‘Invalid’);<br>document.getElementById(‘bar’).validity.customError; //true<br>&lt;/script&gt;<br>[/html]</li>
+<li><code>patternMismatch</code>: <code>true</code> 标识节点的 <code>value</code> 是否匹配它的 <code>pattern</code> 属性值。<br>[html]<br>&lt;input id=&quot;foo&quot; type=&quot;text&quot; value=&quot;1234&quot; pattern=&quot;[0-9]{4}&quot; /&gt;<br>&lt;input id=&quot;bar&quot; type=&quot;text&quot; value=&quot;ABCD&quot; pattern=&quot;[0-9]{4}&quot;/&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>document.getElementById(‘foo’).validity.patternMismatch; //false<br>document.getElementById(‘bar’).validity.patternMismatch; //true<br>&lt;/script&gt;<br>[/html]</li>
+<li><code>rangeOverflow</code>: <code>true</code> 标识是否节点的 <code>value</code> 比它的 <code>max</code> 属性值还大。<br>[html]<br>&lt;input id=&quot;foo&quot; type=&quot;number&quot; value=&quot;1&quot; max=&quot;2&quot;/&gt;<br>&lt;input id=&quot;bar&quot; type=&quot;number&quot; value=&quot;3&quot; max=&quot;2&quot;/&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>document.getElementById(‘foo’).validity.rangeOverflow; //false<br>document.getElementById(‘bar’).validity.rangeOverflow; //true<br>&lt;/script&gt;<br>[/html]</li>
+<li><code>rangeUnderflow</code>: <code>true</code> 标识是否节点的 <code>value</code>比它的<code>min</code>属性值还小。<br>[html]<br>&lt;input id=&quot;foo&quot; type=&quot;number&quot; value=&quot;3&quot; min=&quot;2&quot;/&gt;<br>&lt;input id=&quot;bar&quot; type=&quot;number&quot; value=&quot;1&quot; min=&quot;2&quot;/&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>document.getElementById(‘foo’).validity.rangeUnderflow; //false<br>document.getElementById(‘bar’).validity.rangeUnderflow; //true<br>&lt;/script&gt;<br>[/html]</li>
+<li><code>stepMismatch</code>: <code>true</code> 标识是否节点的 <code>value</code> 与它的 <code>step</code> 属性值不符合.<br>[html]<br>&lt;input id=&quot;foo&quot; type=&quot;number&quot; value=&quot;4&quot; step=&quot;2&quot;/&gt;<br>&lt;input id=&quot;bar&quot; type=&quot;number&quot; value=&quot;3&quot; step=&quot;2&quot;/&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>document.getElementById(‘foo’).validity.stepMismatch; //false<br>document.getElementById(‘bar’).validity.stepMismatch; //true<br>&lt;/script&gt;<br>[/html]</li>
+<li><code>tooLong</code>: <code>true</code> 标识是否节点的 <code>value</code> 长度超过了 <code>maxlength</code> 属性值。所有的浏览器都会阻止用户输入超过最大长度值的内容。我在<a href="http://tjvantoll.com/2012/10/17/maxlength-constraint-validation-oddities/" target="_blank" rel="external">这里</a>描述了长度会超过maxlength的情况。</li>
+<li><code>typeMismatch</code>: <code>true</code> 标识是否input节点的<code>value</code>与<code>type</code>属性值不匹配。<br>[html]<br>&lt;input id=&quot;foo&quot; type=&quot;url&quot; value=&quot;<a href="http://foo.com&amp;quot" target="_blank" rel="external">http://foo.com&amp;quot</a>; /&gt;<br>&lt;input id=&quot;bar&quot; type=&quot;url&quot; value=&quot;foo&quot; /&gt;<br>&lt;input id=&quot;foo2&quot; type=&quot;email&quot; value=&quot;foo@foo.com&quot; /&gt;<br>&lt;input id=&quot;bar2&quot; type=&quot;email&quot; value=&quot;bar&quot; /&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>document.getElementById(‘foo’).validity.typeMismatch; //false<br>document.getElementById(‘bar’).validity.typeMismatch; //true<br>document.getElementById(‘foo2’).validity.typeMismatch; //false<br>document.getElementById(‘bar2’).validity.typeMismatch; //true<br>&lt;/script&gt;<br>[/html]</li>
+<li><code>valueMissing</code>: <code>true</code> 标识是否节点有 <code>required</code> 属性却没有值.。<br>[html]<br>&lt;input id=&quot;foo&quot; type=&quot;text&quot; value=&quot;foo&quot; required /&gt;<br>&lt;input id=&quot;bar&quot; type=&quot;text&quot; value=&quot;&quot; required/&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>document.getElementById(‘foo’).validity.valueMissing; //false<br>document.getElementById(‘bar’).validity.valueMissing; //true<br>&lt;/script&gt;<br>[/html]</li>
+<li><code>valid</code>: <code>true</code> 标识是否所有的验证提交都满足，有任意一条不满足则为 <code>false</code>。<br>[html]<br>&lt;input id=&quot;valid-1&quot; type=&quot;text&quot; value=&quot;foo&quot; required /&gt;<br>&lt;input id=&quot;valid-2&quot; type=&quot;text&quot; value=&quot;&quot; required/&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>document.getElementById(‘valid-1’).validity.valid; //true<br>document.getElementById(‘valid-2’).validity.valid; //false<br>&lt;/script&gt;<br>[/html]</li>
+</ul>
+<h3 id="VALIDATIONMESSAGE">VALIDATIONMESSAGE</h3>
+<p>Dom节点的 <code>validationMessage</code> 属性包含浏览器显示给用户看的错误信息，即验证出错时候的提示信息。</p>
+<p>浏览器为这个属性提供了一个默认的本地化信息。如果DOM节点不需要验证或者节点包含正确的内容，那么<code>validationMessage</code>会被设置为空字符串。</p>
+<p>注意：在写这篇文章的时候，Opera默认不会填充这个属性。</p>
+<p>[html]<br>&lt;input id=&quot;foo&quot; type=&quot;text&quot; required/&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>    document.getElementById(‘foo’).validationMessage;<br>    //Chrome  —&gt; ‘Please fill out this field.’<br>    //Firefox —&gt; ‘Please fill out this field.’<br>    //Safari  —&gt; ‘value missing’<br>    //IE10    —&gt; ‘This is a required field.’<br>    //Opera   —&gt; ‘’<br>&lt;/script&gt;<br>[/html]</p>
+<h3 id="CHECKVALIDITY()">CHECKVALIDITY()</h3>
+<p>表单元素节点（例如：input、select、textarea）的<code>checkValidity</code>方法在元素包含正确内容的时候会返回 <code>true。</code></p>
+<p>表单（form）节点的<code>checkValidity</code>方法会在其所有子节点都包含正确内容的时候返回<code>true</code>。</p>
+<p>[html]<br>&lt;form id=&quot;form-1&quot;&gt;<br>  &lt;input id=&quot;input-1&quot; type=&quot;text&quot; required/&gt;<br>&lt;/form&gt;<br>&lt;form id=&quot;form-2&quot;&gt;<br>  &lt;input id=&quot;input-2&quot; type=&quot;text&quot; /&gt;<br>&lt;/form&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>    document.getElementById(‘form-1’).checkValidity();  //false<br>    document.getElementById(‘input-1’).checkValidity(); //false<br>    document.getElementById(‘form-2’).checkValidity();  //true<br>    document.getElementById(‘input-2’).checkValidity(); //true<br>&lt;/script&gt;<br>[/html]</p>
+<p>另外，每次通过<code>checkValidity</code>方法验证表单元素正确性的时候且验证失败，出错节点的<code>invalid</code>事件会被触发。使用上面的样例代码时候，如果你想在id为<code>input-1</code>的节点验证失败时运行一些代码，那么你可以使用如下的代码：</p>
+<p>[js]<br>document.getElementById(‘input-1’).addEventListener(‘invalid’, function() {<br>    //…<br>}, false);<br>[/js]</p>
+<p>虽然没有<code>valid</code>事件，不过你可以使用<code>change</code>事件来通知输入元素的验证改变事件。</p>
+<p>[js]<br>document.getElementById(‘input-1’).addEventListener(‘change’, function(event) {<br>    if (event.target.validity.valid) {<br>        //Field contains valid data.<br>    } else {<br>        //Field contains invalid data.<br>    }<br>}, false);<br>[/js]</p>
+<h3 id="SETCUSTOMVALIDITY()">SETCUSTOMVALIDITY()</h3>
+<p><code>setCustomValidity</code>方法改变了<code>validationMessage</code>属性，也允许你添加自定义的验证规则。</p>
+<p>因为它可以设置<code>validationMessage</code>，所以设置其为一个空字符串的时候表明验证正确，设置其他字符串的时候表明验证失败。不幸地是，没有办法设置 <code>validationMessage</code> 的同时，不改变表单元素的验证状态。</p>
+<p>例如，如果你有两个密码输入框，你希望强制它们的输入内容一致。那么你可以这么写：</p>
+<p>[js]<br>if (document.getElementById(‘password1’).value != document.getElementById(‘password2’).value) {<br>    document.getElementById(‘password1’).setCustomValidity(‘Passwords must match.’);<br>} else {<br>    document.getElementById(‘password1’).setCustomValidity(‘’);<br>}<br>[/js]</p>
+<h2 id="HTML属性">HTML属性</h2>
+<p>我们已经知道了<code>maxlength</code>, <code>min</code>, <code>max</code>, <code>step</code>, <code>pattern</code>和 <code>type</code> 属性会被浏览器用来约束输入内容。相应地约束验证也有两个附加的属性 <code>novalidate</code> 和 <code>formnovalidate</code>。</p>
+<h3 id="NOVALIDATE">NOVALIDATE</h3>
+<p><code>novalidate</code>属性会被用在表单节点（form）上。当使用这个属性的时候，就表示表单所有的输入内容在提交时不需要验证了。</p>
+<p>[html]<br>&lt;form novalidate&gt;<br> &lt;input type=&quot;text&quot; required/&gt;<br> &lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;<br>&lt;/form&gt;<br>[/html]</p>
+<p>上例代码中因为有<code>novalidate</code>属性，所以尽管输入为空还是会提交表单。</p>
+<h3 id="FORMNOVALIDATE">FORMNOVALIDATE</h3>
+<p><code>formnovalidate</code>属性是一个布尔属性，它可以被用在button和input节点上，来阻止提交时验证此节点。例如：</p>
+<p>[html]<br>&lt;form&gt;<br> &lt;input type=&quot;text&quot; required/&gt;<br> &lt;input type=&quot;submit&quot; value=&quot;Validate&quot; /&gt;<br> &lt;input type=&quot;submit&quot; value=&quot;Do NOT Validate&quot; formnovalidate /&gt;<br>&lt;/form&gt;<br>[/html]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/5nD83/" target="_blank" rel="external">试一下demo</a></p>
+<p>当“Validate”按钮被点击来提交表单的时候，会因为输入为空而被阻止提交。然而，当“Do NOT Validate”按钮被点击来提交表单的时候不会被阻止，因为使用了 <code>formnovalidate</code> 属性。</p>
+<h2 id="CSS钩子">CSS钩子</h2>
+<p>在写高质量的表单验证时，错误信息本身很重要，如何以一个好的体验显示错误信息给用户也是很重要的。所以浏览器提供了一个CSS钩子给开发者。</p>
+<h3 id=":INVALID_AND_:VALID">:INVALID AND :VALID</h3>
+<p>在支持此特性的浏览器中，伪类选择符<code>:valid</code>会匹配表单中通过验证的元素，而伪类选择符<code>:invalid</code>会匹配表单中没有通过验证的元素。</p>
+<p>[html]<br>&lt;form&gt;<br> &lt;input id=&quot;foo&quot; type=&quot;text&quot; required /&gt;<br> &lt;input id=&quot;bar&quot; type=&quot;text&quot; /&gt;<br>&lt;/form&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;// &lt;![CDATA[<br>    document.querySelectorAll(‘input[type=&quot;text&quot;]:invalid’); //Matches input#foo<br>    document.querySelectorAll(‘input[type=&quot;text&quot;]:valid’);   //Matches input#bar<br>// ]]&gt;&lt;/script&gt;<br>[/html]</p>
+<h3 id="重置默认样式">重置默认样式</h3>
+<p>默认FIrefox会在<code>:invalid</code> 元素上放一个红色的<code>box-shadow</code>，而IE10会显示红色的<code>outline。</code></p>
+<p>Firefox 15</p>
+<p><a href="http://mzhou.me/article/95798/demo-08/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-08.png" alt="" title="demo-08"></a><br>Internet Explorer 10</p>
+<p><a href="http://mzhou.me/article/95798/demo-09/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-09.png" alt="" title="demo-09"></a></p>
+<p>基于WebKit的浏览器和Opera默认不会做任何事情。如果你喜欢保持一致性，那么你可以用如下的方法来重写默认样式：</p>
+<p>[css]<br>:invalid {<br>    box-shadow: none; /<em> FF </em>/<br>    outline: 0;       /<em> IE 10 </em>/<br>}<br>[/css]</p>
+<p>作者已经提交了一个<a href="https://github.com/necolas/normalize.css/pull/124" target="_blank" rel="external">pull request</a>来讨论如何在<a href="https://github.com/necolas/normalize.css" target="_blank" rel="external">normalize.css</a>处理其一致性。</p>
+<h2 id="验证气泡">验证气泡</h2>
+<p>一个更大的差异是浏览器显示错误域的验证气泡外观。遗憾的是，Webkit是唯一一个提供开发者自定义气泡的渲染引擎。在Webkit中，开发者可以使用4个伪元素选择符来自定义气泡样式：</p>
+<p>[css]<br>::-webkit-validation-bubble {}<br>::-webkit-validation-bubble-message {}<br>::-webkit-validation-bubble-arrow {}<br>::-webkit-validation-bubble-arrow-clipper {}<br>[/css]</p>
+<h3 id="移除默认气泡">移除默认气泡</h3>
+<p>因为你只可以在Webkit中修改气泡外观，如果你想要一个跨浏览器的自定义外观，那么只能取消默认的气泡并实现一个自己的样式。以下代码可以关闭一个页面上所有表单的默认验证气泡：</p>
+<p>[js]<br>var forms = document.getElementsByTagName(‘form’);<br>for (var i = 0; i &lt; forms.length; i++) {<br>    forms[i].addEventListener(‘invalid’, function(e) {<br>        e.preventDefault();<br>        //Possibly implement your own here.<br>    }, true);<br>}<br>[/js]</p>
+<p>如果你取消了默认的气泡，那么确保你会在表单错误的时候将错误显示出来。目前，气泡是浏览器唯一一种用来显示错误的方式。</p>
+<h2 id="目前的浏览器实现问题和显示">目前的浏览器实现问题和显示</h2>
+<p>尽管那些新API为客户端带来了很多验证表单的功能，依旧还有一些限制。</p>
+<h3 id="setCustomValidity">setCustomValidity</h3>
+<p>通过<code>setCustomValidity</code>方法<code>可以设置validationMessage</code>，但是当表单变得越来越复杂的时候，<code>setCustomValidity</code>的<code>一系列限制</code>变得很明显。</p>
+<p><strong>问题＃1：</strong>处理一个表单域的多种错误</p>
+<p>调用一个节点上的 <code>setCustomValidity</code> 简单地重写它的 <code>validationMessage</code>属性。因此，如果你在同一个节点调用 <code>setCustomValidity</code> 两次，第二次会简单地重写第一次。没有一种机制来处理一个数组的错误信息或者是一种显示多个错误信息的方式。</p>
+<p>有一种解决方法就是为节点的<code>validationMessage</code> 附加消息，如下：</p>
+<p>[js]<br>var foo = document.getElementById(‘foo’);<br>foo.setCustomValidity(foo.validationMessage + ‘ An error occurred’);<br>[/js]</p>
+<p>开发者不可以设置HTML或者是格式化的字符，所以不幸地是串联起来的字符串就会是如下的效果：</p>
+<p><a href="http://mzhou.me/article/95798/demo-12/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-12.png" alt="" title="demo-12"></a></p>
+<p><strong>问题 ＃2</strong>：知道何时验证表单域</p>
+<p>为了说明这个问题，考虑下有两个必须相同的密码输入框的表单：</p>
+<p>[html]<br>&lt;form&gt;<br>&lt;fieldset&gt;&lt;legend&gt;Change Your Password&lt;/legend&gt;<br>&lt;ul&gt;<br>    &lt;li&gt;&lt;label for=&quot;password1&quot;&gt;Password 1:&lt;/label&gt;<br> &lt;input id=&quot;password1&quot; type=&quot;password&quot; required/&gt;&lt;/li&gt;<br>    &lt;li&gt;&lt;label for=&quot;password2&quot;&gt;Password 2:&lt;/label&gt;<br> &lt;input id=&quot;password2&quot; type=&quot;password&quot; required/&gt;&lt;/li&gt;<br>&lt;/ul&gt;<br> &lt;input type=&quot;submit&quot; /&gt;&lt;/fieldset&gt;<br>&lt;/form&gt;</p>
+<p>[/html]</p>
+<p>作者之前的意见是使用 <code>change</code> 事件来实现验证，如下：</p>
+<p>[js]<br>var password1 = document.getElementById(‘password1’);<br>var password2 = document.getElementById(‘password2’);<br>var checkPasswordValidity = function() {<br>    if (password1.value != password2.value) {<br>        password1.setCustomValidity(‘Passwords must match.’);<br>    } else {<br>        password1.setCustomValidity(‘’);<br>    }<br>};<br>password1.addEventListener(‘change’, checkPasswordValidity, false);<br>password2.addEventListener(‘change’, checkPasswordValidity, false);<br>[/js]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/8g8Nz/0/" target="_blank" rel="external">试一下demo</a></p>
+<p>现在，无论哪个密码输入框的值改变了，用户的验证就会被重新检测。然而，考虑下一个自动填充密码的脚本，甚至是一个改变 <code>pattern</code>, <code>required</code>, <code>min</code>, <code>max</code>, 或<code>step</code>值的脚本。这些可以直接影响到密码的验证结果，同时又没有一种事件来知道这些事情发生。</p>
+<p>底线：我们需要一种手段，在表单域验证结果修改的时候执行代码。</p>
+<p><strong>问题＃3：</strong>知道何时用户尝试提交表单</p>
+<p>为什么不使用表单的 <code>submit</code> 事件来解决问题呢？<code>submit</code> 事件是不会在浏览器通过所有验证之前触发的。因此没有方法知道何时用户提交了一个<strong>被浏览器阻止的表单</strong>。</p>
+<p>知道用户尝试提交表单行为的发生是非常有必要的。你可能想要显示给用户一系列的错误信息，改变focus或者是显示帮助文字。不幸地是，你需要多做一些工作才能实现它们。</p>
+<p>有一种方法可以实现它们，就是为表单节点添加 <code>novalidate</code> 属性，然后使用它的 <code>submit</code> 事件。因为表单的 <code>novalidate</code> 属性会在用户提交时阻止浏览器对数据的验证。因此，客户端脚本不得不<code>在 submit</code> 事件中显示地检查表单是否包含了正确的数据，并且依此来决定是否阻止提交。这里有一个扩展了密码匹配的例子，验证逻辑会在表单提交之前运行。</p>
+<p>[html]<br>&lt;form id=&quot;passwordForm&quot; novalidate&gt;<br>&lt;fieldset&gt;&lt;legend&gt;Change Your Password&lt;/legend&gt;<br>&lt;ul&gt;<br>    &lt;li&gt;&lt;label for=&quot;password1&quot;&gt;Password 1:&lt;/label&gt;<br> &lt;input id=&quot;password1&quot; type=&quot;password&quot; required/&gt;&lt;/li&gt;<br>    &lt;li&gt;&lt;label for=&quot;password2&quot;&gt;Password 2:&lt;/label&gt;<br> &lt;input id=&quot;password2&quot; type=&quot;password&quot; required/&gt;&lt;/li&gt;<br>&lt;/ul&gt;<br> &lt;input type=&quot;submit&quot; /&gt;&lt;/fieldset&gt;<br>&lt;/form&gt;</p>
+<p>&lt;script type=&quot;text/javascript&quot;&gt;<br>    var password1 = document.getElementById(‘password1’);<br>    var password2 = document.getElementById(‘password2’);<br>    var checkPasswordValidity = function() {<br>        if (password1.value != password2.value) {<br>            password1.setCustomValidity(‘Passwords must match.’);<br>        } else {<br>            password1.setCustomValidity(‘’);<br>        }<br>    };<br>    password1.addEventListener(‘change’, checkPasswordValidity, false);<br>    password2.addEventListener(‘change’, checkPasswordValidity, false);<br>    var form = document.getElementById(‘passwordForm’);<br>    form.addEventListener(‘submit’, function() {<br>        checkPasswordValidity();<br>        if (!this.checkValidity()) {<br>            event.preventDefault();<br>            //Implement you own means of displaying error messages to the user here.<br>            password1.focus();<br>        }<br>    }, false);<br>&lt;/script&gt;<br>[/html]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/8g8Nz/" target="_blank" rel="external">试一下demo</a></p>
+<p>这个方法的主要缺点是为表单添加了 <code>novalidate</code> 属性来阻止浏览器显示验证气泡给用户。因此如果你使用了这个技术，你必须实现自己的展示错误信息的方法。<a href="http://jsfiddle.net/tj_vantoll/a533m/" target="_blank" rel="external">这里有一个简单的例子</a> 展示了如何完成这一方法。</p>
+<p>底线：我们需要一个 <code>forminvalid</code> 事件，它会在表单提交之前触发，不论表单中的数据是否正确。</p>
+<h3 id="Safari">Safari</h3>
+<p>即使是Safari支持约束验证API的情况下，在写这篇文章的时候（版本 6）Safari也不会因为表单的数据没有满足约束验证而阻止用户提交。对使用Safari的用户来说，它和其他不支持约束验证的浏览器没有区别。</p>
+<p>最简单的解决这个问题的方法就和之前提到的一样，给所有的表单添加<code>novalidate</code>属性，并且使用<code>preventDefault</code>阻止表单提交。代码如下：</p>
+<p>[js]<br>var forms = document.getElementsByTagName(‘form’);<br>for (var i = 0; i &lt; forms.length; i++) {<br>    //Add the novalidate attribute.<br>    forms[i].setAttribute(‘novalidate’, true);<br>    forms[i].addEventListener(‘submit’, function(event) {<br>        //Prevent submission if checkValidity on the form returns false.<br>        if (!event.target.checkValidity()) {<br>            event.preventDefault();<br>            //Implement you own means of displaying error messages to the user here.<br>        }<br>    }, false);<br>}<br>[/js]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/rFLxt/" target="_blank" rel="external">试一下demo</a></p>
+<p>注意：现在已经有不少记录在案的bug， <code>checkValidity</code> 会返回错误的结果（<a href="https://bugs.webkit.org/show_bug.cgi?id=48491" target="_blank" rel="external">样例1</a> 和 <a href="https://github.com/aFarkas/webshim/issues/134" target="_blank" rel="external">样例2</a>）。误报对上面的情况来说是特别严重的，因为用户会被困在表单验证的步骤。</p>
+<h3 id="显示地设置错误信息">显示地设置错误信息</h3>
+<p>虽然开发者可以通过<code>setCustomValidity</code>来设置<code>validationMessage</code>，但是当表单很大的时候用javascriot来设置各个表单域错误信息的开发体验很不友好。</p>
+<p>为了让这个开发过程变的更容易，Firefox引入了一个自定义的 <code>x-moz-errormessage</code> 属性，它可以被用来自动设置域的 <code>validationMessage</code>。</p>
+<p>[html]<br>&lt;form&gt;<br> &lt;input type=&quot;text&quot; required x-moz-errormessage=&quot;Fill this out.&quot;/&gt;<br> &lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;<br>&lt;/form&gt;<br>[/html]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/CCZNp/" target="_blank" rel="external">试一下demo</a></p>
+<p>以上的代码在Firefox中提交时得到的结果如下：</p>
+<p><a href="http://mzhou.me/article/95798/demo-11/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-11.png" alt="" title="demo-11"></a></p>
+<p>这个特性已经被提交到了 <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=10923" target="_blank" rel="external">W3C</a> ，但是被拒绝了。因此，目前Firefox是唯一一个可以显示地自定义错误信息的浏览器。</p>
+<h4 id="Title属性">Title属性</h4>
+<p>虽然Title属性不会改变 <code>validationMessage</code>，但是在<code>patternMismatch</code>且有<code>title</code>值的情况下，浏览器会把 <code>title</code> 属性值显示在行内气泡上。(<em>注意：只要<em>开发者设置了 <code>title</code> </em>值，那么Chrome会在任何出错情况下显示 <code>title</code> 属性值，而不仅仅是 <code>patternMismatch</code>es 的情况。</em>)</p>
+<p>[html]<br>&lt;form&gt;<br> &lt;label for=&quot;price&quot;&gt;Price: $&lt;/label&gt;<br> &lt;input id=&quot;price&quot; pattern=&quot;[0-9].[0-9][0-9]&quot; title=&quot;Please enter the price in x.xx format (e.g. 3.99)&quot; type=&quot;text&quot; value=&quot;3&quot; /&gt;<br> &lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;<br>&lt;/form&gt;<br>[/html]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/SVWXw/" target="_blank" rel="external">试一下demo</a></p>
+<p>执行的结果如下：</p>
+<p>Chrome 21</p>
+<p><a href="http://mzhou.me/article/95798/demo-12/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-12.png" alt="" title="demo-12"></a><br>Firefox 15</p>
+<p><a href="http://mzhou.me/article/95798/demo-13/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-13.jpg" alt="" title="demo-13"></a><br>Opera 12</p>
+<p><a href="http://mzhou.me/article/95798/demo-14/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-14.png" alt="" title="demo-14"></a><br>IE 10</p>
+<p><a href="http://mzhou.me/article/95798/demo-15/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-15.png" alt="" title="demo-15"></a></p>
+<h3 id=":invalid_和_:valid">:invalid 和 :valid</h3>
+<p>和之前讨论的一样，伪类选择符 <code>:valid</code>会匹配通过了约束验证的表单元素，伪类选择符 <code>:invalid</code> 会匹配未通过了约束验证的表单元素。不幸地是这些伪类选择符会被自动匹配，在表单被提交之前甚至是表单可以与用户交互之前就已经匹配了。看如下例子：</p>
+<p>[html]<br>&lt;style&gt;<br>    :invalid {<br>        border: 1px solid red;<br>    }<br>    :valid {<br>        border: 1px solid green;<br>    }<br>&lt;/style&gt;<br>&lt;form&gt;<br>  &lt;input type=&quot;text&quot; required/&gt;<br>  &lt;input type=&quot;text&quot; /&gt;<br>&lt;/form&gt;<br>[/html]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/6sygE/" target="_blank" rel="external">试一下demo</a></p>
+<p>demo实现的效果是为出错域加一个红色边框，为正确域添加一个绿色边框。这个效果在表单被绘制的时候已经加上了。然而，<a href="http://www.alistapart.com/articles/inline-validation-in-web-forms/" target="_blank" rel="external">行内表单验证的可用性测试</a> 已经表明给用户提示的最好时机是在他们域表单域发生交互<strong>之后</strong>，不是之前。</p>
+<p>有一种方法可以实现以上说的效果，就是在输入框产生交互之后添加一个class。并且只在有这个class的时候加上边框。</p>
+<p>[html]<br>&lt;style&gt;<br>    .interacted:invalid {<br>        border: 1px solid red;<br>    }<br>    .interacted:valid {<br>        border: 1px solid green;<br>    }<br>&lt;/style&gt;<br>&lt;form&gt;<br> &lt;input type=&quot;text&quot; required/&gt;<br> &lt;input type=&quot;text&quot; /&gt;<br> &lt;input type=&quot;submit&quot; /&gt;<br>&lt;/form&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>    var inputs = document.querySelectorAll(‘input[type=text]’);<br>    for (var i = 0; i &lt; inputs.length; i++) {<br>        inputs[i].addEventListener(‘blur’, function(event) {<br>            event.target.classList.add(‘interacted’);<br>        }, false);<br>    }<br>&lt;/script&gt;<br>[/html]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/WLHDY/" target="_blank" rel="external">试一下demo</a></p>
+<p>Firefox已经看到了这些问题并<a href="http://blog.oldworld.fr/index.php?post/2011/05/Improving-HTML5-Forms-user-experience-with-moz-ui-invalid-and-moz-ui-valid-pseudo-classes" target="_blank" rel="external">实现了两个附加的伪类选择符</a>：<code>:moz-ui-invalid</code> 和 <code>:moz-ui-valid</code>。不像<code>:invalid</code> 和 <code>:valid</code>， <code>:moz-ui-invalid</code> 和 <code>:moz-ui-valid</code> 直到表单域被修改或是表单提交（且遇到出错的表单域）之前不会匹配表单域。</p>
+<p>最后注意，在且仅在Firefox中 <code>:valid</code> 和 <code>:invalid</code> 伪类选择符会不仅会匹配表单元素还会匹配 <code>&amp;lt;form&amp;gt;</code> 节点。所以在添加全局的CSS规则时要注意。</p>
+<h3 id="不支持的浏览器">不支持的浏览器</h3>
+<p>虽然支持约束验证的浏览器很棒，但是还是有一些主要浏览器没有支持。例如IE</p>
+<h2 id="处理不支持的浏览器">处理不支持的浏览器</h2>
+<p>如果你尝试在线上产品中使用新的约束验证API，你不得不让不支持的浏览器也能正常使用。以作者的经验来看，主要有两种选择：</p>
+<p><strong>选择1：</strong>仅仅依赖服务器端验证</p>
+<p>记住即使是有了新的API，客户端验证也没办法代替服务器端验证的地位。有些不怀好意的使用者可以很简单的绕过客户端的验证，并且HTTP请求不一定会来自于浏览器。</p>
+<p>因此客户端验证应该只被当作是一种用户体验的增强手段；所有的表单都应该能正常使用，即使在客户端无法显示验证信息的情况下。</p>
+<p>既然已经有了服务器短的验证，只需要服务器端返回一个合理的错误信息并显示给终端用户。开发者只需要为不支持的浏览器做降级处理即可。</p>
+<p><strong>选择2：</strong>优雅降级</p>
+<p>虽然依赖服务器端验证对一些应用是合理的措施，但在不支持的浏览器中抛弃有可用性优势的客户端验证不是一种好的选择。</p>
+<p>如果你想要用新的API并且想要让它在任何地方都能运行，那么最好的方法是使用<a href="http://remysharp.com/2010/10/08/what-is-a-polyfill/" target="_blank" rel="external">优雅降级</a>。为了让API在不支持的浏览器上运行，有一些降级库使用了额外的步骤并且解决了一些浏览器本地实现的issues。</p>
+<h2 id="优雅降级">优雅降级</h2>
+<p>这里有一系列的<a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills" target="_blank" rel="external">降级实现的库</a>允许你在任何浏览器上使用约束验证API。作者在这里讨论了两种流行的选择。</p>
+<h3 id="Webshims">Webshims</h3>
+<p><a href="http://afarkas.github.com/webshim/demos/index.html" target="_blank" rel="external">Webshims</a> 是一系列的降级库，它包含了HTML5表单和约束验证API。</p>
+<p>为了展示如何使用Webshims，让我们回到最初的样例中：一个有 <code>required</code> 属性的文字输入框。</p>
+<p>[html]<br>&lt;form&gt;<br> &lt;input type=&quot;text&quot; required value=&quot;&quot; /&gt;<br> &lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;<br>&lt;/form&gt;<br>[/html]</p>
+<p>为了让以上代码在所有浏览器中保持一致性，你需要引入 Webshims 和它的依赖。然后调用 <code>$.webshims.polyfill(&#39;forms&#39;)</code> 方法。</p>
+<p>[html]<br>&lt;!— Webshims’ dependencies —&gt;<br>&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery-1.8.2.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot; src=&quot;js/modernizr-yepnope-custom.js&quot;&gt;&lt;/script&gt;<br>&lt;!— Webshims base —&gt;<br>&lt;script type=&quot;text/javascript&quot; src=&quot;js-webshim/minified/polyfiller.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt;// &lt;![CDATA[<br>jQuery.webshims.polyfill(‘forms’);<br>// ]]&gt;&lt;/script&gt;<br>&lt;form&gt;<br> &lt;input type=&quot;text&quot; value=&quot;&quot; required /&gt;<br> &lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;<br>&lt;/form&gt;<br>[/html]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/YsBNt/" target="_blank" rel="external">试一下demo</a></p>
+<p>在支持的浏览器中结果不会有区别。不支持约束验证的浏览器也会显示不符合验证的错误信息、阻止不符合的表单提交。例如以下是Safari和IE8的显示结果：</p>
+<p>Safari 6</p>
+<p><a href="http://mzhou.me/article/95798/demo-16/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-16.png" alt="" title="demo-16"></a><br>Internet Explorer 8</p>
+<p><a href="http://mzhou.me/article/95798/demo-17/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-17.png" alt="" title="demo-17"></a></p>
+<p>为了实现优雅降级，Webshims也提供针对之前讨论过的那些约束验证限制的解决方案：</p>
+<ul>
+<li>通过 <code>data-errormessage</code> 属性显示的设置错误信息；</li>
+<li>提供了 <code>form-ui-valid</code> 和 <code>form-ui-invalid</code> 两个class，它们与 <code>:moz-ui-valid</code> 和 <code>:moz-ui-invalid</code>的功能一样；</li>
+<li>提供了 <code>firstinvalid</code>, <code>lastinvalid</code>, <code>changedvalid</code>, 和 <code>changedinvalid</code>事件；</li>
+<li>解决了 WebKit 在表单提交时候的误报bug；<br>更多的信息去Webshims提供的文档看 <a href="http://afarkas.github.com/webshim/demos/demos/webforms.html" target="_blank" rel="external">HTML5 forms docs</a>。</li>
+</ul>
+<h3 id="H5F">H5F</h3>
+<p>H5F是一个轻量级没有依赖的降级库，实现了所有的约束验证API和一系列的新属性。</p>
+<p>让我们通过之前的例子来看看H5F是如何使用的：</p>
+<p>[html]<br>&lt;script type=&quot;text/javascript&quot; src=&quot;H5F.js&quot;&gt;&lt;/script&gt;<br>&lt;form&gt;<br> &lt;input type=&quot;text&quot; value=&quot;&quot; required/&gt;<br> &lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;<br>&lt;/form&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>    H5F.setup(document.getElementsByTagName(‘form’));<br>&lt;/script&gt;<br>[/html]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/63YAy/" target="_blank" rel="external">试一下demo</a></p>
+<p>H5F 会在所有的浏览器中阻止提交表单，但是用户只会在支持的浏览器中看到验证气泡。既然H5F提供了完全的约束验证API，开发者可以使用它来实现自己的UI，并且做任何想要事情。</p>
+<p>如果你想找一些样例来了解它的API，<a href="http://www.alistapart.com/d/forward-thinking-form-validation/enhanced_2.html" target="_blank" rel="external">H5F的样例页面</a>中实现了在输入框右侧显示信息。作者也有一个样例，展示了如何在表单顶部 <a href="http://tjvantoll.com/2012/08/05/html5-form-validation-showing-all-error-messages/" target="_blank" rel="external">的列表中显示所有的错误信息</a>。</p>
+<p>为了实现约束验证API的优雅降级，H5F也提供了模仿 <code>:moz-ui-valid</code> 和 <code>:moz-ui-invalid的类</code>。默认那些类是 <code>valid</code> 和 <code>error</code> 。同时它们也可以通过为 <code>H5F.setup</code> 方法设置第二参数来自定义。</p>
+<p>[js]<br>H5F.setup(document.getElementById(‘foo’), {<br>    validClass: ‘valid’,<br>    invalidClass: ‘invalid’<br>});<br>[/js]</p>
+<p>更多的信息可以在H5F的<a href="https://github.com/ryanseddon/H5F" target="_blank" rel="external">github</a>页面上获得。</p>
+<h2 id="结论">结论</h2>
+<p>HTML5的约束验证API使得在客户端添加验证变得快捷的同时还提供了Javascript API和CSS钩子来自定义。</p>
+<p>尽管还是有很多浏览器实现和旧浏览器兼容的问题存在，配合好的降级库或是服务器端验证，开发者就可以在自己的表单中使用这些API。</p>
+<blockquote>
+<p>译者言：看完之后觉得约束验证的API设计的真心不好用。。。</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2012/10/22/e7baa6e69d9fe9aa8ce8af81efbc9ae7bd91e9a1b5e8a1a8e58d95e79a84e69cace59cb0e5aea2e688b7e7abafe9aa8ce8af81/" data-id="t0zhhnqerwzvizxj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/invalid/">:invalid</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/valid/">:valid</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Constraint-Validation/">Constraint Validation</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/H5F/">H5F</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Webshims/">Webshims</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html5/">html5</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/约束验证/">约束验证</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/11/25/ios-5-mobile-safarie4b8adlabele79a84bug/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          iOS 5 Mobile Safari中label的bug
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/09/16/e7bd91e9a1b5e4b8ade7a9bae799bde7aca6e79a84e5a18ce999b7/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">网页中空白符的塌陷</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/javascript/">javascript</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/javascript/Other/">Other</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/UI/">UI</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/design/">design</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/design/UI/">UI</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/design/javascript/">javascript</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">52</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/Other/">Other</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/Other/UI/">UI</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/UI/">UI</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/未分类/">未分类</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/&gt;/">&gt;</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/&lt;/">&lt;</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/++/">++</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/16/">1.6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalid/">:invalid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/valid/">:valid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/@PostConstruct/">@PostConstruct</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/">AOP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Closures/">Closures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Constraint-Validation/">Constraint Validation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DSL/">DSL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Delete/">Delete</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DoctorJS/">DoctorJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-6/">ECMAScript 6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/File/">File</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Geolocation/">Geolocation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Get/">Get</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/H5F/">H5F</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hibernate/">Hibernate</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hql/">Hql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IE/">IE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSLint/">JSLint</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONP/">JSONP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/">Math</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mobile-Safari/">Mobile Safari</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeList/">NodeList</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OAuth/">OAuth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/">OOP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ObjectdefineProperty/">Object.defineProperty</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OneTask/">OneTask</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Other/">Other</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PPT/">PPT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Package/">Package</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PrototypeJS/">PrototypeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SimpleSVGMap/">SimpleSVGMap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sinon/">Sinon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SyntaxHighlighter/">SyntaxHighlighter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SyntaxHighlighter-Evolved/">SyntaxHighlighter Evolved</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TheSimplest/">TheSimplest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI/">UI</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webshims/">Webshims</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/and/">and</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ant/">ant</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/arguments/">arguments</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/attr/">attr</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/auto/">auto</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/br/">br</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bug/">bug</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/canvas/">canvas</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/checkbox/">checkbox</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/class/">class</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/classloader/">classloader</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/click/">click</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocos2d-javascript/">cocos2d-javascript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding/">coding</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/contenteditable/">contenteditable</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/context/">context</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css-target/">css target</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css3/">css3</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/db2/">db2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/emphasis/">emphasis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/event/">event</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/false/">false</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/filter/">filter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/firefox/">firefox</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/getElementByTagName/">getElementByTagName</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/google-code-prettify/">google-code-prettify</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grayScale/">grayScale</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html解析/">html解析</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ifElse/">ifElse</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/image/">image</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inline/">inline</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/input/">input</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios/">ios</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQueryemphasis/">jQuery.emphasis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-bean/">java bean</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascri/">javascri</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">46</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsoup/">jsoup</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label/">label</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/margin/">margin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/memorize/">memorize</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mocks/">mocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/module/">module</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/module-loader/">module loader</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/moon/">moon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mozilla/">mozilla</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nudging/">nudging</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/overflow/">overflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/overflowchanged/">overflowchanged</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plugin/">plugin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pre/">pre</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presentation/">presentation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prop/">prop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prototype/">prototype</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/querySelectorAll/">querySelectorAll</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/referer/">referer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/safari/">safari</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scope/">scope</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setMonth/">setMonth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spies/">spies</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/">spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stubs/">stubs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/style/">style</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sun/">sun</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svg/">svg</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tdd/">tdd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/text/">text</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/text-emphasis/">text-emphasis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/text-size-adjust/">text-size-adjust</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/true/">true</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/type/">type</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/underflow/">underflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/watchjs/">watch.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/weakmap/">weakmap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webStorage/">webStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/white-space/">white-space</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windowname/">window.name</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/">wordpress</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/上下文/">上下文</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/中文乱码/">中文乱码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/中点/">中点</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/主题/">主题</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二进制/">二进制</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/传参/">传参</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/作用域/">作用域</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/使用方法/">使用方法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/函数式编程/">函数式编程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分时处理/">分时处理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端组件/">前端组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/十进制/">十进制</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/十进制与二进制/">十进制与二进制</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原型链/">原型链</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原码/">原码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/反码/">反码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/叠加/">叠加</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/命令/">命令</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式设计/">响应式设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/囚犯与灯泡/">囚犯与灯泡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/圆规/">圆规</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/块框/">块框</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/塌陷/">塌陷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多行匹配/">多行匹配</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字体/">字体</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安装步骤/">安装步骤</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小数/">小数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/居中/">居中</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/幻灯片/">幻灯片</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/循环依赖/">循环依赖</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/换行/">换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/换行符/">换行符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/整数/">整数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/新浪微博/">新浪微博</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/替换元素/">替换元素</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试框架/">测试框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/浮点数计算/">浮点数计算</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/灰阶化/">灰阶化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/着重符/">着重符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/移码/">移码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/空白符/">空白符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/等高布局/">等高布局</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/类型推理/">类型推理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/约束验证/">约束验证</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程模型/">线程模型</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缩放/">缩放</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/能力域/">能力域</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/行内元素/">行内元素</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/补码/">补码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观察者模式/">观察者模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/记住密码/">记住密码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/跨域/">跨域</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/跨域请求/">跨域请求</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/转换/">转换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/通知/">通知</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/重构/">重构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/钢之炼金术师/">钢之炼金术师</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/闭包/">闭包</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/霓虹灯/">霓虹灯</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/非替换元素/">非替换元素</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面向对象/">面向对象</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面向方面/">面向方面</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/风格/">风格</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高宽自动扩展/">高宽自动扩展</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/&gt;/" style="font-size: 10.00px;">&gt;</a><a href="/tags/&lt;/" style="font-size: 10.00px;">&lt;</a><a href="/tags/++/" style="font-size: 10.00px;">++</a><a href="/tags/16/" style="font-size: 10.00px;">1.6</a><a href="/tags/invalid/" style="font-size: 10.00px;">:invalid</a><a href="/tags/valid/" style="font-size: 10.00px;">:valid</a><a href="/tags/@PostConstruct/" style="font-size: 10.00px;">@PostConstruct</a><a href="/tags/AOP/" style="font-size: 13.33px;">AOP</a><a href="/tags/Android/" style="font-size: 10.00px;">Android</a><a href="/tags/Closures/" style="font-size: 10.00px;">Closures</a><a href="/tags/Constraint-Validation/" style="font-size: 10.00px;">Constraint Validation</a><a href="/tags/DSL/" style="font-size: 10.00px;">DSL</a><a href="/tags/Delete/" style="font-size: 10.00px;">Delete</a><a href="/tags/DoctorJS/" style="font-size: 10.00px;">DoctorJS</a><a href="/tags/ECMAScript-6/" style="font-size: 10.00px;">ECMAScript 6</a><a href="/tags/File/" style="font-size: 10.00px;">File</a><a href="/tags/Geolocation/" style="font-size: 10.00px;">Geolocation</a><a href="/tags/Get/" style="font-size: 10.00px;">Get</a><a href="/tags/H5F/" style="font-size: 10.00px;">H5F</a><a href="/tags/Hibernate/" style="font-size: 16.67px;">Hibernate</a><a href="/tags/Hql/" style="font-size: 10.00px;">Hql</a><a href="/tags/IE/" style="font-size: 10.00px;">IE</a><a href="/tags/JSLint/" style="font-size: 10.00px;">JSLint</a><a href="/tags/JSONP/" style="font-size: 10.00px;">JSONP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Javascript/" style="font-size: 10.00px;">Javascript</a><a href="/tags/Math/" style="font-size: 10.00px;">Math</a><a href="/tags/Mobile-Safari/" style="font-size: 10.00px;">Mobile Safari</a><a href="/tags/NodeList/" style="font-size: 10.00px;">NodeList</a><a href="/tags/OAuth/" style="font-size: 10.00px;">OAuth</a><a href="/tags/OOP/" style="font-size: 10.00px;">OOP</a><a href="/tags/ObjectdefineProperty/" style="font-size: 10.00px;">Object.defineProperty</a><a href="/tags/OneTask/" style="font-size: 10.00px;">OneTask</a><a href="/tags/Other/" style="font-size: 10.00px;">Other</a><a href="/tags/PPT/" style="font-size: 10.00px;">PPT</a><a href="/tags/Package/" style="font-size: 10.00px;">Package</a><a href="/tags/PrototypeJS/" style="font-size: 10.00px;">PrototypeJS</a><a href="/tags/SimpleSVGMap/" style="font-size: 10.00px;">SimpleSVGMap</a><a href="/tags/Sinon/" style="font-size: 10.00px;">Sinon</a><a href="/tags/SyntaxHighlighter/" style="font-size: 10.00px;">SyntaxHighlighter</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">March 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">February 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10">October 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09">September 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06">June 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/03">March 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12">December 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07">July 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06">June 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05">May 2011</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03">March 2011</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01">January 2011</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12">December 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11">November 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10">October 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09">September 2010</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08">August 2010</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06">June 2010</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2014/09/02/Atom-Shell入门/">Atom Shell入门</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/让你的站点支持触屏/">让你的站点支持触屏</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/[译]学习CSS布局/">[译]学习CSS布局</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/中文排版二三事/">中文排版二三事</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/hello-world/">CSS Counters</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 mzhou / zmmbreeze<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

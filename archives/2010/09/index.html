@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Archives: 2010/9 | MZhou&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="MZhou's blog">
+<meta property="og:url" content="http://nodejs.in/archives/2010/09/">
+<meta property="og:site_name" content="MZhou's blog">
+<meta property="og:description">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MZhou's blog">
+<meta name="twitter:description">
+
+  
+    <link rel="alternative" href="/atom.xml" title="MZhou&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">MZhou&#39;s blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">专注于Web前端开发！</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://nodejs.in"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-getelementbytagname-vs-queryselectorall" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2010/09/30/getelementbytagname-vs-queryselectorall/" class="article-date">
+  <time datetime="2010-09-30T12:57:35.000Z" itemprop="datePublished">Sep 30 2010</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/09/30/getelementbytagname-vs-queryselectorall/">getElementByTagName VS querySelectorAll</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这几天看CSS中，没怎么关注JS的发展。Nicholas C. Zakas 最近在博文中介绍了：<a href="http://www.nczonline.net/blog/2010/09/28/why-is-getelementsbytagname-faster-that-queryselectorall/" target="_blank" rel="external">Why is getElementsByTagName() faster that querySelectorAll()?</a>。不得不说牛人的文章总是能启发一堆人，我的RSS中一下子出现了很多国内的前端开发者讨论这篇博文的文章！</p>
+<p><a href="http://jsperf.com/queryselectorall-vs-getelementsbytagname" target="_blank" rel="external">http://jsperf.com/queryselectorall-vs-getelementsbytagname</a></p>
+<p>以上是网友在jsperf上做的测试，在webkit下竟然快出<strong><span style="color: #ff0000;">97%</span></strong>！</p>
+<p>这里只是简单总结下：</p>
+<ol>
+<li>getElementsByTagName比querySelectorAll快的原因是前者返回动态NodeList，后者返回静态NodeList。</li>
+<li>动态NodeList是以注册的方法返回的一个cache的引用（每次调用返回同一个cache），而静态NodeList则需要重新获得Node信息，相当于一个创建一个实例（每次调用返回的结果不同），所以动态NodeList返回的快。</li>
+<li>并且动态NodeList的访问速度在大部分浏览器中比NodeList快！（<a href="http://lifesinger.org" target="_blank" rel="external">岁月如歌</a>的演示：<a href="http://lifesinger.github.com/lab/2010/live_nodelist_vs_static_nodelist.html" target="_blank" rel="external">live_nodelist_vs_static_nodelist.html</a>）</li>
+<li>querySelectorAll的用处在于两点：提供CSS选择器一样的查询DOM的功能、返回的是静态NodeList故不随DOM树的变化而变化（不会陷入死循环）。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2010/09/30/getelementbytagname-vs-queryselectorall/" data-id="k7phfj8hfbzbnw6u" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NodeList/">NodeList</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/getElementByTagName/">getElementByTagName</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/querySelectorAll/">querySelectorAll</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-e59ca8e5898de7abafe5bc80e58f91e4b8ade4bdbfe794a8ant" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2010/09/27/e59ca8e5898de7abafe5bc80e58f91e4b8ade4bdbfe794a8ant/" class="article-date">
+  <time datetime="2010-09-27T13:57:46.000Z" itemprop="datePublished">Sep 27 2010</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/09/27/e59ca8e5898de7abafe5bc80e58f91e4b8ade4bdbfe794a8ant/">在前端开发中使用ANT</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ant作为强大的构建工具，贯穿了开发的编译、打包、测试、部署的过程。对于前端开发也可以使用ant来构建！</p>
+<p><a href="http://github.com/jquery/jquery/blob/master/build.xml" target="_blank" rel="external">http://github.com/jquery/jquery/blob/master/build.xml</a></p>
+<p>上面是jQuery的build.xml文件。jQuery使用了ant实现了打包、测试的过程。</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2010/09/27/e59ca8e5898de7abafe5bc80e58f91e4b8ade4bdbfe794a8ant/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2010/09/27/e59ca8e5898de7abafe5bc80e58f91e4b8ade4bdbfe794a8ant/" data-id="204si3nhftv3xo2b" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JSLint/">JSLint</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ant/">ant</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-10e4b8aae7bd91e7ab99e794a8e688b7e4bd93e9aa8ce4bc98e58c96e79a84e7a094e7a9b6e7bb93e69e9c" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2010/09/27/10e4b8aae7bd91e7ab99e794a8e688b7e4bd93e9aa8ce4bc98e58c96e79a84e7a094e7a9b6e7bb93e69e9c/" class="article-date">
+  <time datetime="2010-09-27T03:22:23.000Z" itemprop="datePublished">Sep 27 2010</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UI/">UI</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/09/27/10e4b8aae7bd91e7ab99e794a8e688b7e4bd93e9aa8ce4bc98e58c96e79a84e7a094e7a9b6e7bb93e69e9c/">10个网站用户体验优化的研究结果</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>转自：<a href="http://udcchina.com/snap/7984" target="_blank" rel="external">UDCChina</a></p>
+<p>总结一共有10条：</p>
+<ol>
+<li><strong>忘记三次点击定律</strong></li>
+<li><strong>运用F形模式来引导访客的内容浏览</strong></li>
+<li><strong>不要让用户等待：加速你的网站</strong></li>
+<li><strong>让你的内容更容易阅读</strong></li>
+<li><strong>不必担心页面下拉和滚动条</strong></li>
+<li><strong>将重要的网页内容靠左边放置（这点和我之前重构flymemo时候的思路一样，哈哈）</strong></li>
+<li><strong>文字之间的空间会影响可读性</strong></li>
+<li><strong>微小的细节可以导致巨大的差异</strong></li>
+<li><strong>不要试图用搜索来弥补恶劣的导航设计（写flymemo时有过犯这种错误的趋势）</strong></li>
+<li><strong>你的首页并非你想的那样重要</strong></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2010/09/27/10e4b8aae7bd91e7ab99e794a8e688b7e4bd93e9aa8ce4bc98e58c96e79a84e7a094e7a9b6e7bb93e69e9c/" data-id="iym14cz4ml986uq2" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UI/">UI</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-svge4b88ecsse79a84e789b9e6ae8ae680a7" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2010/09/25/svge4b88ecsse79a84e789b9e6ae8ae680a7/" class="article-date">
+  <time datetime="2010-09-25T12:48:55.000Z" itemprop="datePublished">Sep 25 2010</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/09/25/svge4b88ecsse79a84e789b9e6ae8ae680a7/">SVG与CSS的特殊性</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这几天在看CSS权威指南，之前看到了CSS的特殊性这一节。正好今天遇到了个相关问题：在SVG中使用样式。</p>
+<p>[html]<br>&lt;text x=&quot;250&quot; y=&quot;150&quot;<br>        font-family=&quot;Verdana&quot; font-size=&quot;10px&quot; fill=&quot;blue&quot; &gt;<br>    Hello, out there<br>  &lt;/text&gt;<br>[/html]</p>
+<p>今天在调整SVG中text的文字大小（font-size）时，发现我不论如何设置text的font-size都无法改变其大小。后来发现问题在于一个CSS的样式：</p>
+<p>[html]* {<br>font-size:12px;<br>}[/html]</p>
+<p>这个样式还会影响SVG标签内的元素，确实意向不到。不过仔细想想，像firefox、chrome这样原生支持SVG的浏览器SVG已经是html的一部分了。*的特殊性虽然只有0，但是0特殊性也比没有特殊性的font-size属性值要优先考虑。故字体怎么修改都是12px。</p>
+<p><strong>那么如果我要用JS来修改大小，怎么办呢？</strong></p>
+<p>很简单，使用style即可。行内样式的特殊性是最高的，故可以覆盖掉其他。</p>
+<p>[html]<br>&lt;text x=&quot;250&quot; y=&quot;150&quot;<br>        font-family=&quot;Verdana&quot; fill=&quot;blue&quot; style=&quot;font-style:10px;&quot;&gt;<br>    Hello, out there<br>  &lt;/text&gt;<br>[/html]</p>
+<p><strong>注意点：</strong></p>
+<p>IE8及其以下的浏览器，它们需要用插件来支持SVG。所以CSS的样式无法影响SVG。不过SVG标准中也包含了style属性，所以以上方法在IE8及其以下的浏览器中依旧可行！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2010/09/25/svge4b88ecsse79a84e789b9e6ae8ae680a7/" data-id="8ndg0eynkfwjvoek" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svg/">svg</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-firefoxe79a84onload-bug" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2010/09/18/firefoxe79a84onload-bug/" class="article-date">
+  <time datetime="2010-09-18T11:04:09.000Z" itemprop="datePublished">Sep 18 2010</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/09/18/firefoxe79a84onload-bug/">Firefox的onload bug</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天本想测试下“字符串连接的几种方法”的性能比较。没想到测试用demo在firefox 3.6下总是报bug：too much recursion。很明显JS程序陷入了无限递归状态。
+        
+          <p class="article-more-link">
+            <a href="/2010/09/18/firefoxe79a84onload-bug/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2010/09/18/firefoxe79a84onload-bug/" data-id="5pzfyb8n8sfi16o5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/firefox/">firefox</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-bloge690ace5aeb6e4ba86" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2010/09/13/bloge690ace5aeb6e4ba86/" class="article-date">
+  <time datetime="2010-09-13T07:29:12.000Z" itemprop="datePublished">Sep 13 2010</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Other/">Other</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/09/13/bloge690ace5aeb6e4ba86/">Blog搬家了</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天累的不行了，不过还是坚持把Blog搬家到IXWebhosting上。从Micoblog导出到Wordpress还是比较方便的，只需要小小的修改下导入文件即可。<br>顺便给Blog换了层皮，感觉还不错。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2010/09/13/bloge690ace5aeb6e4ba86/" data-id="po2n7290motla9qp" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-jquerye6ba90e7a081e8a7a3e8afbbe4b98bevente7af87efbc88e4b880efbc89" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2010/09/12/jquerye6ba90e7a081e8a7a3e8afbbe4b98bevente7af87efbc88e4b880efbc89/" class="article-date">
+  <time datetime="2010-09-12T04:48:28.000Z" itemprop="datePublished">Sep 12 2010</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/09/12/jquerye6ba90e7a081e8a7a3e8afbbe4b98bevente7af87efbc88e4b880efbc89/">jQuery源码解读之event篇（一）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>之前写了篇<a href="../?p=93001">jQuery源码解读core篇</a>，这次主要是讲event模块。这次不会贴出注释的源码了，只讲下大概的原理。之前拜读过PPK的<span style="font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; line-height: 20px; font-size: 14px;"><a href="http://www.quirksmode.org/blog/archives/2005/09/addevent_recodi.html" target="_blank" rel="external">PPK&rsquo;s&nbsp;<code>addEvent()</code>&nbsp;Recoding Contest</a>&nbsp;</span>。很详细的分析了事件。</p>
+<p>那么jQuery是如何做的呢？</p>
+<p>
+        
+          <p class="article-more-link">
+            <a href="/2010/09/12/jquerye6ba90e7a081e8a7a3e8afbbe4b98bevente7af87efbc88e4b880efbc89/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2010/09/12/jquerye6ba90e7a081e8a7a3e8afbbe4b98bevente7af87efbc88e4b880efbc89/" data-id="xb7u081fuqt4ekqz" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/event/">event</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-jquerye6ba90e7a081e8a7a3e8afbbe4b98bcoree7af87" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2010/09/12/jquerye6ba90e7a081e8a7a3e8afbbe4b98bcoree7af87/" class="article-date">
+  <time datetime="2010-09-11T22:54:18.000Z" itemprop="datePublished">Sep 12 2010</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/09/12/jquerye6ba90e7a081e8a7a3e8afbbe4b98bcoree7af87/">jQuery源码解读之core篇</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在1.3版本的时候就拜读过jQuery的源码，但是那时候的模块化不够好，代码的阅读很困难！进入1.4之后代码模块化好多了。具体的源码参考github页面：<a href="http://github.com/jquery/jquery/tree/master/src" target="_blank" rel="external">http://github.com/jquery/jquery/tree/master/src</a></p>
+<p>昨天读完了core部分的代码，本文中会贴出我注释的源码（注释不全，稍有帮助）。</p>
+<h2 id="jQuery的核心结构">
+        
+          <p class="article-more-link">
+            <a href="/2010/09/12/jquerye6ba90e7a081e8a7a3e8afbbe4b98bcoree7af87/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2010/09/12/jquerye6ba90e7a081e8a7a3e8afbbe4b98bcoree7af87/" data-id="vq8sg0m3vbile8vl" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-fuck-javascripte4b98be4ba8cefbc9ae5a587e680aae79a84truefalse" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2010/09/11/fuck-javascripte4b98be4ba8cefbc9ae5a587e680aae79a84truefalse/" class="article-date">
+  <time datetime="2010-09-11T01:19:00.000Z" itemprop="datePublished">Sep 11 2010</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/09/11/fuck-javascripte4b98be4ba8cefbc9ae5a587e680aae79a84truefalse/">Fuck Javascript之二：奇怪的true/false</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ture or fasle是判断时必须要用的，javascript作为弱类型语言。知道什么样的变量值能得到false是很重要的。</p>
+<p><span style="background-color: #ffff00;">判断时是false的值：0, “”, null, undefined, NaN.</span></p>
+<p>上面的只是基础知识，下面看javascript能给我们带来什么惊喜！</p>
+<p>
+        
+          <p class="article-more-link">
+            <a href="/2010/09/11/fuck-javascripte4b98be4ba8cefbc9ae5a587e680aae79a84truefalse/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2010/09/11/fuck-javascripte4b98be4ba8cefbc9ae5a587e680aae79a84truefalse/" data-id="5x1qmnawcjk9v62h" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/&gt;/">&gt;</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/&lt;/">&lt;</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/false/">false</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/true/">true</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-e58fafe68ea7e8b7a8e59f9fe8afb7e6b182-efbc9f-jsonp-nothing-better" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2010/09/08/e58fafe68ea7e8b7a8e59f9fe8afb7e6b182-efbc9f-jsonp-nothing-better/" class="article-date">
+  <time datetime="2010-09-08T07:13:21.000Z" itemprop="datePublished">Sep 8 2010</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/09/08/e58fafe68ea7e8b7a8e59f9fe8afb7e6b182-efbc9f-jsonp-nothing-better/">可控跨域请求 ？ JSONP : nothing better</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>标题是突然想到的一个很噱头的名字，内容其实比较普通。注意本文考虑的是：可控跨域请求，即对服务器端的API有控制权，而不是随意抓取跨域信息。浏览器一般意义上是禁止跨域请求的，这是从安全方面来考虑的。但是如果我们的业务是分布式的，互相调用的代码就只能在服务器上执行。如果客户端（浏览器）本身就能访问到所有的服务器，那么这么做不仅添加了服务器的负担，更影响了服务的响应速度！所以JSONP出现了。</p>
+<p> <strong> JSONP基本原理：</strong><br> 插入&lt;script&gt;标签：这个script标签的scr是没有跨域限制的，所以我们可以插入这样一个标签如下：&lt;script type=”text/javascript” src=”http:跨域的请求/getList.js”/&gt;</p>
+<p>js里面的实际内容则是：jsonpcallback(“data”);这样一旦获取了js文件之后，jsonpcallback函数就会执行。而jsoncallback函数的真正实体事先已经定义好了。</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2010/09/08/e58fafe68ea7e8b7a8e59f9fe8afb7e6b182-efbc9f-jsonp-nothing-better/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2010/09/08/e58fafe68ea7e8b7a8e59f9fe8afb7e6b182-efbc9f-jsonp-nothing-better/" data-id="v9la2y8ztbnrntxs" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JSONP/">JSONP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/跨域请求/">跨域请求</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/archives/2010/09/page/2/">2</a><a class="extend next" rel="next" href="/archives/2010/09/page/2/">Next &raquo;</a>
+    </nav>
+  
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/javascript/">javascript</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/javascript/Other/">Other</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/UI/">UI</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/design/">design</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/design/UI/">UI</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/design/javascript/">javascript</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">52</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/Other/">Other</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/Other/UI/">UI</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/UI/">UI</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/未分类/">未分类</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/&gt;/">&gt;</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/&lt;/">&lt;</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/++/">++</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/16/">1.6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalid/">:invalid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/valid/">:valid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/@PostConstruct/">@PostConstruct</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/">AOP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Closures/">Closures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Constraint-Validation/">Constraint Validation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DSL/">DSL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Delete/">Delete</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DoctorJS/">DoctorJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-6/">ECMAScript 6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/File/">File</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Geolocation/">Geolocation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Get/">Get</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/H5F/">H5F</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hibernate/">Hibernate</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hql/">Hql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IE/">IE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSLint/">JSLint</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONP/">JSONP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/">Math</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mobile-Safari/">Mobile Safari</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeList/">NodeList</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OAuth/">OAuth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/">OOP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ObjectdefineProperty/">Object.defineProperty</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OneTask/">OneTask</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Other/">Other</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PPT/">PPT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Package/">Package</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PrototypeJS/">PrototypeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SimpleSVGMap/">SimpleSVGMap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sinon/">Sinon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SyntaxHighlighter/">SyntaxHighlighter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SyntaxHighlighter-Evolved/">SyntaxHighlighter Evolved</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TheSimplest/">TheSimplest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI/">UI</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webshims/">Webshims</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/and/">and</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ant/">ant</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/arguments/">arguments</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/attr/">attr</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/auto/">auto</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/br/">br</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bug/">bug</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/canvas/">canvas</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/checkbox/">checkbox</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/class/">class</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/classloader/">classloader</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/click/">click</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocos2d-javascript/">cocos2d-javascript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding/">coding</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/contenteditable/">contenteditable</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/context/">context</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css-target/">css target</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css3/">css3</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/db2/">db2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/emphasis/">emphasis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/event/">event</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/false/">false</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/filter/">filter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/firefox/">firefox</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/getElementByTagName/">getElementByTagName</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/google-code-prettify/">google-code-prettify</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grayScale/">grayScale</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html解析/">html解析</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ifElse/">ifElse</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/image/">image</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inline/">inline</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/input/">input</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios/">ios</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQueryemphasis/">jQuery.emphasis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-bean/">java bean</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascri/">javascri</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">46</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsoup/">jsoup</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label/">label</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/margin/">margin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/memorize/">memorize</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mocks/">mocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/module/">module</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/module-loader/">module loader</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/moon/">moon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mozilla/">mozilla</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nudging/">nudging</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/overflow/">overflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/overflowchanged/">overflowchanged</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plugin/">plugin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pre/">pre</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presentation/">presentation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prop/">prop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prototype/">prototype</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/querySelectorAll/">querySelectorAll</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/referer/">referer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/safari/">safari</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scope/">scope</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setMonth/">setMonth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spies/">spies</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/">spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stubs/">stubs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/style/">style</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sun/">sun</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svg/">svg</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tdd/">tdd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/text/">text</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/text-emphasis/">text-emphasis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/text-size-adjust/">text-size-adjust</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/true/">true</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/type/">type</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/underflow/">underflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/watchjs/">watch.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/weakmap/">weakmap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webStorage/">webStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/white-space/">white-space</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windowname/">window.name</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/">wordpress</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/上下文/">上下文</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/中文乱码/">中文乱码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/中点/">中点</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/主题/">主题</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二进制/">二进制</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/传参/">传参</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/作用域/">作用域</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/使用方法/">使用方法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/函数式编程/">函数式编程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分时处理/">分时处理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端组件/">前端组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/十进制/">十进制</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/十进制与二进制/">十进制与二进制</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原型链/">原型链</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原码/">原码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/反码/">反码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/叠加/">叠加</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/命令/">命令</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式设计/">响应式设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/囚犯与灯泡/">囚犯与灯泡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/圆规/">圆规</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/块框/">块框</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/塌陷/">塌陷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多行匹配/">多行匹配</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字体/">字体</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安装步骤/">安装步骤</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小数/">小数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/居中/">居中</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/幻灯片/">幻灯片</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/循环依赖/">循环依赖</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/换行/">换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/换行符/">换行符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/整数/">整数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/新浪微博/">新浪微博</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/替换元素/">替换元素</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试框架/">测试框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/浮点数计算/">浮点数计算</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/灰阶化/">灰阶化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/着重符/">着重符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/移码/">移码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/空白符/">空白符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/等高布局/">等高布局</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/类型推理/">类型推理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/约束验证/">约束验证</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程模型/">线程模型</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缩放/">缩放</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/能力域/">能力域</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/行内元素/">行内元素</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/补码/">补码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观察者模式/">观察者模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/记住密码/">记住密码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/跨域/">跨域</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/跨域请求/">跨域请求</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/转换/">转换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/通知/">通知</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/重构/">重构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/钢之炼金术师/">钢之炼金术师</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/闭包/">闭包</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/霓虹灯/">霓虹灯</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/非替换元素/">非替换元素</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面向对象/">面向对象</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面向方面/">面向方面</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/风格/">风格</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高宽自动扩展/">高宽自动扩展</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/&gt;/" style="font-size: 10.00px;">&gt;</a><a href="/tags/&lt;/" style="font-size: 10.00px;">&lt;</a><a href="/tags/++/" style="font-size: 10.00px;">++</a><a href="/tags/16/" style="font-size: 10.00px;">1.6</a><a href="/tags/invalid/" style="font-size: 10.00px;">:invalid</a><a href="/tags/valid/" style="font-size: 10.00px;">:valid</a><a href="/tags/@PostConstruct/" style="font-size: 10.00px;">@PostConstruct</a><a href="/tags/AOP/" style="font-size: 13.33px;">AOP</a><a href="/tags/Android/" style="font-size: 10.00px;">Android</a><a href="/tags/Closures/" style="font-size: 10.00px;">Closures</a><a href="/tags/Constraint-Validation/" style="font-size: 10.00px;">Constraint Validation</a><a href="/tags/DSL/" style="font-size: 10.00px;">DSL</a><a href="/tags/Delete/" style="font-size: 10.00px;">Delete</a><a href="/tags/DoctorJS/" style="font-size: 10.00px;">DoctorJS</a><a href="/tags/ECMAScript-6/" style="font-size: 10.00px;">ECMAScript 6</a><a href="/tags/File/" style="font-size: 10.00px;">File</a><a href="/tags/Geolocation/" style="font-size: 10.00px;">Geolocation</a><a href="/tags/Get/" style="font-size: 10.00px;">Get</a><a href="/tags/H5F/" style="font-size: 10.00px;">H5F</a><a href="/tags/Hibernate/" style="font-size: 16.67px;">Hibernate</a><a href="/tags/Hql/" style="font-size: 10.00px;">Hql</a><a href="/tags/IE/" style="font-size: 10.00px;">IE</a><a href="/tags/JSLint/" style="font-size: 10.00px;">JSLint</a><a href="/tags/JSONP/" style="font-size: 10.00px;">JSONP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Javascript/" style="font-size: 10.00px;">Javascript</a><a href="/tags/Math/" style="font-size: 10.00px;">Math</a><a href="/tags/Mobile-Safari/" style="font-size: 10.00px;">Mobile Safari</a><a href="/tags/NodeList/" style="font-size: 10.00px;">NodeList</a><a href="/tags/OAuth/" style="font-size: 10.00px;">OAuth</a><a href="/tags/OOP/" style="font-size: 10.00px;">OOP</a><a href="/tags/ObjectdefineProperty/" style="font-size: 10.00px;">Object.defineProperty</a><a href="/tags/OneTask/" style="font-size: 10.00px;">OneTask</a><a href="/tags/Other/" style="font-size: 10.00px;">Other</a><a href="/tags/PPT/" style="font-size: 10.00px;">PPT</a><a href="/tags/Package/" style="font-size: 10.00px;">Package</a><a href="/tags/PrototypeJS/" style="font-size: 10.00px;">PrototypeJS</a><a href="/tags/SimpleSVGMap/" style="font-size: 10.00px;">SimpleSVGMap</a><a href="/tags/Sinon/" style="font-size: 10.00px;">Sinon</a><a href="/tags/SyntaxHighlighter/" style="font-size: 10.00px;">SyntaxHighlighter</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">March 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">February 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10">October 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09">September 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06">June 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/03">March 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12">December 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07">July 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06">June 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05">May 2011</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03">March 2011</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01">January 2011</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12">December 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11">November 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10">October 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09">September 2010</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08">August 2010</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06">June 2010</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2014/09/02/Atom-Shell入门/">Atom Shell入门</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/让你的站点支持触屏/">让你的站点支持触屏</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/[译]学习CSS布局/">[译]学习CSS布局</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/中文排版二三事/">中文排版二三事</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/hello-world/">CSS Counters</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 mzhou / zmmbreeze<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

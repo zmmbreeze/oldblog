@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Archives | MZhou&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="MZhou's blog">
+<meta property="og:url" content="http://nodejs.in/archives/page/2/">
+<meta property="og:site_name" content="MZhou's blog">
+<meta property="og:description">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MZhou's blog">
+<meta name="twitter:description">
+
+  
+    <link rel="alternative" href="/atom.xml" title="MZhou&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">MZhou&#39;s blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">专注于Web前端开发！</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://nodejs.in"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-e8af91html5-canvase680a7e883bde4b98be794bbe59c88" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013/10/29/e8af91html5-canvase680a7e883bde4b98be794bbe59c88/" class="article-date">
+  <time datetime="2013-10-29T15:23:16.000Z" itemprop="datePublished">Oct 29 2013</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/10/29/e8af91html5-canvase680a7e883bde4b98be794bbe59c88/">[译]HTML5 canvas性能之画圈</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>翻译自：<a href="http://my.opera.com/ODIN/blog/2012/12/13/html5-canvas-performance-drawing-circles" target="_blank" rel="external">http://my.opera.com/ODIN/blog/2012/12/13/html5-canvas-performance-drawing-circles</a>主要讲了HTML5 canvas性能方面的尝试，场景是在canvas上面绘制圆圈。</p>
+<hr>
+<p><img src="http://files.myopera.com/tagawa/blog/canvas-christmas-tree.jpg" alt="圣诞"></p>
+<p>临近圣诞，我一直在尝试使用HTML5 canvas在圣诞树图片上面绘制泡泡。由于不知道哪种绘制的方法最好，最终在<a href="http://stackoverflow.com/questions/9742830/html5-canvas-glass-circle#answer-9743575" target="_blank" rel="external">Stack Overflow</a>上找到了使用radial gradients（辐射渐变）绘制圆圈的答案。</p>
+<h2 id="圆圈">圆圈</h2>
+<p>你可能已经知道，标准地画圆圈的方法是使用<code>arc()</code>：</p>
+<pre><code><span class="comment">// Drawing a circle the traditional way</span>
+ctx.beginPath();
+ctx.arc(x, y, radius, <span class="number">0</span>, Math.PI * <span class="number">2</span>, <span class="literal">true</span>);
+ctx.fillStyle = <span class="string">'rgba(195, 56, 56, 1)'</span>;
+ctx.fill();
+ctx.closePath();`&lt;/pre&gt;
+以我之见，与SVG的例子相比这种绘制圆圈的方法有点笨重。我认为仅仅使用radial gradients是一种更明智的选择，只是不知道它的性能如何。
+&lt;pre&gt;`<span class="comment">// Drawing a circle with a radial gradient</span>
+<span class="keyword">var</span> gradient = ctx.createRadialGradient(x, y, <span class="number">0</span>, x, y, radius);
+gradient.addColorStop(<span class="number">0.95</span>, <span class="string">'rgba(195, 56, 56, 1)'</span>);
+gradient.addColorStop(<span class="number">1</span>, <span class="string">'rgba(195, 56, 56, 0)'</span>);
+ctx.fillStyle = gradient;
+ctx.fillRect(x - radius, y - radius, x + radius, y + radius);`&lt;/pre&gt;
+毫无疑问地，使用radial gradients会比`arc()`更慢。慢了好几倍！你可以在[测试页面](http:<span class="comment">//people.opera.com/danield/html5/canvas-speed/)尝试下，就可以了解到速度的差距。</span>
+
+如果我正确地思考，我应该意识到这点而不需要去测试它，这样可以节省些时间。但是我接下来尝试使用了球体（当然不是<span class="number">3</span>D地球体，是有色差渐变地圆圈）。
+
+<span class="preprocessor">## 球体</span>
+
+在canvas中有两种通用地方法来绘制球体：
+</code></pre><ol>
+<li>Radial grandients<pre>` // Drawing a sphere with radial gradients
+ var gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
+ gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+ gradient.addColorStop(0.2, 'rgba(255, 85, 85, 1)');
+ gradient.addColorStop(0.95, 'rgba(128, 0, 0, 1)');
+ gradient.addColorStop(1, 'rgba(128, 0, 0, 0)');
+ ctx.fillStyle = gradient;
+ ctx.fillRect(x - radius, y - radius, x + radius, y + radius);`</pre></li>
+<li><p>使用drawImage()绘制边缘颜色与背景色相同（或透明、可以和背景融合）的图片<br><pre><code>// Drawing a sphere with an existing image
+ var img = new Image();
+ img.src = &#39;images/baubles.png&#39;;
+ ctx.drawImage(img, x, y, width, height);</code></pre><br>和之前地例子一样，radial gradients要慢好几倍。当然优势就是radial gradients是可以即时地动态改变，而画图片地方法则需要预先制作好图片。那些图片没办法通过javascript来直接修改，虽然你可以很容易地修改它们显示大小。你也可以通过以下几种方法来控制颜色：</p>
+</li>
+<li><p>使用包含指定颜色图片地图片sprite</p>
+</li>
+<li><p>使用灰度图片，并且使用<code>arc()</code>来设置半透明浮层<br>别忘了，使用图片意味着它们需要被下载，所以记得如果可能预加载图片。</p>
+<p>你可以在<a href="http://people.opera.com/danield/html5/canvas-speed/" target="_blank" rel="external">测试页面</a>上测试下性能。</p>
+<p>你可以看到，很明显浮层方法较慢，但是和gradients相比还是快地。在控制颜色方面，它也给了你更多自由，不过所有地方法都要比单纯绘制原始图片要慢。</p>
+<h2 id="总结">总结</h2>
+<p>通常情况下，对于简单地地程序或者是快速地硬件来说，这些速度地差别是很难注意到地。但是如果你在使用动画、制作高性能游戏或是为TV/机顶盒之类地硬件设计程序，那么它们就会成为一个问题了。一如既往，所有的决定都是一种妥协，所以这里列出了各种权衡情况的总结：</p>
+</li>
+</ol>
+<ul>
+<li>如果你想要绘制圆圈，使用<code>arc()</code></li>
+<li>如果你想要绘制球体，使用一张图片（预加载它）</li>
+<li>如果你绘制各种各样的图片，使用图片sprites</li>
+<li>如果你想要球体可以动态改变颜色，考虑使用一张图片和半透明浮层</li>
+<li><p>只有在万不得已的情况下才使用radial gradients</p>
+<h2 id="更新：">更新：</h2>
+<p><a href="https://twitter.com/askoth" target="_blank" rel="external">Marcelo</a>提出了一种很酷的方法：在一个隐藏的canvas上面创建一个简单的图片，然后使用<code>drawImage()</code>重复绘制它。这种方法避免了创建图片的步骤，并且也可以即时修改颜色。最棒的是，不考虑初始化gradient的时间，它比绘制一张已有的图片还要快！代码如下：<br><pre>`// Create a second “buffer” canvas but don’t append it to the document<br>var tmpCanvas = document.createElement(‘canvas’);<br>var tmpCtx = tmpCanvas.getContext(‘2d’);</pre></p>
+<p>// Add the necessary gradients here, as above</p>
+<p>// Draw the image from the second “buffer” canvas<br>ctx.drawImage(tmpCanvas, x, y, width, height);</p>
+</li>
+</ul>
+<p>所以，如果你正在绘制很多的圆圈或是球体，我推荐使用这种方法。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2013/10/29/e8af91html5-canvase680a7e883bde4b98be794bbe59c88/" data-id="vgz79prbf46ztmu0" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/canvas/">canvas</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-e8af91javascript-test-spies-stubs-and-mocks" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013/10/29/e8af91javascript-test-spies-stubs-and-mocks/" class="article-date">
+  <time datetime="2013-10-29T15:16:53.000Z" itemprop="datePublished">Oct 29 2013</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/10/29/e8af91javascript-test-spies-stubs-and-mocks/">[译]Javascript Test Spies, Stubs and Mocks</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>译者言：本文是<cite>Test-Driven Javascript Development</cite>一书的作者的博文，关于他设计Javascript测试库<a href="http://sinonjs.org/" target="_blank" rel="external">Sinon</a>时的思路和想法。</p>
+<hr>
+<p>最近我在写<a href="http://cjohansen.no/en/javascript/test_driven_javascript_the_book" target="_blank" rel="external">书</a>过程中遇到的事情就是一个叫Sinon的Javascript stubbing和mocking库（还在开发中）。一次给出三篇文章来展示API的预览。希望可以得到一些你们的想法和反馈。</p>
+<p>在这篇文章中，我们会了解库里面的核心部分：spies，stubs和mocks。我会覆盖到此库的基本想法，并且展示最为相关的API。</p>
+<h2 id="Sinon的目标">Sinon的目标</h2>
+<p>为什么要写另一个stubbing和mocking的库呢？现在已经有了不少类似的库了，并且有部分测试库发布时就内建了stub和mocks的功能。原本我写Sinon是为了写书，在“TDD by example”这一章节里面使用它。最终这没有成为现实，但是我依旧使用它作为“使用stubbing和mocking库”的样例（相对于我们最简单、最经常遇到的手工stubbing的情况）。</p>
+<p>我对这样的一个库做了如下需求设计：</p>
+<ul>
+<li><strong>独立</strong> 没有理由把stubbing和mocking功能绑定到一个指定的测试库中。虽然在某些情况下它可以被自动化，但是这样的集成也可以由独立的库来提供。</li>
+<li><strong>最小化全局变量占用</strong> 在测试环境中你绝对不希望大量的全局命名污染。Stub和Mock API<br>必须是在同一个对象上的</li>
+<li><strong>容易使用</strong> 这可能是理所应当的，但是某些我见过的mocking解决方案就需要大量额外的工具库依赖才可以运行。</li>
+<li><strong>容易集成</strong> 之所以做成独立的库，就是希望最小化库，使其容易被自动集成到任何测试库中。</li>
+<li><strong>CommonJS兼容</strong> 使用CommonJS模块标准，能同时工作在浏览器和Server上<br>Sinon实现了这些需求。它是独立的，它的API都在<code>sinon</code>对象上，它拥有一个（希望是）简单的API并且提供了一系列工具来减少依赖大量的工具库。这篇文章专注于它的API，并且我会很快发布关于集成部分的文章。</li>
+</ul>
+<h2 id="现状">现状</h2>
+<p>目前，Sinon的核心（本篇文章覆盖到的）是可以工作的，但是库整体还没有完成，API本身也没有固定。我希望通过分享这些信息来降低提供反馈和建议的门槛。我不会正式发布它，知道我有了合适的文档。这篇文章以及之后的两篇是一个开始。</p>
+<p>结束聊天，直接上代码</p>
+<h2 id="Test_spies">Test spies</h2>
+<p><a href="http://xunitpatterns.com/Test%20Spy.html" target="_blank" rel="external">测试spy</a>是一个对象，它记录了自己与整个代码库中其他对象交互。当无法仅仅通过可用对象状态来决定一个测试成功与否的时候，我们可以使用测试spies，并且断言回调的执行次数、传递的参数、返回值等等。</p>
+<p>Sinon以函数的形式实现了spies，它包裹了其他函数，然后记录每次调用，包括<code>this</code>、参数、返回值和任何抛出的exception。它可以在不影响默认行为的情况监控方法，虽然在实践中你很少会直接创建spy。Stubs和mocks都是通过spy借口实现的。</p>
+<p>Spies有一些属性和有用的方法。如下是你监控jQuery的<code>ajax</code>方法的例子：</p>
+<pre><code>sinon.spy(jQuery, <span class="string">"ajax"</span>);
+jQuery.getJSON(<span class="string">"/some/data"</span>);`<span class="variable">&lt;/pre&gt;</span>
+这么做不会影响`jQuery.ajax`的默认行为，但是它会包裹这个方法并记录数据。
+
+<span class="comment">### 属性</span>
+
+如下的属性是spies暴露的，并且是如上样例对应的结果：
+</code></pre><ul>
+<li><code>jQuery.ajax.called</code> boolean, <code>true</code></li>
+<li><code>jQuery.ajax.callCount</code> number, <code>1</code></li>
+<li><code>jQuery.ajax.calledOnce</code> boolean, <code>true</code></li>
+<li><code>jQuery.ajax.calledTwice</code> boolean, <code>false</code></li>
+<li><p><code>jQuery.ajax.calledThrice</code> boolean, <code>false</code></p>
+<h3 id="调用数据">调用数据</h3>
+<p>Spies在四个数组中存储了调用数据。如果你喜欢底层代码，你们你会需要他们。</p>
+</li>
+<li><p><code>jQuery.ajax.args</code>是spy接收到的arguments数组。为了获取到第一次调用的第一个参数，你需要这么做<code>jQuery.ajax.args[0][0]</code>，第一个0表示调用次数，第二个表示第几个参数。</p>
+</li>
+<li><code>jQuery.ajax.returnValues</code>是回调函数的返回结果数组。为了获得第一次调用的返回结果，你需要这么做<code>jQuery.ajax.returnValues[0]</code>。对那些没有显示返回值的调用，数组会存储<code>undefined</code>值。</li>
+<li><code>jQuery.ajax.exceptions</code>是spy抛出的exception的数组。如果spy在给定的调用中不抛出exception，数组会存储<code>undefined</code>。这个数组每次调用总是包含一个实体，不管它有没有抛出它。</li>
+<li><p><code>jQuery.ajax.thisValues</code>是包含了<code>this</code>值的数组。对每次调用，spy存储<code>this</code>值到数组中，它在测试绑定了特殊对象的函数或是使用了<code>call</code>和<code>apply</code>方法的函数调用时很有用。</p>
+<h3 id="方法">方法</h3>
+<p>如果你喜欢底层代码，上面的四个数组可以提供你想要的所有东西，帮助你监控调用的整个过程。如果你和我更像一些，喜欢高层封装方法来让测试用例的意图更清晰，你可能更喜欢如下提供的方法。</p>
+</li>
+<li><p><code>jQuery.ajax.calledWith(arg1, arg2, ...)</code>此方法传递任意数量的参数，并且只要指定的arguments被调用了一次，那么这个方法就会返回<code>true</code>。arguments列表不需要很详细 - 你可以提供第一个参数，如果任意一次调用的参数中第一个是你传递的值，你们这个方法就会返回<code>true</code>。（这解决了可选参数的情况）</p>
+</li>
+<li><code>jQuery.ajax.calledWithExactly(arg1, arg2, ...)</code>如果你需要知道一个函数是否接收了指定的参数，并且只有那些指定的参数，这个方法就是<code>calledWith(arg1, arg2, ...)</code>的严格版本。</li>
+<li><code>jQuery.ajax.alwaysCalledWith(arg1, arg2, ...)</code>和<code>calledWith(arg1, arg2, ...)</code>几乎一样，除了它需要所有的调用都符合。</li>
+<li><code>jQuery.ajax.alwaysCalledWithExactly(arg1, arg2, ...)</code>和<code>calledWith(arg1, arg2, ...)</code>类似，只是它需要所有的调用都严格相符。</li>
+<li><code>returned(returnValue)</code>返回<code>true</code>，如果spy返回的值与指定的值相同。</li>
+<li><code>alwaysReturned(returnValue)</code>同上，只有在符合所有调用的时候返回<code>true</code>。</li>
+<li><p><code>threw(exceptionOrType)</code>如果没有参数被传递且如果spy任意一次调用中抛出一个exception，那么方法返回<code>true</code>。如果一个字符串被传递给它，且spy抛出一个相同类型的excption（例如<code>TypeError</code>），那么方法返回<code>true</code>。最后，如果一个exception对象被传递给它，且spy抛出的exception对象和指定的对象一致（这个不太可能被用到，因为没办法构造完全一致的对象），那么方法返回<code>true</code>。</p>
+<p>我认为这个方法可以接收两个字符串，分别表示抛出错误的类型和message。它甚至接收一个字符串的类型和正则表达式来匹配message。你怎么认为？</p>
+</li>
+<li><code>alwaysThrew(...)</code>同上，只是必须全部的调用都符合。</li>
+<li><code>calledOn(thisObj)</code><br>如果方法被调用时的this值是指定的值，那么返回<code>true</code>。</li>
+<li><p><code>alwaysCalledOn(...)</code><br>同上，只是必须全部的调用都符合。<br>作为补充，spies有一个特殊的方法来“解除”它们被监控的方法：<br><pre><code>jQuery.ajax.restore();</code></pre><br>这个方法解除了包裹并且恢复了默认的方法。为了spies在测试之间泄露，所有spies都可以在测试用例<code>tearDown</code>（举个例子）的时候恢复。</p>
+<p>使用这些方法及断言可以实现可读性较好的测试：<br><pre>`”test should register click events for buttons”: function () {<br>  sinon.spy(dom, “addEventHandler”);<br>  var buttons = dom.get(“div.button”, this.form);</pre></p>
+<p>  this.feedback.setForm(this.form);</p>
+<p>  assert(dom.addEventHandler.calledWith(buttons[0], “click”));<br>  assert(dom.addEventHandler.calledWith(buttons[1], “click”));<br>  assert(dom.addEventHandler.calledWith(buttons[2], “click”));<br>}`<br>这个测试使用了一些库中自带的工具。它验证了一个表单中的所有按钮都绑定了点击事件的监听。注意断言只检查了两个参数——元素和事件名，没有包含回调函数。review这个例子让我意识到我可以在这个例子中使用事件代理，但是好吧……</p>
+<p>Sinon有一些更高层的工具来使用spies，我会在下一篇文章中覆盖到它们。</p>
+<h2 id="Stubs">Stubs</h2>
+<p><a href="http://xunitpatterns.com/Test%20Stub.html" target="_blank" rel="external">测试Stubs</a>是假的对象，它们被预先编码了行为。它们会在下面两个情况下被用到：</p>
+</li>
+</ul>
+<ol>
+<li>避免使用不方便的借口——例如避免向服务器请求数据</li>
+<li><p>反馈给系统已知的数据，强制指定代码路径<br>Javascript函数是“first-class”（译者言：词法作用域的概念，有人翻译成一等公民，窃以为不合适故不翻译）的，这让你花很长时间决定伪代码样例：<br><pre>`”test should call event handler”: function () {<br>  var handler = function () { handler.called = true; };<br>  var myElement = document.getElementsByTagName(“a”)[0];</pre></p>
+<p>  dom.addEventListener(myElement, “mouseover”, handler);<br>  dom.fireEvent(myElement, “mouseover”);</p>
+<p>  assertTrue(handler.called);<br>}<code>&lt;/pre&gt;
+因为Javascript函数如此的多才多艺，大部分情况下对stubs的使用是很容易解决的。然而，在做了一段时间之后，你意识到使用一个库可以减少你的工作量，特别是stub全局接口的时候，例如之前说的</code>jQuery.ajax`。</p>
+<h3 id="创建Stub">创建Stub</h3>
+<p>Sinon提供了一个简单的创建stub的API。调用<code>sinon.stub()</code>就可以创建stub。它返回了一个“空”函数，这个函数支持之前提到过的spy的API。这样上面的那个例子可以被写成：<br><pre>`”test should call event handler”: function () {<br>  var handler = sinon.stub();<br>  var myElement = document.getElementsByTagName(“a”)[0];</pre></p>
+<p>  dom.addEventListener(myElement, “mouseover”, handler);<br>  dom.fireEvent(myElement, “mouseover”);</p>
+<p>  assertTrue(handler.called);<br>}`<br>代码只是变得简单了一点点，不过这是个非常简单的例子。因为它支持所有的spy的接口，我们可以检查调用次数、this、arguments以及其他。</p>
+<h3 id="Stubs的方法">Stubs的方法</h3>
+</li>
+</ol>
+<ul>
+<li><code>returns(returnValue)</code>设置stub的返回值。</li>
+<li><code>throws(exception)</code>设置stub抛出的exception，如果参数是一个字符串，则代表了抛出exception的类型。如果它是一个对象，则会把他当作一个exception抛出。如果没有提供参数，那么会在调用时抛出一个<code>Error</code>。</li>
+<li><code>callsArg(index)</code><strong>此API很可能会改变！</strong> 这个方法会导致stub立即调用并将参数传递进去。index参数表示传入参数的序号（从0开始），对应序号的参数会被当作一个回调函数。我认为这个方法的名字或者参数都不太好。欢迎给出建议。</li>
+<li><p><code>callsArgWith(index, arg1, arg2, ...)</code><strong>此API很可能会改变！</strong> 就像上面的方法一样，只是你可以为回调函数设置参数。和<code>callsArg</code>一样，我不确信这个方法的命名是否够好。我希望它更加直观，但是这是我能想到最好的了。<br>对于最后两个方法只要我把它们设计的够好，它们一定会非常有用。我也想让stub可以在调用时传递“可选”的参数。我还没有想到一个合理长度的、清晰简明的命名。目前它还有明显的不足，欢迎给我提意见。</p>
+<p>所有的方法都返回stub，所以它们可以链式调用，例如：<br><pre><code>sinon.stub(jQuery, &quot;each&quot;).callsArgWith(1, {}).returns({});</code></pre><br>上面代码创建了<code>jQuery.each</code>方法的stub。当它被调用的时候，会以<code>callsArgWith</code>方法的第二参数作为参数，并且返回一个空对象。</p>
+<p>stub的真实力量是可以拥有spy的接口。记住被stub的接口集成了例如<code>restore</code>之类的方法，故可以恢复成为原本的方法。</p>
+<h2 id="Mocks">Mocks</h2>
+<p><a href="http://xunitpatterns.com/Mock%20Object.html" target="_blank" rel="external">Mock对象</a>就像是stubs和spies的组合，并且内建了<em>预编码地验证行为</em>，也被成为<em>期望</em>。Mocks会在前期设置它们的期望（而不会像我们常见的断言一样在执行后判断是否符合期望）并且在接收到不被期望的调用时立即失败。最终<code>mock.verify()</code>的调用会验证所有的期望是否符合。</p>
+<h3 id="创建mocks">创建mocks</h3>
+<p>你可以创建一个匿名函数的mock，例如：<br><pre>`”test should call event handler”: function () {<br>  var mock = sinon.mock();<br>  var myElement = document.getElementsByTagName(“a”)[0];</pre></p>
+<p>  dom.addEventListener(myElement, “mouseover”, mock);<br>  dom.fireEvent(myElement, “mouseover”);</p>
+<p>  mock.verify();<br>}<code>&lt;/pre&gt;
+如果mock被调用了超过一次，这个测试会立马失败。当</code>verify()`被调用时，如果mock没有被调用过则会抛出一个exception。</p>
+<p>你也可以为一个对象上的方法创建mock，这就和spies和stubs一样。接口稍微有些不同，我们需要创建：一个mock对象和设置我们想要给于期望的方法。<br><pre><code>var mock = sinon.mock(jQuery);
+mock.expects(&quot;each&quot;).once().callsArgWith(1, {}).returns({});</code></pre><br>如上代码创建了<code>jQuery.each</code>方法的期望：只被调用一次，并且指示它向之前的stub一样运作。</p>
+<h3 id="控制mock的期望">控制mock的期望</h3>
+<p>Sinon的mocks支持了spy和stub的接口，尽管spy的接口比起mocks的接口来说没那么有趣。通常前期你会使用如下的方法来设置期望。注意这些方法也会返回expectation，这样你可以使用链式调用，符合声明使得代码可读性更高。</p>
+</li>
+<li><p><code>execptation.atLeast(callCount)</code>确保mock的被调用次数达到指定的次数。</p>
+</li>
+<li><code>expectation.atMost(callCount)</code>确保mock的被调用次数不会超过指定的次数。</li>
+<li><code>expectation.exactly(callCount)</code>指定mock被调用的次数。</li>
+<li><code>expectation.never()``exactly(0)</code>的快捷方法。</li>
+<li><code>expectation.once()``exactly(1)</code>的快捷方法。</li>
+<li><code>expectation.twice()``exactly(2)</code>的快捷方法。</li>
+<li><code>expectation.thrice()``exactly(3)</code>的快捷方法。</li>
+<li><code>expectation.withArgs(arg1, arg2, ...)</code>就像spy的<code>calledWith(arg1, arg2, ...)</code>方法一样，只不过是它是用作前期对期望的设置。</li>
+<li><code>expectation.withExactArgs(arg1, arg2, ...)</code>就像spy的<code>calledWithExactly(arg1, arg2, ...)</code>方法一样，只不过是它是用作前期对期望的设置。</li>
+<li><p><code>expectation.on(thisObj)</code>期望<code>this</code>值匹配指定的对象。<br>另外，mocks也继承了<code>restore</code>方法来恢复原始的方法。然而，大多数情况下你不需要直接调用它，<code>verify</code>方法会在验证所有的期望之后恢复方法。</p>
+<p>下面是我在书中用到的一个例子。我构建了一个<a href="http://en.wikipedia.org/wiki/Comet_%28programming%29" target="_blank" rel="external">comet客户端</a>用于长轮询从服务器端返回数据。下面的例子中期望在comet客户端在执行<code>connect</code>方法的时候，调用<code>ajax.poll</code>方法并传给指定的url。<br><pre>`”test connect should start polling”: function () {<br>  var client = Object.create(ajax.cometClient);<br>  client.url = “/my/url”;<br>  var mock = sinon.mock(ajax);<br>  mock.expects(“poll”).once().withArgs(“/my/url”).returns({});</pre></p>
+<p>  client.connect();</p>
+<p>  mock.verify();<br>}</p>
+</li>
+</ul>
+<p>你可能已经注意到<code>mock.verify</code>每次都在最后被调用，可以在测试框架中集成在最后默认执行会是一种不错的方式。我会展示在下一篇文章中展示Sinon在这个领域提供的东西。</p>
+<h2 id="现状-1">现状</h2>
+<p>目前，这篇文章中提到的东西都是可以工作的，经过了充份的测试并且可以使用。如果你想要尝试，你可以找到一份<a href="http://cjohansen.no/sinon/sinon.preview-20100525.js" target="_blank" rel="external">preview version</a>。所有的代码在<a href="http://gitorious.org/sinon/" target="_blank" rel="external">Gitorious</a>都可以找到。文档还很欠缺。还有更多特性可以被使用，它们会在下几篇文章中描述。最后，我正在写test/stub/mock timer和XMLHttpRequest的工具，但是它们还没有被完成。（译者言：翻译此文的时候这些都已经完成了，可以去<a href="http://sinonjs.org/" target="_blank" rel="external">Sinon.JS</a>官网看下）</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2013/10/29/e8af91javascript-test-spies-stubs-and-mocks/" data-id="fvoc16o6hl1hs0w5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Sinon/">Sinon</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mocks/">mocks</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spies/">spies</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/stubs/">stubs</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tdd/">tdd</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/test/">test</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/测试框架/">测试框架</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-watch-jse6ba90e7a081e8a7a3e8afbb" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013/10/29/watch-jse6ba90e7a081e8a7a3e8afbb/" class="article-date">
+  <time datetime="2013-10-29T15:10:57.000Z" itemprop="datePublished">Oct 29 2013</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/10/29/watch-jse6ba90e7a081e8a7a3e8afbb/">watch.js源码解读</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>用麻雀虽小五脏俱全来描述<a href="https://github.com/melanke/Watch.JS" target="_blank" rel="external">Watch.js</a>比较合适。“观察者”模式是我们在开发的时候经常需要用到的。使用Watch.js那么我们就可以实现在<em>“每当对象属性改变的时候，执行你的函数”</em>。虽然有很多其他的库可以实现相同的功能，但是Watch.js却可以不改变你平时书写代码的方式，并且实现属性改变的监听功能。
+        
+          <p class="article-more-link">
+            <a href="/2013/10/29/watch-jse6ba90e7a081e8a7a3e8afbb/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2013/10/29/watch-jse6ba90e7a081e8a7a3e8afbb/" data-id="fzinoo7pvhxpcxvq" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ObjectdefineProperty/">Object.defineProperty</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/watchjs/">watch.js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/观察者模式/">观察者模式</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-ecmascript-6e4b98bweakmap" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013/10/29/ecmascript-6e4b98bweakmap/" class="article-date">
+  <time datetime="2013-10-29T14:57:40.000Z" itemprop="datePublished">Oct 29 2013</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/10/29/ecmascript-6e4b98bweakmap/">ECMAScript 6之WeakMap</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ECMAScript 6中加入了很多新的特性，其中有一个有用的API：WeakMap。<a href="http://www.nczonline.net/blog/2012/11/06/ecmascript-6-collections-part-3-weakmaps/" target="_blank" rel="external">Nicholas的博文</a>做了详细的介绍。这也是一篇关于WeakMap的笔记。</p>
+<hr>
+<h2 id="简介">简介</h2>
+<p><code>WeakMap</code>与<code>Map</code>（另一个ES6的新API）都是键值对象，有着类似的API：<code>set</code>、<code>get</code>、<code>has</code>和<code>delete</code>。为了更好的解释<code>WeakMap</code>，先谈下Javascript中的键值对象。JS中几乎所有可写的对象就可以当作一个键值对象，例如：</p>
+<pre><code><span class="reserved">var</span> map = {};
+map[<span class="string">'key'</span>] = <span class="string">'value'</span>;`<span class="javascript">&lt;<span class="regexp">/pre&gt;
+但是这样简单的键值对象达不到一个效果：它的键“不能”是对象。之所以打引号是因为并不是不能用对象，而是对象会转换成字符串，如下：
+&lt;pre&gt;</span></span>`<span class="reserved">var</span> map = {};
+<span class="reserved">var</span> key = {};
+map[key] = <span class="string">'value'</span>;
+map[<span class="string">'[object Object]'</span>] === <span class="string">'value'</span>; <span class="regexp">//</span> <span class="literal">true</span>`<span class="javascript">&lt;<span class="regexp">/pre&gt;
+于是ES6就提供了</span></span>`Map`<span class="javascript">与</span>`WeakMap`<span class="javascript">的API，可以实现键是对象的情况。但是这引来了另外一个问题，</span>`Map`<span class="javascript">是可以通过</span>`keys`<span class="javascript">方法来获取其所有的键。这就需要map保留一个对键的强引用，于是就导致了引用释放上的不方便，稍微大意一些就容易造成内存泄漏。
+
+于是又提供了</span>`WeakMap`<span class="javascript">，它的键只能是一个非空（<span class="literal">null</span>）对象，而</span>`Map`<span class="javascript">的键则还可以是除对象外的原始类型。</span>`WeakMap`<span class="javascript">的重要特点在于：对键的引用是弱引用，而不是一般的强引用。看如下例子：
+&lt;pre&gt;</span>`<span class="reserved">var</span> map = <span class="keyword">new</span> WeakMap(),
+element = <span class="built_in">document</span>.querySelector(<span class="string">".element"</span>);
+
+<span class="regexp">//</span> 对象element作为键，<span class="string">"Original"</span>作为值
+map.set(element, <span class="string">"Original"</span>);
+
+<span class="regexp">//</span> 可以通过element获得值
+<span class="reserved">var</span> value = map.get(element);
+<span class="built_in">console</span>.log(value);             <span class="regexp">//</span> <span class="string">"Original"</span>
+
+<span class="regexp">//</span> 下面删除对element的强引用
+element.parentNode.removeChild(element);
+element = <span class="literal">null</span>;
+
+<span class="regexp">//</span> element dom对象被释放
+<span class="regexp">//</span> 已经无法通过element获取“Original”值`<span class="javascript">&lt;<span class="regexp">/pre&gt;
+</span></span>`WeakMap`<span class="javascript">的键只能是非空（<span class="literal">null</span>）对象，所以如果你在</span>`get`<span class="javascript">方法里面传入<span class="literal">null</span>或是<span class="literal">undefined</span>之类的值，就会报错：“value is not a non-<span class="literal">null</span> object”。它的另外一个特点就是无法获取所有的键，更无法获取size之类的值。
+
+</span>`WeakMap`<span class="javascript">一个典型的应用场景就是对于jQuery这样的库，需要维护一个dom列表，存储对应每个dom的数据。这时候使用它就可以达到“dom在文档中被移除的时候，自动释放dom对象”。
+
+当然ES6目前还没有普及，支持的浏览器仅有Firefox和Chrome。在chrome中你需要到</span>`<span class="attribute">chrome</span>:<span class="regexp">//</span>flags`<span class="javascript">，并且启用“Experimental JavaScript Features”。所以我们需要fallback。
+
+## Fallback
+
+Gozala提供了一个很精妙的[fallback方案](https:<span class="comment">//gist.github.com/1269991)！接下来对它的代码做解读。要实现WeakMap有几个关注点：</span></span>
+</code></pre><ol>
+<li>键一定是非空对象</li>
+<li>键无法被获取到</li>
+<li><p>WeakMap不能保留对键的强引用<br>因为这个方案是基于ECMAScript 5的，所以使用了<code>Object.freeze</code>和<code>Object.create</code>之类的API。WeakMap的初始化函数如下：<br><pre><code>function WeakMap() {
+  /**
+  Implementation of harmony</code>WeakMaps<code>, in ES5\. This implementation will
+  work only with keys that have configurable</code>valueOf` property (which is<br>  a default for all non-frozen objects).<br>  <a href="http://wiki.ecmascript.org/doku.php?id=harmony:weak_maps" target="_blank" rel="external">http://wiki.ecmascript.org/doku.php?id=harmony:weak_maps</a><br>  **/</pre></p>
+<p>  var privates = Name()<br>  return Object.freeze(Object.create(WeakMap.prototype, {</p>
+<pre><code>has: {
+  <span class="built_in">value</span>: <span class="function"><span class="keyword">function</span> <span class="title">has</span>(<span class="title">object</span>) {</span>
+    <span class="constant">return</span> <span class="string">'value'</span> <span class="operator">in</span> privates(object)
+  },
+  configurable: <span class="constant">true</span>,
+  enumerable: <span class="constant">false</span>,
+  writable: <span class="constant">true</span>
+},
+<span class="built_in">get</span>: {
+  <span class="built_in">value</span>: <span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="title">key</span>, <span class="title">fallback</span>) {</span>
+    <span class="constant">return</span> privates(guard(key)).<span class="built_in">value</span> || fallback
+  },
+  configurable: <span class="constant">true</span>,
+  enumerable: <span class="constant">false</span>,
+  writable: <span class="constant">true</span>
+},
+<span class="built_in">set</span>: {
+  <span class="built_in">value</span>: <span class="function"><span class="keyword">function</span> <span class="title">set</span>(<span class="title">key</span>, <span class="title">value</span>) {</span>
+    privates(guard(key)).<span class="built_in">value</span> = <span class="built_in">value</span>
+  },
+  configurable: <span class="constant">true</span>,
+  enumerable: <span class="constant">false</span>,
+  writable: <span class="constant">true</span>
+},
+<span class="string">'delete'</span>: {
+  <span class="built_in">value</span>: <span class="function"><span class="keyword">function</span> <span class="title">set</span>(<span class="title">key</span>) {</span>
+    <span class="constant">return</span> <span class="built_in">delete</span> privates(guard(key)).<span class="built_in">value</span>
+  },
+  configurable: <span class="constant">true</span>,
+  enumerable: <span class="constant">false</span>,
+  writable: <span class="constant">true</span>
+}
+</code></pre><p>  }))<br>}<code>&lt;/pre&gt;
+使用了</code>Object.create<code>创建了一个继承自WeakMap的新对象，并设置了has,get,set,delete方法。（其实我不太理解delete是个关键字，为什么标准要把它作为WeakMap的方法名之一？）然后使用</code>Object.freeze<code>确保对象无法被改变。避免有人通过</code>map.a = ‘string’`这样或其他方式去修改对象。</p>
+<p>其中的关键点在于<code>var privates = Name()</code>一句。privates方法是用来“依据键获取键值”。</p>
+<p>因为不能保存键的强引用所以需要将键值保存在键上。即WeakMap仅仅是提供了一个“键”与“值”之间的接口，通过WeakMap来设置或获取键对应值。这么一来就容易理解了，具体源代码如下：<br><pre><code>function defineNamespace(object, namespace) {
+  /**
+  Utility function takes</code>object<code>and</code>namespace<code>and overrides</code>valueOf<code>method of</code>object<code>, so that when called with a</code>namespace<code>argument,</code>private<code>object associated with this</code>namespace<code>is returned. If argument
+  is different,</code>valueOf<code>falls back to original</code>valueOf` property.<br>  **/</pre></p>
+<p>  // Private inherits from <code>object</code>, so that <code>this.foo</code> will refer to the<br>  // <code>object.foo</code>. Also, original <code>valueOf</code> is saved in order to be able to<br>  // delegate to it when necessary.<br>  var privates = Object.create(object), base = object.valueOf<br>  Object.defineProperty(object, ‘valueOf’, { value: function valueOf(value) {</p>
+<pre><code>// <span class="keyword">If</span> <span class="escape">`t</span>his<span class="escape">` </span><span class="literal">or</span> <span class="escape">`n</span>amespace<span class="escape">` </span>is <span class="literal">not</span> associated with <span class="literal">a</span> <span class="escape">`p</span>rivates<span class="escape">` </span>being
+// stored we fallback to original <span class="escape">`v</span>alueOf<span class="escape">`,</span> otherwise we <span class="keyword">return</span> privates.
+<span class="keyword">return</span> value != namespace || this != object ? base.apply(this, arguments)
+<span class="label">                                          :</span> privates
+</code></pre><p>  }, configurable: true })<br>  return privates<br>}</p>
+<p>function Name() {<br>  /<strong><br>  Desugared implementation of private names proposal. API is different as<br>  it’s not possible to implement API proposed for harmony with in ES5. In<br>  terms of provided functionality it supposed to be same.<br>  <a href="http://wiki.ecmascript.org/doku.php?id=strawman:private_names" target="_blank" rel="external">http://wiki.ecmascript.org/doku.php?id=strawman:private_names</a>
+  </strong>/</p>
+<p>  var namespace = {}<br>  return function name(object) {</p>
+<pre><code>var privates = <span class="built_in">object</span>.valueOf(<span class="keyword">namespace</span>)
+<span class="keyword">return</span> privates !== <span class="built_in">object</span> ? privates : defineNamespace(<span class="built_in">object</span>, <span class="keyword">namespace</span>)
+</code></pre><p>  }<br>}</p>
+<p>function guard(key) {<br>  /<strong><br>  Utility function to guard WeakMap methods from keys that are not<br>  a non-null objects.
+  </strong>/</p>
+<p>  if (key !== Object(key)) throw TypeError(“value is not a non-null object”)<br>  return key<br>}<code>&lt;/pre&gt;
+代码中guard方法用于验证键是否是非空对象，又通过重写valueOf方法来获取键对应的存储值的对象。即是如下的引用关系：
+&lt;pre&gt;</code>key -&gt; valueOf —(namespace)—&gt; privates —&gt; value</p>
+</li>
+</ol>
+<p>其中的关键点是namespace是一个空对象。为什么呢？因为一个空对象是无法模仿的、是唯一的，如果改用字符串则很容易被知道字符串值的人直接通过<code>key.valueOf(&#39;namespace&#39;)</code>方法获取到privates。</p>
+<p>所以实现WeakMap的核心是“如何构造一个<a href="http://wiki.ecmascript.org/doku.php?id=strawman:private_names" target="_blank" rel="external">唯一的无法伪造的属性名</a>”。</p>
+<p>Nicolas还在Gozala方案的评论中提到了另外一种实现，具体见<a href="http://code.google.com/p/es-lab/source/browse/trunk/src/ses/WeakMap.js" target="_blank" rel="external">http://code.google.com/p/es-lab/source/browse/trunk/src/ses/WeakMap.js</a>。我还没有仔细看～</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2013/10/29/ecmascript-6e4b98bweakmap/" data-id="816lkclxrc90qx9m" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ECMAScript-6/">ECMAScript 6</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html5/">html5</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weakmap/">weakmap</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-e68a9be5bc83syntaxhighlighter-evolvede68f92e4bbb6" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013/10/29/e68a9be5bc83syntaxhighlighter-evolvede68f92e4bbb6/" class="article-date">
+  <time datetime="2013-10-29T04:58:31.000Z" itemprop="datePublished">Oct 29 2013</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Other/">Other</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/10/29/e68a9be5bc83syntaxhighlighter-evolvede68f92e4bbb6/">抛弃SyntaxHighlighter Evolved插件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>代码高亮可能是wordpress里面最麻烦的一件事件了，以前一直用的插件叫做：<a href="http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/" target="_blank" rel="external">SyntaxHighlighter Evolved</a>。但是说实话，这个插件不太好用…编辑器在可视化和文本之间切换容易造成bug（代码无故加上&lt;pre&gt;之类的文字）。最悲剧地是：由于SyntaxHighlighter Evolved的语法很特殊，没办法替换成其他的高亮插件。语法如下（去掉空格）：</p>
+<pre>[[js]]code[/ js]</pre>
+不过这不是我替换掉它的主要原因。致命的缺陷是它使用的高亮js库是：[SyntaxHighlighter](http://alexgorbatchev.com/SyntaxHighlighter/)。这个库已经有些年头了，它生成的html是table而不是pre标签。table很难用CSS来优化，且不符合语义化。
+
+于是fork修改了[SyntaxHighlighter Evolved的代码](https://github.com/zmmbreeze/syntaxhighlighter)，去掉了SyntaxHighlighter相关的html输出。这样就可以保证旧的文章依旧输出正确的pre标签。然后在主题里面使用[google-code-prettify](http://code.google.com/p/google-code-prettify/)来高亮代码。google-code-prettify有个很重要的优势就是可以自动判断代码的类型，这样对任何pre标签做处理即可。代码如下：
+<pre>(function() {
+    var pres = document.getElementsByTagName('pre');
+    for (var i=0,l=pres.length; i&lt;l; i++) {
+        pres[i].className = 'prettyprint';
+    }
+    prettyPrint();
+})();</pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2013/10/29/e68a9be5bc83syntaxhighlighter-evolvede68f92e4bbb6/" data-id="d04kj22p651cvvdk" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SyntaxHighlighter/">SyntaxHighlighter</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SyntaxHighlighter-Evolved/">SyntaxHighlighter Evolved</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/google-code-prettify/">google-code-prettify</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/plugin/">plugin</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wordpress/">wordpress</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-css3e79d80e9878de7aca6e58f8ae585b6fallback" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013/08/04/css3e79d80e9878de7aca6e58f8ae585b6fallback/" class="article-date">
+  <time datetime="2013-08-04T13:14:18.000Z" itemprop="datePublished">Aug 4 2013</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>►<a class="article-category-link" href="/categories/javascript/UI/">UI</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/08/04/css3e79d80e9878de7aca6e58f8ae585b6fallback/">CSS3着重符及其fallback</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在东亚国家，人们会在文章中重要文字旁加上小符号以突出其重要性。如下：</p>
+<p><img src="http://mzhou.me/wp-content/uploads/2013/08/屏幕快照-2013-08-04-下午2.19.42.png" alt="屏幕快照 2013-08-04 下午2.19.42"></p>
+<h2 id="标准">标准</h2>
+<p><img src="http://mzhou.me/wp-includes/js/tinymce/plugins/wordpress/img/trans.gif" alt="" title="更多...">在中文里面，我们一般会在文字下方加上圆形符号。在日语中会在文字上方加上小顿号。在CSS3中如下属性可以控制着重符号:</p>
+<ol>
+<li><a href="http://www.w3.org/TR/css-text-decor-3/#text-emphasis" target="_blank" rel="external"><code>text-emphasis</code></a></li>
+<li><a href="http://www.w3.org/TR/css-text-decor-3/#text-emphasis-style" target="_blank" rel="external"><code>text-emphasis-style</code></a></li>
+<li><a href="http://www.w3.org/TR/css-text-decor-3/#text-emphasis-color" target="_blank" rel="external"><code>text-emphasis-color</code></a></li>
+<li><a href="http://www.w3.org/TR/css-text-decor-3/#text-emphasis-position" target="_blank" rel="external"><code>text-emphasis-position</code></a><br><code>text-emphasis</code>是<code>text-emphasis-style</code>和<code>text-emphasis-color</code>的快捷方式，注意它并不包含<code>text-emphasis-position</code>。</li>
+</ol>
+<p><code>text-emphasis-style</code>属性用于控制着重符号的样式。基本的符号形状有<code>dot | circle | double-circle | triangle | sesame</code>这几种，它们又分别有“空心（open）”、“填充（filled）”两种展现形式。当你只填了<code>filled</code>或<code>open</code>是，符号形状的默认值和文字是竖排还是横排（<code>writing-modes</code>）有关，比如横排时默认是<code>filled circle</code>，竖排时是<code>filled sesame</code>。如果你之前填了符号形状，则默认的展现形式是<code>filled</code>。当然你还可以自定义符号，但是只能显示一个字符。</p>
+<p>另一个重要的属性是<code>text-emphasis-color</code>，它控制了着重符号的颜色，默认使用当前文字的颜色。</p>
+<p>最后一个属性是<code>text-emphasis-position</code>，它有这几种可选值<code>[ over | under ] &amp;amp;&amp;amp; [ right | left ]</code>。它的默认值计算方式更为复杂些，与横竖排版和所处语言环境都有关系。横排情况下，中文环境默认值为<code>under</code>，日文环境默认值为<code>over</code>。竖排情况下，中文和日文环境下默认值都为<code>right</code>。</p>
+<p>在CSS中，一般着重符号的字体大小是其对应文字的一半。且当行高有足够空间来绘制着重符时，它不会影响到对应文字的行高。</p>
+<p>在2013年8月1日，这个标准成为“候选推荐标准”，这对喜爱文字排版的人来说是个好消息。遗憾地是目前只有webkit内核的浏览器是支持它的，并且需要使用<code>webkit</code>前缀。所以在使用时需要做fallback。</p>
+<h2 id="FALLBACK">FALLBACK</h2>
+<p>在做fallback时，有这么几点是需要考虑的：</p>
+<ol>
+<li>如何应对letter-spacing样式和文字宽度不一致的情况</li>
+<li><span style="line-height: 13px;">如何处理浏览器的最小字体配置</span></li>
+<li>如何空间是否足够绘制着重符（计算行高）</li>
+<li>如何减少对现有html的影响</li>
+<li>如何获得所处语言环境</li>
+</ol>
+<h3 id="一">一</h3>
+<p>对于第一点的解决方案是：对每个字符用span包裹，方法类似于<a href="http://letteringjs.com/" target="_blank" rel="external">letter.js</a>。然后在每个span内部插入另一个包含着重符的span，它的宽度为百分百，且绝对定位。如下面样例所示：</p>
+<iframe src="http://jsfiddle.net/zmmbreeze/C4KaB/embedded/result,html,css" height="300" width="100%" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<p>对于有<code>letter-spacing</code>的情况，可以设置span的<code>letter-spacing</code>为0，然后使用<code>margin-right</code>来替代它。</p>
+<h3 id="二">二</h3>
+<p>如果你是用chrome，你可能已经注意到了“最小字体”导致的问题：着重符号太大了。在chrome下着重符号是12px，而不是8px（16/2）。为了解决问题2，我们需要想想其他方法。我首先考虑到的是zoom属性，它支持chrome（所有版本）、safari和IE。可惜的是在chrome下<code>zoom:0.5</code>也不能使字体变小。然后考虑到的是<code>transform:scale(0.5)</code>，幸运地是它能使文字比最小字体还要小。不过支持的浏览器不够多，参考<a href="http://caniuse.com/#search=transform" target="_blank" rel="external">这里</a>。所以必须要考虑在不支持<code>transform</code>的时候使用fallback。我的处理方法是使用绝对大小（px）。虽然不能使着重符号字体变小，但是至少可以保证着重符位置正确。</p>
+<iframe src="http://jsfiddle.net/zmmbreeze/C4KaB/1/embedded/result,html,css" height="300" width="100%" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<h3 id="三">三</h3>
+<p>在绘制着重符时，如果行高内有足够的高度，则着重符不会扩大行高。如果高度不够，则扩大行高。第二种情况需要设置<code>display:inline-block</code>; 及<code>padding-bottom</code>，来模拟行高高度的扩大。为了做高度是否充足的判断，我们就需要计算字体大小和行高。当你设置字体大小为1em时，对于IE这样的浏览器，获得地长度其实并不是以px为单位。这时需要一些hack：</p>
+<p>[js]<br>// <a href="http://erik.eae.net/archives/2007/07/27/18.54.15/#comment-102291" target="_blank" rel="external">http://erik.eae.net/archives/2007/07/27/18.54.15/#comment-102291</a><br>var PIXEL = /^\d+(px)?$/i;<br>function getPixelValue(element, value) {<br>    if (PIXEL.test(value)) {<br>        return parseInt(value);<br>    }<br>    var style = element.style.left;<br>    var runtimeStyle = element.runtimeStyle.left;<br>    element.runtimeStyle.left = element.currentStyle.left;<br>    element.style.left = value || 0;<br>    value = element.style.pixelLeft;<br>    element.style.left = style;<br>    element.runtimeStyle.left = runtimeStyle;<br>    return value;<br>};<br>[/js]</p>
+<p>幸运地是，jQuery已经处理了这种情况。这样我们就可以得到正确的字体大小和行高（需要特殊处理行高为缩放因子和normal的情况）。不过受到了“文字可能比设置地字体大小更大”、“同行有更高行高的元素（例如图片）”等等特殊情况的限制，导致了计算结果并不一定正确。幸运地是对最终结果的影响并不是很大。</p>
+<h3 id="四">四</h3>
+<p>第四个问题指的是<code>innerText/$(&#39;em&#39;).text()</code>的返回值在做了fallback之后就不再正确了，同时受到影响的还有<code>innerHTML</code>。对于后者我没有想到好的方案。对于前者，我们可以把着重符放在span标签的before伪元素上。这样得到的<code>innerText</code>值还是正确的。不过也引入了另一个问题：如何用js修改before伪元素的样式。我采用的方法是插入css rule，下面有简单的代码。在实际情况下，因为不能删掉css rule，所以需要做好css rule的缓存复用。</p>
+<p>[js]<br>var styleSheet;<br>function addCSSRule(selector, rules) {<br>    if (!styleSheet) {<br>        var style = document.createElement(‘style’);<br>        style.type = ‘text/css’;<br>        $(‘head’).eq(0).prepend(style);<br>        styleSheet = document.styleSheets[0];<br>    }</p>
+<pre><code><span class="keyword">if</span> (styleSheet.insertRule) {
+    styleSheet.insertRule(
+        selector + <span class="string">'{'</span> + rules + <span class="string">'}'</span>,
+        styleSheet.cssRules.<span class="built_in">length</span>
+    );
+} <span class="keyword">else</span> {
+    <span class="comment">// IE</span>
+    styleSheet.addRule(selector, rules, -<span class="number">1</span>);
+}
+</code></pre><p>}<br>[/js]</p>
+<h3 id="五">五</h3>
+<p>最后一个问题的解决方案则比较简单粗暴。获取<code>navigator.language || navigator.browserLanguage</code>的值判断其所处的语言环境。</p>
+<h3 id="jQuery-emphasis-js">jQuery.emphasis.js</h3>
+<p>解决了这些问题之后，终于得到了一个可用的fallback。再根据标准来修改优化代码，就得到了<a href="https://github.com/zmmbreeze/jquery.emphasis" target="_blank" rel="external">jQuery.emphasis.js</a>。这里有些它的<a href="http://nodejs.in/jquery.emphasis/demo.html" target="_blank" rel="external">demo</a>。不过它没有解决所有的问题，目前已知的缺陷如下：</p>
+<ol>
+<li>不支持竖排（即不支持<code>position</code>为<code>right/left</code>）</li>
+<li>不支持特殊情况下的<code>inline-block</code>元素（比如默认元素有<code>padding-bottom</code>）</li>
+<li>如果浏览器不支持<code>transform</code>，则会有最小字体导致的着重符过大问题<br>如果你还发现了其他问题，欢迎<a href="https://github.com/zmmbreeze/jquery.emphasis/issues" target="_blank" rel="external">feedback</a>。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2013/08/04/css3e79d80e9878de7aca6e58f8ae585b6fallback/" data-id="zkt47sqjxbzp5033" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css3/">css3</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/emphasis/">emphasis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQueryemphasis/">jQuery.emphasis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/text/">text</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/text-emphasis/">text-emphasis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/着重符/">着重符</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-ios-5-mobile-safarie4b8adlabele79a84bug" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/11/25/ios-5-mobile-safarie4b8adlabele79a84bug/" class="article-date">
+  <time datetime="2012-11-25T10:41:21.000Z" itemprop="datePublished">Nov 25 2012</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UI/">UI</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/11/25/ios-5-mobile-safarie4b8adlabele79a84bug/">iOS 5 Mobile Safari中label的bug</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前几天在codepen上看到了不错<a href="http://codepen.io/jetpacmonkey/pen/ktIJz" target="_blank" rel="external">CSS用法</a>，今天打算在写<a href="http://nodejs.in" target="_blank" rel="external">新博客</a>的时候使用类似的思路：</p>
+<blockquote>
+<p>用input[type=checkbox]来控制同级元素的样式，实现只用CSS来修改样式状态的特性。<br>做的时候发现iOS 5下此demo无法用，于是发现了label元素的一个bug。我们在写表单的时候，为了实现点击label自动选中input，一般会这么做：</p>
+</blockquote>
+<p>[html]<br>&lt;label for=&quot;email&quot;&gt;Email&lt;/label&gt;<br>&lt;input type=&quot;text&quot; id=&quot;email&quot;/&gt;[/html]</p>
+<p>这样当用户点击Email文字时，输入框会自动选中，以提高用户体验。但是如果input是checkbox呢？</p>
+<p>[html]<br>&lt;label for=&quot;sure&quot;&gt;Sure&lt;/label&gt;<br>&lt;input type=&quot;checkbox&quot; id=&quot;sure&quot;/&gt;[/html]</p>
+<p>此时在iOS 5中，点击文字Sure，checkbox不会自动勾选！搜索之后得到<a href="http://stackoverflow.com/questions/5421659/html-label-command-doesnt-work-in-iphone-browser" target="_blank" rel="external">解决方案</a>：为label加个onclick属性，它就可以正常触发input[type=checkbox]了。</p>
+<p>[html]<br>&lt;label for=&quot;sure&quot; onlcick&gt;Sure&lt;/label&gt;<br>&lt;input type=&quot;checkbox&quot; id=&quot;sure&quot;/&gt;[/html]</p>
+<p>本来以为OK了，于是写了个<a href="http://nodejs.in/demo/label_ios_test.html" target="_blank" rel="external">测试用例</a>。却发现还需要另外一个条件才能触发label的行为。而且这不仅仅针对checkbox，<strong>对所有的input都需要这两个条件</strong>：</p>
+<blockquote>
+<ol>
+<li>label有onclick属性（即绑定了click事件），或者是它的父元素绑定了click事件。</li>
+<li>label的css cursor值必须是pointer<br>另外有个注意点：<br>不同的父元素绑定click又会有影响。如果是document.body绑定，那么手指按下的时候label会有样式上的变化（onclick也有此效果）。如果是一般的父div则没有此效果。<br>猜测此bug同样影响了iOS 5上的其他浏览器（注：这里只测试了Chrome）。iOS6上已经修复了此bug。因为手头没有设备，故没有测试iOS5之前版本是否有此bug。</li>
+</ol>
+</blockquote>
+<p>最后fork修改原来codepen上的demo，Check it out～ <a href="http://codepen.io/zmmbreeze/pen/AaLFJ" target="_blank" rel="external">http://codepen.io/zmmbreeze/pen/AaLFJ</a>。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2012/11/25/ios-5-mobile-safarie4b8adlabele79a84bug/" data-id="gt8tf5z6xcylk6pf" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mobile-Safari/">Mobile Safari</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bug/">bug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/checkbox/">checkbox</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/input/">input</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ios/">ios</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/label/">label</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-e7baa6e69d9fe9aa8ce8af81efbc9ae7bd91e9a1b5e8a1a8e58d95e79a84e69cace59cb0e5aea2e688b7e7abafe9aa8ce8af81" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/10/22/e7baa6e69d9fe9aa8ce8af81efbc9ae7bd91e9a1b5e8a1a8e58d95e79a84e69cace59cb0e5aea2e688b7e7abafe9aa8ce8af81/" class="article-date">
+  <time datetime="2012-10-22T03:25:31.000Z" itemprop="datePublished">Oct 22 2012</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>►<a class="article-category-link" href="/categories/javascript/Other/">Other</a>►<a class="article-category-link" href="/categories/javascript/Other/UI/">UI</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/10/22/e7baa6e69d9fe9aa8ce8af81efbc9ae7bd91e9a1b5e8a1a8e58d95e79a84e69cace59cb0e5aea2e688b7e7abafe9aa8ce8af81/">约束验证：网页表单的本地客户端验证</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>译者言：此文翻译自<a href="http://www.html5rocks.com/en/tutorials/forms/constraintvalidation/" target="_blank" rel="external">Constraint Validation: Native Client Side Validation for Web Forms</a><br>众所周知，验证表单一直有很痛苦的开发体验。实现一种用户体验好、开发体验好且可访问性好的客户端验证是很困难的事情。在HTML5出现之前没有一种本地实现的验证，所以开发者使用了各种各样基于javascript的验证方案。</p>
+</blockquote>
+<p>为了解放开发者，HTML5引入了<a href="http://www.whatwg.org/specs/web-apps/current-work/#constraint-validation" target="_blank" rel="external">约束验证</a>的概念，一种本地实现的网页表单验证。</p>
+<p>尽管所有主流浏览器的最新版本都支持了这个特性，约束验证目前还仅限于展示和demo的阶段。写这篇文章的目的就是帮助开发了解这个新的api，做出更好的网页表单。</p>
+<p>在这个教程中作者会：</p>
+<ol>
+<li>全面地展示约束验证是什么；</li>
+<li>发现现今标准和浏览器实现上的限制；</li>
+<li>讨论现在如何在你的表单中使用约束验证；</li>
+</ol>
+<h2 id="约束验证是什么？">约束验证是什么？</h2>
+<p>约束验证的核心是浏览器在提交表单时判断其是否合法的算法。为了做这个判断，算法利用了几个新的HTML5属性：<a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-input-min" target="_blank" rel="external">min</a>、<a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-input-max" target="_blank" rel="external">max</a>、<a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-input-step" target="_blank" rel="external">step</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/#the-pattern-attribute" target="_blank" rel="external">pattern</a>, 和 <a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-input-required" target="_blank" rel="external">required</a> 以及已经存在的 <a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-fe-maxlength" target="_blank" rel="external">maxlength</a> 和 <a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-input-type" target="_blank" rel="external">type</a>。</p>
+<p>下面的这个例子中Text input使用了一个值为空的 <code>required</code> 属性：</p>
+<p>[html]<br>&lt;form&gt;<br>  &lt;input type=&quot;text&quot; value=&quot;&quot; required /&gt;<br>&lt;/form&gt;<br>[/html]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/HdSqt/" target="_blank" rel="external">在线查看demo</a></p>
+<p>如果你在<a href="http://caniuse.com/#feat=form-validation" target="_blank" rel="external">支持约束验证的浏览器</a>中提交表单，那么浏览器会阻止表单提交并显示成如下效果：</p>
+<p>Chrome 21</p>
+<p><pre><a href="http://mzhou.me/article/95798/demo-01/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-01.png" alt="" title="demo-01"></a></pre><br>Firefox 15</p>
+<p><a href="http://mzhou.me/article/95798/demo-02/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-02.png" alt="" title="demo-02"></a></p>
+<p>Internet Explorer 10</p>
+<p><a href="http://mzhou.me/article/95798/demo-03/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-03.png" alt="" title="demo-03"></a><br>Opera 12</p>
+<p><a href="http://mzhou.me/article/95798/demo-04/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-04.png" alt="" title="demo-04"></a><br>Opera Mobile</p>
+<p><a href="http://mzhou.me/article/95798/demo-05/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-05-300x108.png" alt="" title="demo-05"></a><br>Chrome for Android</p>
+<p><a href="http://mzhou.me/article/95798/demo-06/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-06-300x111.png" alt="" title="demo-06"></a><br>Firefox for Android</p>
+<p><a href="http://mzhou.me/article/95798/demo-07/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-07-300x102.jpg" alt="" title="demo-07"></a></p>
+<p>标准中没有规定浏览器应该如何显示错误信息，这是由浏览器自己约定的。不过标准提供了一套DOM API、新HTML属性和CSS钩子帮助开发者自定义样式。</p>
+<h2 id="DOM_API">DOM API</h2>
+<p><a href="http://www.whatwg.org/specs/web-apps/current-work/#constraint-validation-api" target="_blank" rel="external">约束验证的API</a>添加了如下属性和方法到DOM节点中。</p>
+<h3 id="WILLVALIDATE">WILLVALIDATE</h3>
+<p><code>willValidate</code> 属性标识了这个DOM节点是否使用约束验证。对于<a href="http://www.whatwg.org/specs/web-apps/current-work/#category-submit" target="_blank" rel="external">可以提交的元素</a>来说这个属性会被设置成 <code>true</code> 除非因为某些原因被<a href="http://www.whatwg.org/specs/web-apps/current-work/#barred-from-constraint-validation" target="_blank" rel="external">禁止使用约束验证</a>，例如有 <code>disabled</code> 属性时。</p>
+<p>[html]<br>&lt;div id=&quot;one&quot;&gt;&lt;/div&gt;</p>
+<p>&lt;input id=&quot;two&quot; type=&quot;text&quot; /&gt;<br>&lt;input id=&quot;three&quot; type=&quot;text&quot; disabled /&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>    document.getElementById(‘one’).willValidate; //false<br>    document.getElementById(‘two’).willValidate; //true<br>    document.getElementById(‘three’).willValidate; //false<br>&lt;/script&gt;<br>[/html]</p>
+<h3 id="validity">validity</h3>
+<p>Dom节点的<a href="http://www.whatwg.org/specs/web-apps/current-work/#dom-cva-validity" target="_blank" rel="external"><code>validity</code></a> 属性会返回一个 <a href="http://www.whatwg.org/specs/web-apps/current-work/#validitystate" target="_blank" rel="external"><code>ValidityState</code></a>对象，它包含了一系列与节点相关的布尔属性的验证结果。</p>
+<ul>
+<li><code>customError</code>: <code>true</code> 标识是否使用了自定义的验证消息，可以通过<code>setCustomValidity()</code>来设置验证消息；<br>[html]<br>&lt;input id=&quot;foo&quot; type=&quot;text&quot; /&gt;<br>&lt;input id=&quot;bar&quot; type=&quot;text&quot; /&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>document.getElementById(‘foo’).validity.customError; //false<br>document.getElementById(‘bar’).setCustomValidity(‘Invalid’);<br>document.getElementById(‘bar’).validity.customError; //true<br>&lt;/script&gt;<br>[/html]</li>
+<li><code>patternMismatch</code>: <code>true</code> 标识节点的 <code>value</code> 是否匹配它的 <code>pattern</code> 属性值。<br>[html]<br>&lt;input id=&quot;foo&quot; type=&quot;text&quot; value=&quot;1234&quot; pattern=&quot;[0-9]{4}&quot; /&gt;<br>&lt;input id=&quot;bar&quot; type=&quot;text&quot; value=&quot;ABCD&quot; pattern=&quot;[0-9]{4}&quot;/&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>document.getElementById(‘foo’).validity.patternMismatch; //false<br>document.getElementById(‘bar’).validity.patternMismatch; //true<br>&lt;/script&gt;<br>[/html]</li>
+<li><code>rangeOverflow</code>: <code>true</code> 标识是否节点的 <code>value</code> 比它的 <code>max</code> 属性值还大。<br>[html]<br>&lt;input id=&quot;foo&quot; type=&quot;number&quot; value=&quot;1&quot; max=&quot;2&quot;/&gt;<br>&lt;input id=&quot;bar&quot; type=&quot;number&quot; value=&quot;3&quot; max=&quot;2&quot;/&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>document.getElementById(‘foo’).validity.rangeOverflow; //false<br>document.getElementById(‘bar’).validity.rangeOverflow; //true<br>&lt;/script&gt;<br>[/html]</li>
+<li><code>rangeUnderflow</code>: <code>true</code> 标识是否节点的 <code>value</code>比它的<code>min</code>属性值还小。<br>[html]<br>&lt;input id=&quot;foo&quot; type=&quot;number&quot; value=&quot;3&quot; min=&quot;2&quot;/&gt;<br>&lt;input id=&quot;bar&quot; type=&quot;number&quot; value=&quot;1&quot; min=&quot;2&quot;/&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>document.getElementById(‘foo’).validity.rangeUnderflow; //false<br>document.getElementById(‘bar’).validity.rangeUnderflow; //true<br>&lt;/script&gt;<br>[/html]</li>
+<li><code>stepMismatch</code>: <code>true</code> 标识是否节点的 <code>value</code> 与它的 <code>step</code> 属性值不符合.<br>[html]<br>&lt;input id=&quot;foo&quot; type=&quot;number&quot; value=&quot;4&quot; step=&quot;2&quot;/&gt;<br>&lt;input id=&quot;bar&quot; type=&quot;number&quot; value=&quot;3&quot; step=&quot;2&quot;/&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>document.getElementById(‘foo’).validity.stepMismatch; //false<br>document.getElementById(‘bar’).validity.stepMismatch; //true<br>&lt;/script&gt;<br>[/html]</li>
+<li><code>tooLong</code>: <code>true</code> 标识是否节点的 <code>value</code> 长度超过了 <code>maxlength</code> 属性值。所有的浏览器都会阻止用户输入超过最大长度值的内容。我在<a href="http://tjvantoll.com/2012/10/17/maxlength-constraint-validation-oddities/" target="_blank" rel="external">这里</a>描述了长度会超过maxlength的情况。</li>
+<li><code>typeMismatch</code>: <code>true</code> 标识是否input节点的<code>value</code>与<code>type</code>属性值不匹配。<br>[html]<br>&lt;input id=&quot;foo&quot; type=&quot;url&quot; value=&quot;<a href="http://foo.com&amp;quot" target="_blank" rel="external">http://foo.com&amp;quot</a>; /&gt;<br>&lt;input id=&quot;bar&quot; type=&quot;url&quot; value=&quot;foo&quot; /&gt;<br>&lt;input id=&quot;foo2&quot; type=&quot;email&quot; value=&quot;foo@foo.com&quot; /&gt;<br>&lt;input id=&quot;bar2&quot; type=&quot;email&quot; value=&quot;bar&quot; /&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>document.getElementById(‘foo’).validity.typeMismatch; //false<br>document.getElementById(‘bar’).validity.typeMismatch; //true<br>document.getElementById(‘foo2’).validity.typeMismatch; //false<br>document.getElementById(‘bar2’).validity.typeMismatch; //true<br>&lt;/script&gt;<br>[/html]</li>
+<li><code>valueMissing</code>: <code>true</code> 标识是否节点有 <code>required</code> 属性却没有值.。<br>[html]<br>&lt;input id=&quot;foo&quot; type=&quot;text&quot; value=&quot;foo&quot; required /&gt;<br>&lt;input id=&quot;bar&quot; type=&quot;text&quot; value=&quot;&quot; required/&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>document.getElementById(‘foo’).validity.valueMissing; //false<br>document.getElementById(‘bar’).validity.valueMissing; //true<br>&lt;/script&gt;<br>[/html]</li>
+<li><code>valid</code>: <code>true</code> 标识是否所有的验证提交都满足，有任意一条不满足则为 <code>false</code>。<br>[html]<br>&lt;input id=&quot;valid-1&quot; type=&quot;text&quot; value=&quot;foo&quot; required /&gt;<br>&lt;input id=&quot;valid-2&quot; type=&quot;text&quot; value=&quot;&quot; required/&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>document.getElementById(‘valid-1’).validity.valid; //true<br>document.getElementById(‘valid-2’).validity.valid; //false<br>&lt;/script&gt;<br>[/html]</li>
+</ul>
+<h3 id="VALIDATIONMESSAGE">VALIDATIONMESSAGE</h3>
+<p>Dom节点的 <code>validationMessage</code> 属性包含浏览器显示给用户看的错误信息，即验证出错时候的提示信息。</p>
+<p>浏览器为这个属性提供了一个默认的本地化信息。如果DOM节点不需要验证或者节点包含正确的内容，那么<code>validationMessage</code>会被设置为空字符串。</p>
+<p>注意：在写这篇文章的时候，Opera默认不会填充这个属性。</p>
+<p>[html]<br>&lt;input id=&quot;foo&quot; type=&quot;text&quot; required/&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>    document.getElementById(‘foo’).validationMessage;<br>    //Chrome  —&gt; ‘Please fill out this field.’<br>    //Firefox —&gt; ‘Please fill out this field.’<br>    //Safari  —&gt; ‘value missing’<br>    //IE10    —&gt; ‘This is a required field.’<br>    //Opera   —&gt; ‘’<br>&lt;/script&gt;<br>[/html]</p>
+<h3 id="CHECKVALIDITY()">CHECKVALIDITY()</h3>
+<p>表单元素节点（例如：input、select、textarea）的<code>checkValidity</code>方法在元素包含正确内容的时候会返回 <code>true。</code></p>
+<p>表单（form）节点的<code>checkValidity</code>方法会在其所有子节点都包含正确内容的时候返回<code>true</code>。</p>
+<p>[html]<br>&lt;form id=&quot;form-1&quot;&gt;<br>  &lt;input id=&quot;input-1&quot; type=&quot;text&quot; required/&gt;<br>&lt;/form&gt;<br>&lt;form id=&quot;form-2&quot;&gt;<br>  &lt;input id=&quot;input-2&quot; type=&quot;text&quot; /&gt;<br>&lt;/form&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>    document.getElementById(‘form-1’).checkValidity();  //false<br>    document.getElementById(‘input-1’).checkValidity(); //false<br>    document.getElementById(‘form-2’).checkValidity();  //true<br>    document.getElementById(‘input-2’).checkValidity(); //true<br>&lt;/script&gt;<br>[/html]</p>
+<p>另外，每次通过<code>checkValidity</code>方法验证表单元素正确性的时候且验证失败，出错节点的<code>invalid</code>事件会被触发。使用上面的样例代码时候，如果你想在id为<code>input-1</code>的节点验证失败时运行一些代码，那么你可以使用如下的代码：</p>
+<p>[js]<br>document.getElementById(‘input-1’).addEventListener(‘invalid’, function() {<br>    //…<br>}, false);<br>[/js]</p>
+<p>虽然没有<code>valid</code>事件，不过你可以使用<code>change</code>事件来通知输入元素的验证改变事件。</p>
+<p>[js]<br>document.getElementById(‘input-1’).addEventListener(‘change’, function(event) {<br>    if (event.target.validity.valid) {<br>        //Field contains valid data.<br>    } else {<br>        //Field contains invalid data.<br>    }<br>}, false);<br>[/js]</p>
+<h3 id="SETCUSTOMVALIDITY()">SETCUSTOMVALIDITY()</h3>
+<p><code>setCustomValidity</code>方法改变了<code>validationMessage</code>属性，也允许你添加自定义的验证规则。</p>
+<p>因为它可以设置<code>validationMessage</code>，所以设置其为一个空字符串的时候表明验证正确，设置其他字符串的时候表明验证失败。不幸地是，没有办法设置 <code>validationMessage</code> 的同时，不改变表单元素的验证状态。</p>
+<p>例如，如果你有两个密码输入框，你希望强制它们的输入内容一致。那么你可以这么写：</p>
+<p>[js]<br>if (document.getElementById(‘password1’).value != document.getElementById(‘password2’).value) {<br>    document.getElementById(‘password1’).setCustomValidity(‘Passwords must match.’);<br>} else {<br>    document.getElementById(‘password1’).setCustomValidity(‘’);<br>}<br>[/js]</p>
+<h2 id="HTML属性">HTML属性</h2>
+<p>我们已经知道了<code>maxlength</code>, <code>min</code>, <code>max</code>, <code>step</code>, <code>pattern</code>和 <code>type</code> 属性会被浏览器用来约束输入内容。相应地约束验证也有两个附加的属性 <code>novalidate</code> 和 <code>formnovalidate</code>。</p>
+<h3 id="NOVALIDATE">NOVALIDATE</h3>
+<p><code>novalidate</code>属性会被用在表单节点（form）上。当使用这个属性的时候，就表示表单所有的输入内容在提交时不需要验证了。</p>
+<p>[html]<br>&lt;form novalidate&gt;<br> &lt;input type=&quot;text&quot; required/&gt;<br> &lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;<br>&lt;/form&gt;<br>[/html]</p>
+<p>上例代码中因为有<code>novalidate</code>属性，所以尽管输入为空还是会提交表单。</p>
+<h3 id="FORMNOVALIDATE">FORMNOVALIDATE</h3>
+<p><code>formnovalidate</code>属性是一个布尔属性，它可以被用在button和input节点上，来阻止提交时验证此节点。例如：</p>
+<p>[html]<br>&lt;form&gt;<br> &lt;input type=&quot;text&quot; required/&gt;<br> &lt;input type=&quot;submit&quot; value=&quot;Validate&quot; /&gt;<br> &lt;input type=&quot;submit&quot; value=&quot;Do NOT Validate&quot; formnovalidate /&gt;<br>&lt;/form&gt;<br>[/html]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/5nD83/" target="_blank" rel="external">试一下demo</a></p>
+<p>当“Validate”按钮被点击来提交表单的时候，会因为输入为空而被阻止提交。然而，当“Do NOT Validate”按钮被点击来提交表单的时候不会被阻止，因为使用了 <code>formnovalidate</code> 属性。</p>
+<h2 id="CSS钩子">CSS钩子</h2>
+<p>在写高质量的表单验证时，错误信息本身很重要，如何以一个好的体验显示错误信息给用户也是很重要的。所以浏览器提供了一个CSS钩子给开发者。</p>
+<h3 id=":INVALID_AND_:VALID">:INVALID AND :VALID</h3>
+<p>在支持此特性的浏览器中，伪类选择符<code>:valid</code>会匹配表单中通过验证的元素，而伪类选择符<code>:invalid</code>会匹配表单中没有通过验证的元素。</p>
+<p>[html]<br>&lt;form&gt;<br> &lt;input id=&quot;foo&quot; type=&quot;text&quot; required /&gt;<br> &lt;input id=&quot;bar&quot; type=&quot;text&quot; /&gt;<br>&lt;/form&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;// &lt;![CDATA[<br>    document.querySelectorAll(‘input[type=&quot;text&quot;]:invalid’); //Matches input#foo<br>    document.querySelectorAll(‘input[type=&quot;text&quot;]:valid’);   //Matches input#bar<br>// ]]&gt;&lt;/script&gt;<br>[/html]</p>
+<h3 id="重置默认样式">重置默认样式</h3>
+<p>默认FIrefox会在<code>:invalid</code> 元素上放一个红色的<code>box-shadow</code>，而IE10会显示红色的<code>outline。</code></p>
+<p>Firefox 15</p>
+<p><a href="http://mzhou.me/article/95798/demo-08/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-08.png" alt="" title="demo-08"></a><br>Internet Explorer 10</p>
+<p><a href="http://mzhou.me/article/95798/demo-09/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-09.png" alt="" title="demo-09"></a></p>
+<p>基于WebKit的浏览器和Opera默认不会做任何事情。如果你喜欢保持一致性，那么你可以用如下的方法来重写默认样式：</p>
+<p>[css]<br>:invalid {<br>    box-shadow: none; /<em> FF </em>/<br>    outline: 0;       /<em> IE 10 </em>/<br>}<br>[/css]</p>
+<p>作者已经提交了一个<a href="https://github.com/necolas/normalize.css/pull/124" target="_blank" rel="external">pull request</a>来讨论如何在<a href="https://github.com/necolas/normalize.css" target="_blank" rel="external">normalize.css</a>处理其一致性。</p>
+<h2 id="验证气泡">验证气泡</h2>
+<p>一个更大的差异是浏览器显示错误域的验证气泡外观。遗憾的是，Webkit是唯一一个提供开发者自定义气泡的渲染引擎。在Webkit中，开发者可以使用4个伪元素选择符来自定义气泡样式：</p>
+<p>[css]<br>::-webkit-validation-bubble {}<br>::-webkit-validation-bubble-message {}<br>::-webkit-validation-bubble-arrow {}<br>::-webkit-validation-bubble-arrow-clipper {}<br>[/css]</p>
+<h3 id="移除默认气泡">移除默认气泡</h3>
+<p>因为你只可以在Webkit中修改气泡外观，如果你想要一个跨浏览器的自定义外观，那么只能取消默认的气泡并实现一个自己的样式。以下代码可以关闭一个页面上所有表单的默认验证气泡：</p>
+<p>[js]<br>var forms = document.getElementsByTagName(‘form’);<br>for (var i = 0; i &lt; forms.length; i++) {<br>    forms[i].addEventListener(‘invalid’, function(e) {<br>        e.preventDefault();<br>        //Possibly implement your own here.<br>    }, true);<br>}<br>[/js]</p>
+<p>如果你取消了默认的气泡，那么确保你会在表单错误的时候将错误显示出来。目前，气泡是浏览器唯一一种用来显示错误的方式。</p>
+<h2 id="目前的浏览器实现问题和显示">目前的浏览器实现问题和显示</h2>
+<p>尽管那些新API为客户端带来了很多验证表单的功能，依旧还有一些限制。</p>
+<h3 id="setCustomValidity">setCustomValidity</h3>
+<p>通过<code>setCustomValidity</code>方法<code>可以设置validationMessage</code>，但是当表单变得越来越复杂的时候，<code>setCustomValidity</code>的<code>一系列限制</code>变得很明显。</p>
+<p><strong>问题＃1：</strong>处理一个表单域的多种错误</p>
+<p>调用一个节点上的 <code>setCustomValidity</code> 简单地重写它的 <code>validationMessage</code>属性。因此，如果你在同一个节点调用 <code>setCustomValidity</code> 两次，第二次会简单地重写第一次。没有一种机制来处理一个数组的错误信息或者是一种显示多个错误信息的方式。</p>
+<p>有一种解决方法就是为节点的<code>validationMessage</code> 附加消息，如下：</p>
+<p>[js]<br>var foo = document.getElementById(‘foo’);<br>foo.setCustomValidity(foo.validationMessage + ‘ An error occurred’);<br>[/js]</p>
+<p>开发者不可以设置HTML或者是格式化的字符，所以不幸地是串联起来的字符串就会是如下的效果：</p>
+<p><a href="http://mzhou.me/article/95798/demo-12/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-12.png" alt="" title="demo-12"></a></p>
+<p><strong>问题 ＃2</strong>：知道何时验证表单域</p>
+<p>为了说明这个问题，考虑下有两个必须相同的密码输入框的表单：</p>
+<p>[html]<br>&lt;form&gt;<br>&lt;fieldset&gt;&lt;legend&gt;Change Your Password&lt;/legend&gt;<br>&lt;ul&gt;<br>    &lt;li&gt;&lt;label for=&quot;password1&quot;&gt;Password 1:&lt;/label&gt;<br> &lt;input id=&quot;password1&quot; type=&quot;password&quot; required/&gt;&lt;/li&gt;<br>    &lt;li&gt;&lt;label for=&quot;password2&quot;&gt;Password 2:&lt;/label&gt;<br> &lt;input id=&quot;password2&quot; type=&quot;password&quot; required/&gt;&lt;/li&gt;<br>&lt;/ul&gt;<br> &lt;input type=&quot;submit&quot; /&gt;&lt;/fieldset&gt;<br>&lt;/form&gt;</p>
+<p>[/html]</p>
+<p>作者之前的意见是使用 <code>change</code> 事件来实现验证，如下：</p>
+<p>[js]<br>var password1 = document.getElementById(‘password1’);<br>var password2 = document.getElementById(‘password2’);<br>var checkPasswordValidity = function() {<br>    if (password1.value != password2.value) {<br>        password1.setCustomValidity(‘Passwords must match.’);<br>    } else {<br>        password1.setCustomValidity(‘’);<br>    }<br>};<br>password1.addEventListener(‘change’, checkPasswordValidity, false);<br>password2.addEventListener(‘change’, checkPasswordValidity, false);<br>[/js]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/8g8Nz/0/" target="_blank" rel="external">试一下demo</a></p>
+<p>现在，无论哪个密码输入框的值改变了，用户的验证就会被重新检测。然而，考虑下一个自动填充密码的脚本，甚至是一个改变 <code>pattern</code>, <code>required</code>, <code>min</code>, <code>max</code>, 或<code>step</code>值的脚本。这些可以直接影响到密码的验证结果，同时又没有一种事件来知道这些事情发生。</p>
+<p>底线：我们需要一种手段，在表单域验证结果修改的时候执行代码。</p>
+<p><strong>问题＃3：</strong>知道何时用户尝试提交表单</p>
+<p>为什么不使用表单的 <code>submit</code> 事件来解决问题呢？<code>submit</code> 事件是不会在浏览器通过所有验证之前触发的。因此没有方法知道何时用户提交了一个<strong>被浏览器阻止的表单</strong>。</p>
+<p>知道用户尝试提交表单行为的发生是非常有必要的。你可能想要显示给用户一系列的错误信息，改变focus或者是显示帮助文字。不幸地是，你需要多做一些工作才能实现它们。</p>
+<p>有一种方法可以实现它们，就是为表单节点添加 <code>novalidate</code> 属性，然后使用它的 <code>submit</code> 事件。因为表单的 <code>novalidate</code> 属性会在用户提交时阻止浏览器对数据的验证。因此，客户端脚本不得不<code>在 submit</code> 事件中显示地检查表单是否包含了正确的数据，并且依此来决定是否阻止提交。这里有一个扩展了密码匹配的例子，验证逻辑会在表单提交之前运行。</p>
+<p>[html]<br>&lt;form id=&quot;passwordForm&quot; novalidate&gt;<br>&lt;fieldset&gt;&lt;legend&gt;Change Your Password&lt;/legend&gt;<br>&lt;ul&gt;<br>    &lt;li&gt;&lt;label for=&quot;password1&quot;&gt;Password 1:&lt;/label&gt;<br> &lt;input id=&quot;password1&quot; type=&quot;password&quot; required/&gt;&lt;/li&gt;<br>    &lt;li&gt;&lt;label for=&quot;password2&quot;&gt;Password 2:&lt;/label&gt;<br> &lt;input id=&quot;password2&quot; type=&quot;password&quot; required/&gt;&lt;/li&gt;<br>&lt;/ul&gt;<br> &lt;input type=&quot;submit&quot; /&gt;&lt;/fieldset&gt;<br>&lt;/form&gt;</p>
+<p>&lt;script type=&quot;text/javascript&quot;&gt;<br>    var password1 = document.getElementById(‘password1’);<br>    var password2 = document.getElementById(‘password2’);<br>    var checkPasswordValidity = function() {<br>        if (password1.value != password2.value) {<br>            password1.setCustomValidity(‘Passwords must match.’);<br>        } else {<br>            password1.setCustomValidity(‘’);<br>        }<br>    };<br>    password1.addEventListener(‘change’, checkPasswordValidity, false);<br>    password2.addEventListener(‘change’, checkPasswordValidity, false);<br>    var form = document.getElementById(‘passwordForm’);<br>    form.addEventListener(‘submit’, function() {<br>        checkPasswordValidity();<br>        if (!this.checkValidity()) {<br>            event.preventDefault();<br>            //Implement you own means of displaying error messages to the user here.<br>            password1.focus();<br>        }<br>    }, false);<br>&lt;/script&gt;<br>[/html]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/8g8Nz/" target="_blank" rel="external">试一下demo</a></p>
+<p>这个方法的主要缺点是为表单添加了 <code>novalidate</code> 属性来阻止浏览器显示验证气泡给用户。因此如果你使用了这个技术，你必须实现自己的展示错误信息的方法。<a href="http://jsfiddle.net/tj_vantoll/a533m/" target="_blank" rel="external">这里有一个简单的例子</a> 展示了如何完成这一方法。</p>
+<p>底线：我们需要一个 <code>forminvalid</code> 事件，它会在表单提交之前触发，不论表单中的数据是否正确。</p>
+<h3 id="Safari">Safari</h3>
+<p>即使是Safari支持约束验证API的情况下，在写这篇文章的时候（版本 6）Safari也不会因为表单的数据没有满足约束验证而阻止用户提交。对使用Safari的用户来说，它和其他不支持约束验证的浏览器没有区别。</p>
+<p>最简单的解决这个问题的方法就和之前提到的一样，给所有的表单添加<code>novalidate</code>属性，并且使用<code>preventDefault</code>阻止表单提交。代码如下：</p>
+<p>[js]<br>var forms = document.getElementsByTagName(‘form’);<br>for (var i = 0; i &lt; forms.length; i++) {<br>    //Add the novalidate attribute.<br>    forms[i].setAttribute(‘novalidate’, true);<br>    forms[i].addEventListener(‘submit’, function(event) {<br>        //Prevent submission if checkValidity on the form returns false.<br>        if (!event.target.checkValidity()) {<br>            event.preventDefault();<br>            //Implement you own means of displaying error messages to the user here.<br>        }<br>    }, false);<br>}<br>[/js]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/rFLxt/" target="_blank" rel="external">试一下demo</a></p>
+<p>注意：现在已经有不少记录在案的bug， <code>checkValidity</code> 会返回错误的结果（<a href="https://bugs.webkit.org/show_bug.cgi?id=48491" target="_blank" rel="external">样例1</a> 和 <a href="https://github.com/aFarkas/webshim/issues/134" target="_blank" rel="external">样例2</a>）。误报对上面的情况来说是特别严重的，因为用户会被困在表单验证的步骤。</p>
+<h3 id="显示地设置错误信息">显示地设置错误信息</h3>
+<p>虽然开发者可以通过<code>setCustomValidity</code>来设置<code>validationMessage</code>，但是当表单很大的时候用javascriot来设置各个表单域错误信息的开发体验很不友好。</p>
+<p>为了让这个开发过程变的更容易，Firefox引入了一个自定义的 <code>x-moz-errormessage</code> 属性，它可以被用来自动设置域的 <code>validationMessage</code>。</p>
+<p>[html]<br>&lt;form&gt;<br> &lt;input type=&quot;text&quot; required x-moz-errormessage=&quot;Fill this out.&quot;/&gt;<br> &lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;<br>&lt;/form&gt;<br>[/html]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/CCZNp/" target="_blank" rel="external">试一下demo</a></p>
+<p>以上的代码在Firefox中提交时得到的结果如下：</p>
+<p><a href="http://mzhou.me/article/95798/demo-11/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-11.png" alt="" title="demo-11"></a></p>
+<p>这个特性已经被提交到了 <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=10923" target="_blank" rel="external">W3C</a> ，但是被拒绝了。因此，目前Firefox是唯一一个可以显示地自定义错误信息的浏览器。</p>
+<h4 id="Title属性">Title属性</h4>
+<p>虽然Title属性不会改变 <code>validationMessage</code>，但是在<code>patternMismatch</code>且有<code>title</code>值的情况下，浏览器会把 <code>title</code> 属性值显示在行内气泡上。(<em>注意：只要<em>开发者设置了 <code>title</code> </em>值，那么Chrome会在任何出错情况下显示 <code>title</code> 属性值，而不仅仅是 <code>patternMismatch</code>es 的情况。</em>)</p>
+<p>[html]<br>&lt;form&gt;<br> &lt;label for=&quot;price&quot;&gt;Price: $&lt;/label&gt;<br> &lt;input id=&quot;price&quot; pattern=&quot;[0-9].[0-9][0-9]&quot; title=&quot;Please enter the price in x.xx format (e.g. 3.99)&quot; type=&quot;text&quot; value=&quot;3&quot; /&gt;<br> &lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;<br>&lt;/form&gt;<br>[/html]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/SVWXw/" target="_blank" rel="external">试一下demo</a></p>
+<p>执行的结果如下：</p>
+<p>Chrome 21</p>
+<p><a href="http://mzhou.me/article/95798/demo-12/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-12.png" alt="" title="demo-12"></a><br>Firefox 15</p>
+<p><a href="http://mzhou.me/article/95798/demo-13/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-13.jpg" alt="" title="demo-13"></a><br>Opera 12</p>
+<p><a href="http://mzhou.me/article/95798/demo-14/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-14.png" alt="" title="demo-14"></a><br>IE 10</p>
+<p><a href="http://mzhou.me/article/95798/demo-15/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-15.png" alt="" title="demo-15"></a></p>
+<h3 id=":invalid_和_:valid">:invalid 和 :valid</h3>
+<p>和之前讨论的一样，伪类选择符 <code>:valid</code>会匹配通过了约束验证的表单元素，伪类选择符 <code>:invalid</code> 会匹配未通过了约束验证的表单元素。不幸地是这些伪类选择符会被自动匹配，在表单被提交之前甚至是表单可以与用户交互之前就已经匹配了。看如下例子：</p>
+<p>[html]<br>&lt;style&gt;<br>    :invalid {<br>        border: 1px solid red;<br>    }<br>    :valid {<br>        border: 1px solid green;<br>    }<br>&lt;/style&gt;<br>&lt;form&gt;<br>  &lt;input type=&quot;text&quot; required/&gt;<br>  &lt;input type=&quot;text&quot; /&gt;<br>&lt;/form&gt;<br>[/html]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/6sygE/" target="_blank" rel="external">试一下demo</a></p>
+<p>demo实现的效果是为出错域加一个红色边框，为正确域添加一个绿色边框。这个效果在表单被绘制的时候已经加上了。然而，<a href="http://www.alistapart.com/articles/inline-validation-in-web-forms/" target="_blank" rel="external">行内表单验证的可用性测试</a> 已经表明给用户提示的最好时机是在他们域表单域发生交互<strong>之后</strong>，不是之前。</p>
+<p>有一种方法可以实现以上说的效果，就是在输入框产生交互之后添加一个class。并且只在有这个class的时候加上边框。</p>
+<p>[html]<br>&lt;style&gt;<br>    .interacted:invalid {<br>        border: 1px solid red;<br>    }<br>    .interacted:valid {<br>        border: 1px solid green;<br>    }<br>&lt;/style&gt;<br>&lt;form&gt;<br> &lt;input type=&quot;text&quot; required/&gt;<br> &lt;input type=&quot;text&quot; /&gt;<br> &lt;input type=&quot;submit&quot; /&gt;<br>&lt;/form&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>    var inputs = document.querySelectorAll(‘input[type=text]’);<br>    for (var i = 0; i &lt; inputs.length; i++) {<br>        inputs[i].addEventListener(‘blur’, function(event) {<br>            event.target.classList.add(‘interacted’);<br>        }, false);<br>    }<br>&lt;/script&gt;<br>[/html]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/WLHDY/" target="_blank" rel="external">试一下demo</a></p>
+<p>Firefox已经看到了这些问题并<a href="http://blog.oldworld.fr/index.php?post/2011/05/Improving-HTML5-Forms-user-experience-with-moz-ui-invalid-and-moz-ui-valid-pseudo-classes" target="_blank" rel="external">实现了两个附加的伪类选择符</a>：<code>:moz-ui-invalid</code> 和 <code>:moz-ui-valid</code>。不像<code>:invalid</code> 和 <code>:valid</code>， <code>:moz-ui-invalid</code> 和 <code>:moz-ui-valid</code> 直到表单域被修改或是表单提交（且遇到出错的表单域）之前不会匹配表单域。</p>
+<p>最后注意，在且仅在Firefox中 <code>:valid</code> 和 <code>:invalid</code> 伪类选择符会不仅会匹配表单元素还会匹配 <code>&amp;lt;form&amp;gt;</code> 节点。所以在添加全局的CSS规则时要注意。</p>
+<h3 id="不支持的浏览器">不支持的浏览器</h3>
+<p>虽然支持约束验证的浏览器很棒，但是还是有一些主要浏览器没有支持。例如IE</p>
+<h2 id="处理不支持的浏览器">处理不支持的浏览器</h2>
+<p>如果你尝试在线上产品中使用新的约束验证API，你不得不让不支持的浏览器也能正常使用。以作者的经验来看，主要有两种选择：</p>
+<p><strong>选择1：</strong>仅仅依赖服务器端验证</p>
+<p>记住即使是有了新的API，客户端验证也没办法代替服务器端验证的地位。有些不怀好意的使用者可以很简单的绕过客户端的验证，并且HTTP请求不一定会来自于浏览器。</p>
+<p>因此客户端验证应该只被当作是一种用户体验的增强手段；所有的表单都应该能正常使用，即使在客户端无法显示验证信息的情况下。</p>
+<p>既然已经有了服务器短的验证，只需要服务器端返回一个合理的错误信息并显示给终端用户。开发者只需要为不支持的浏览器做降级处理即可。</p>
+<p><strong>选择2：</strong>优雅降级</p>
+<p>虽然依赖服务器端验证对一些应用是合理的措施，但在不支持的浏览器中抛弃有可用性优势的客户端验证不是一种好的选择。</p>
+<p>如果你想要用新的API并且想要让它在任何地方都能运行，那么最好的方法是使用<a href="http://remysharp.com/2010/10/08/what-is-a-polyfill/" target="_blank" rel="external">优雅降级</a>。为了让API在不支持的浏览器上运行，有一些降级库使用了额外的步骤并且解决了一些浏览器本地实现的issues。</p>
+<h2 id="优雅降级">优雅降级</h2>
+<p>这里有一系列的<a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills" target="_blank" rel="external">降级实现的库</a>允许你在任何浏览器上使用约束验证API。作者在这里讨论了两种流行的选择。</p>
+<h3 id="Webshims">Webshims</h3>
+<p><a href="http://afarkas.github.com/webshim/demos/index.html" target="_blank" rel="external">Webshims</a> 是一系列的降级库，它包含了HTML5表单和约束验证API。</p>
+<p>为了展示如何使用Webshims，让我们回到最初的样例中：一个有 <code>required</code> 属性的文字输入框。</p>
+<p>[html]<br>&lt;form&gt;<br> &lt;input type=&quot;text&quot; required value=&quot;&quot; /&gt;<br> &lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;<br>&lt;/form&gt;<br>[/html]</p>
+<p>为了让以上代码在所有浏览器中保持一致性，你需要引入 Webshims 和它的依赖。然后调用 <code>$.webshims.polyfill(&#39;forms&#39;)</code> 方法。</p>
+<p>[html]<br>&lt;!— Webshims’ dependencies —&gt;<br>&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery-1.8.2.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot; src=&quot;js/modernizr-yepnope-custom.js&quot;&gt;&lt;/script&gt;<br>&lt;!— Webshims base —&gt;<br>&lt;script type=&quot;text/javascript&quot; src=&quot;js-webshim/minified/polyfiller.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt;// &lt;![CDATA[<br>jQuery.webshims.polyfill(‘forms’);<br>// ]]&gt;&lt;/script&gt;<br>&lt;form&gt;<br> &lt;input type=&quot;text&quot; value=&quot;&quot; required /&gt;<br> &lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;<br>&lt;/form&gt;<br>[/html]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/YsBNt/" target="_blank" rel="external">试一下demo</a></p>
+<p>在支持的浏览器中结果不会有区别。不支持约束验证的浏览器也会显示不符合验证的错误信息、阻止不符合的表单提交。例如以下是Safari和IE8的显示结果：</p>
+<p>Safari 6</p>
+<p><a href="http://mzhou.me/article/95798/demo-16/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-16.png" alt="" title="demo-16"></a><br>Internet Explorer 8</p>
+<p><a href="http://mzhou.me/article/95798/demo-17/" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/10/demo-17.png" alt="" title="demo-17"></a></p>
+<p>为了实现优雅降级，Webshims也提供针对之前讨论过的那些约束验证限制的解决方案：</p>
+<ul>
+<li>通过 <code>data-errormessage</code> 属性显示的设置错误信息；</li>
+<li>提供了 <code>form-ui-valid</code> 和 <code>form-ui-invalid</code> 两个class，它们与 <code>:moz-ui-valid</code> 和 <code>:moz-ui-invalid</code>的功能一样；</li>
+<li>提供了 <code>firstinvalid</code>, <code>lastinvalid</code>, <code>changedvalid</code>, 和 <code>changedinvalid</code>事件；</li>
+<li>解决了 WebKit 在表单提交时候的误报bug；<br>更多的信息去Webshims提供的文档看 <a href="http://afarkas.github.com/webshim/demos/demos/webforms.html" target="_blank" rel="external">HTML5 forms docs</a>。</li>
+</ul>
+<h3 id="H5F">H5F</h3>
+<p>H5F是一个轻量级没有依赖的降级库，实现了所有的约束验证API和一系列的新属性。</p>
+<p>让我们通过之前的例子来看看H5F是如何使用的：</p>
+<p>[html]<br>&lt;script type=&quot;text/javascript&quot; src=&quot;H5F.js&quot;&gt;&lt;/script&gt;<br>&lt;form&gt;<br> &lt;input type=&quot;text&quot; value=&quot;&quot; required/&gt;<br> &lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;<br>&lt;/form&gt;<br>&lt;script type=&quot;text/javascript&quot;&gt;<br>    H5F.setup(document.getElementsByTagName(‘form’));<br>&lt;/script&gt;<br>[/html]</p>
+<p><a href="http://jsfiddle.net/tj_vantoll/63YAy/" target="_blank" rel="external">试一下demo</a></p>
+<p>H5F 会在所有的浏览器中阻止提交表单，但是用户只会在支持的浏览器中看到验证气泡。既然H5F提供了完全的约束验证API，开发者可以使用它来实现自己的UI，并且做任何想要事情。</p>
+<p>如果你想找一些样例来了解它的API，<a href="http://www.alistapart.com/d/forward-thinking-form-validation/enhanced_2.html" target="_blank" rel="external">H5F的样例页面</a>中实现了在输入框右侧显示信息。作者也有一个样例，展示了如何在表单顶部 <a href="http://tjvantoll.com/2012/08/05/html5-form-validation-showing-all-error-messages/" target="_blank" rel="external">的列表中显示所有的错误信息</a>。</p>
+<p>为了实现约束验证API的优雅降级，H5F也提供了模仿 <code>:moz-ui-valid</code> 和 <code>:moz-ui-invalid的类</code>。默认那些类是 <code>valid</code> 和 <code>error</code> 。同时它们也可以通过为 <code>H5F.setup</code> 方法设置第二参数来自定义。</p>
+<p>[js]<br>H5F.setup(document.getElementById(‘foo’), {<br>    validClass: ‘valid’,<br>    invalidClass: ‘invalid’<br>});<br>[/js]</p>
+<p>更多的信息可以在H5F的<a href="https://github.com/ryanseddon/H5F" target="_blank" rel="external">github</a>页面上获得。</p>
+<h2 id="结论">结论</h2>
+<p>HTML5的约束验证API使得在客户端添加验证变得快捷的同时还提供了Javascript API和CSS钩子来自定义。</p>
+<p>尽管还是有很多浏览器实现和旧浏览器兼容的问题存在，配合好的降级库或是服务器端验证，开发者就可以在自己的表单中使用这些API。</p>
+<blockquote>
+<p>译者言：看完之后觉得约束验证的API设计的真心不好用。。。</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2012/10/22/e7baa6e69d9fe9aa8ce8af81efbc9ae7bd91e9a1b5e8a1a8e58d95e79a84e69cace59cb0e5aea2e688b7e7abafe9aa8ce8af81/" data-id="t0zhhnqerwzvizxj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/invalid/">:invalid</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/valid/">:valid</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Constraint-Validation/">Constraint Validation</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/H5F/">H5F</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Webshims/">Webshims</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html5/">html5</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/约束验证/">约束验证</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-e7bd91e9a1b5e4b8ade7a9bae799bde7aca6e79a84e5a18ce999b7" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/09/16/e7bd91e9a1b5e4b8ade7a9bae799bde7aca6e79a84e5a18ce999b7/" class="article-date">
+  <time datetime="2012-09-16T10:37:31.000Z" itemprop="datePublished">Sep 16 2012</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UI/">UI</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/09/16/e7bd91e9a1b5e4b8ade7a9bae799bde7aca6e79a84e5a18ce999b7/">网页中空白符的塌陷</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在HTML源代码中有很多空白、TAB符和换行符，它们可以保持源代码的格式，却与最终的绘制结果不相关。例如将源代码分成数段的换行符，以及用于优化代码格式的TAB符号。这里将空白、TAB和换行符统称为空白符（white space）。</p>
+<p>CSS中可以使用white-space来控制空白符的格式：</p>
+<p><table class="data"><colgroup class="header"></colgroup> <colgroup span="3"></colgroup></table></p>
+<p><thead></thead></p>
+<p><tr></tr></p>
+<p><th></th></p>
+<p><th>换行符</th></p>
+<p><th>  空白和TAB</th></p>
+<p><th>文字包裹</th><br><br></p>
+<p><tbody></tbody></p>
+<p><tr></tr></p>
+<p><th>‘<code>normal</code>’</th></p>
+<p><td>塌陷</td></p>
+<p><td>塌陷</td></p>
+<p><td>包裹</td><br></p>
+<p><tr></tr></p>
+<p><th>‘<code>pre</code>’</th></p>
+<p><td>保留</td></p>
+<p><td>保留</td></p>
+<p><td>不包裹</td><br></p>
+<p><tr></tr></p>
+<p><th>‘<code>nowrap</code>’</th></p>
+<p><td>塌陷</td></p>
+<p><td>塌陷</td></p>
+<p><td>不包裹</td><br></p>
+<p><tr></tr></p>
+<p><th>‘<code>pre-wrap</code>’</th></p>
+<p><td>保留</td></p>
+<p><td>保留</td></p>
+<p><td>包裹</td><br></p>
+<p><tr></tr></p>
+<p><th>‘<code>pre-line</code>’</th></p>
+<p><td>保留</td></p>
+<p><td>塌陷</td></p>
+<p><td>包裹</td><br><br><br><br>其中normal和nowrap样式下换行符会塌陷，normal、nowrap和pre-line样式下空白和TAB会塌陷。</p>
+<p>本文会涉及到一些名词：行框、行内框、行内格式上下文。如果此没有印象请看：<a href="http://w3help.org/zh-cn/kb/010/" target="_blank" rel="external">http://w3help.org/zh-cn/kb/010/</a></p>
+<h2 id="空白符有哪些？">空白符有哪些？</h2>
+<p>HTML中的空白符：</p>
+<ul>
+<li>ASCII space (U+0020)</li>
+<li>ASCII tab (U+0009)</li>
+<li>ASCII form feed (U+000C)</li>
+<li>Zero-width space (U+200B)</li>
+<li><p>换行符<br>HTML中的换行符：</p>
+</li>
+<li><p>回车符 ‘\r’ (U+000D)</p>
+</li>
+<li>换行符 ‘\n’ (U+000A)</li>
+<li>组合形式 ‘\r\n’(U+000D U+000A)<br>不过受到white-space样式影响的空白符只包含：</li>
+</ul>
+<ol>
+<li>ASCII space (U+0020)</li>
+<li>ASCII tab (U+0009)</li>
+<li>换行符</li>
+</ol>
+<h2 id="空白符塌陷规则">空白符塌陷规则</h2>
+<p>首先，在同一个行内格式上下文中的每个行内框（包括匿名行内框）中的空白符会按照以下规则塌陷：</p>
+<ul>
+<li>如果white-space被设置为normal、nowrap和pre-line时，空白符被认为是可以塌陷的（<dfn id="collapsible">collapsible</dfn>），并忽略<a href="http://www.ibm.com/developerworks/cn/java/j-lo-bidi/index.html" target="_blank" rel="external">BiDi（双向字符集语言）</a>格式化字符，进行如下步骤：<div>
+</div></li>
+</ul>
+<ol>
+<li>所有换行符之前或之后的空白和TAB都会被移除；</li>
+<li>换行符按照“换行符转换规则”绘制；</li>
+<li>所有的tab会被转换成空白（U+0020）；</li>
+<li>当任何一个空白紧随另外一个可塌陷（collapsible）空白，且他们在同一个行内格式上下文中，那么这个空白会塌陷（它会不可见，但是依旧保留其<dfn id="soft-wrap-opportunity">soft wrap opportunity</dfn>）；<br></li>
+</ol>
+<ul>
+<li>如果white-space被设置为pre-wrap时，任何连续的空白被当称no-breaking空白处理。<br>当一个块框就被绘制，每个行内框被正确放置。此时将BiDi字符重新更新其顺序，并将其包裹（按照white-space的值来包裹）。</li>
+</ul>
+<p>当每一个行被正确的放置后(注意此处不是行框，而是普通的一行。例如br元素可以断行，所以br元素之前的空白会被移除)：</p>
+<ol>
+<li>每一行开头的一系列可塌陷（collapsible）空白会被移除；</li>
+<li>每个TAB会被绘制成水平方向的位移，TAB的大小是被CSS样式<a href="http://dev.w3.org/csswg/css3-text/#tab-size0" target="_blank" rel="external">tab-size</a>控制的；</li>
+<li>每一行结尾的一系列可塌陷（collapsible）空白会被移除；</li>
+<li>如果一行结尾有不可塌陷空白和TAB，并且CSS3样式<code>text-wrap被设置为normal，那么客户端可能让它们塌陷；</code><div><span style="font-family: monospace;">剩下没有被移除或塌陷的空白符会被保留并绘制。</span></div>
+
+</li>
+</ol>
+<h3 id="例子">例子</h3>
+<p>[html]&lt;code&gt;&lt;ltr&gt;A &lt;rtl&gt; B &lt;/rtl&gt; C&lt;/ltr&gt;&lt;/code&gt;[/html]</p>
+<p>得到的结果为：</p>
+<p><pre>A  BC</pre><br>因为Bidi格式会被忽略，且三个行内框在同一个行内格式上下文中，按照上面的塌陷规则最终只会保留A之后的两个空白。</p>
+<h2 id="换行符转换规则">换行符转换规则</h2>
+<p>当white-space被设置为pre、pre-wrap和pre-line时，换行符不是可塌陷的并且会被转换成换行（U+000A）。</p>
+<p>当white-space被设为其他值时，换行符是可塌陷的，要么被转换成一个空白（U+0020）要么被移除。规则如下：</p>
+<ul>
+<li>如果换行符之前或之后是一个zero-width space（U+200B），那么换行符会被移除；</li>
+<li>如果换行符之前或之后的字符的<a href="http://www.unicode.org/reports/tr11/" target="_blank" rel="external">East Asian Width</a>属性是F，W或H (不是 A)，并且都不是韩语，那么此换行符被移除；</li>
+<li>其他情况下，换行符被替换成一个空格（U+0020）;<br><div></div><blockquote>
+<p>注意：客户端会先解析HTML，然后再应用CSS规则。所以有些因为HTML规范而被忽略的换行不会因为CSS规则而再度出现。比如之前文章中提到的<a href="http://mzhou.me/?p=95668" target="_blank" rel="external">pre标签与white-space:pre的区别</a>。<br>参考：<a href="http://www.w3.org/TR/css3-text/" target="_blank" rel="external">http://www.w3.org/TR/css3-text/</a></p>
+</blockquote>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2012/09/16/e7bd91e9a1b5e4b8ade7a9bae799bde7aca6e79a84e5a18ce999b7/" data-id="4tpjrcn52o8fumbe" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/white-space/">white-space</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/叠加/">叠加</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/塌陷/">塌陷</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/空白符/">空白符</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-e38090e58d9ae5aea2e4b8bbe9a298e69bb4e696b0e38091thesimplest-e7ad89e9ab98e5b883e5b180e4b88ee5938de5ba94e5bc8fe8aebee8aea1e79a84e5b09d" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/09/10/e38090e58d9ae5aea2e4b8bbe9a298e69bb4e696b0e38091thesimplest-e7ad89e9ab98e5b883e5b180e4b88ee5938de5ba94e5bc8fe8aebee8aea1e79a84e5b09d/" class="article-date">
+  <time datetime="2012-09-09T16:53:19.000Z" itemprop="datePublished">Sep 10 2012</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/design/">design</a>►<a class="article-category-link" href="/categories/design/UI/">UI</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/09/10/e38090e58d9ae5aea2e4b8bbe9a298e69bb4e696b0e38091thesimplest-e7ad89e9ab98e5b883e5b180e4b88ee5938de5ba94e5bc8fe8aebee8aea1e79a84e5b09d/">TheSimplest 等高布局与响应式设计的尝试</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近更新了自己的博客主题，采用了一些有意思的技术。<strong>两栏布局</strong>，不过不是一般的两栏布局。背景分为灰白两部分，左右自动扩张，高度最小为窗口高度且随内容高度增长。还使用了响应式设计为手机和平板做了些优化。</p>
+<p>结果如下：</p>
+<p><a href="http://mzhou.me/?attachment_id=95715" target="_blank" rel="external"><img src="http://mzhou.me/wp-content/uploads/2012/09/QQ20120909-1-300x215.png" alt="" title="QQ20120909-1"></a><br>
+        
+          <p class="article-more-link">
+            <a href="/2012/09/10/e38090e58d9ae5aea2e4b8bbe9a298e69bb4e696b0e38091thesimplest-e7ad89e9ab98e5b883e5b180e4b88ee5938de5ba94e5bc8fe8aebee8aea1e79a84e5b09d/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nodejs.in/2012/09/10/e38090e58d9ae5aea2e4b8bbe9a298e69bb4e696b0e38091thesimplest-e7ad89e9ab98e5b883e5b180e4b88ee5938de5ba94e5bc8fe8aebee8aea1e79a84e5b09d/" data-id="4qnjzdh78c946sq7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TheSimplest/">TheSimplest</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html/">html</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/响应式设计/">响应式设计</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/等高布局/">等高布局</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/高宽自动扩展/">高宽自动扩展</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/archives/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/11/">11</a><a class="extend next" rel="next" href="/archives/page/3/">Next &raquo;</a>
+    </nav>
+  
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/javascript/">javascript</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/javascript/Other/">Other</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/UI/">UI</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/design/">design</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/design/UI/">UI</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/design/javascript/">javascript</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">52</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/Other/">Other</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/Other/UI/">UI</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/UI/">UI</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/未分类/">未分类</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/&gt;/">&gt;</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/&lt;/">&lt;</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/++/">++</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/16/">1.6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalid/">:invalid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/valid/">:valid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/@PostConstruct/">@PostConstruct</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/">AOP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Closures/">Closures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Constraint-Validation/">Constraint Validation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DSL/">DSL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Delete/">Delete</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DoctorJS/">DoctorJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-6/">ECMAScript 6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/File/">File</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Geolocation/">Geolocation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Get/">Get</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/H5F/">H5F</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hibernate/">Hibernate</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hql/">Hql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IE/">IE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSLint/">JSLint</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONP/">JSONP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/">Math</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mobile-Safari/">Mobile Safari</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeList/">NodeList</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OAuth/">OAuth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/">OOP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ObjectdefineProperty/">Object.defineProperty</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OneTask/">OneTask</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Other/">Other</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PPT/">PPT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Package/">Package</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PrototypeJS/">PrototypeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SimpleSVGMap/">SimpleSVGMap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sinon/">Sinon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SyntaxHighlighter/">SyntaxHighlighter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SyntaxHighlighter-Evolved/">SyntaxHighlighter Evolved</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TheSimplest/">TheSimplest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI/">UI</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webshims/">Webshims</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/and/">and</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ant/">ant</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/arguments/">arguments</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/attr/">attr</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/auto/">auto</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/br/">br</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bug/">bug</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/canvas/">canvas</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/checkbox/">checkbox</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/class/">class</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/classloader/">classloader</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/click/">click</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocos2d-javascript/">cocos2d-javascript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding/">coding</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/contenteditable/">contenteditable</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/context/">context</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css-target/">css target</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css3/">css3</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/db2/">db2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/emphasis/">emphasis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/event/">event</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/false/">false</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/filter/">filter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/firefox/">firefox</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/getElementByTagName/">getElementByTagName</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/google-code-prettify/">google-code-prettify</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grayScale/">grayScale</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html解析/">html解析</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ifElse/">ifElse</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/image/">image</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inline/">inline</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/input/">input</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios/">ios</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQueryemphasis/">jQuery.emphasis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-bean/">java bean</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascri/">javascri</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">46</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsoup/">jsoup</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label/">label</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/margin/">margin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/memorize/">memorize</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mocks/">mocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/module/">module</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/module-loader/">module loader</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/moon/">moon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mozilla/">mozilla</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nudging/">nudging</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/overflow/">overflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/overflowchanged/">overflowchanged</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plugin/">plugin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pre/">pre</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presentation/">presentation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prop/">prop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prototype/">prototype</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/querySelectorAll/">querySelectorAll</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/referer/">referer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/safari/">safari</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scope/">scope</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setMonth/">setMonth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spies/">spies</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/">spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stubs/">stubs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/style/">style</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sun/">sun</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svg/">svg</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tdd/">tdd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/text/">text</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/text-emphasis/">text-emphasis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/text-size-adjust/">text-size-adjust</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/true/">true</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/type/">type</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/underflow/">underflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/watchjs/">watch.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/weakmap/">weakmap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webStorage/">webStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/white-space/">white-space</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windowname/">window.name</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/">wordpress</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/上下文/">上下文</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/中文乱码/">中文乱码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/中点/">中点</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/主题/">主题</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二进制/">二进制</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/传参/">传参</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/作用域/">作用域</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/使用方法/">使用方法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/函数式编程/">函数式编程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分时处理/">分时处理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端组件/">前端组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/十进制/">十进制</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/十进制与二进制/">十进制与二进制</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原型链/">原型链</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原码/">原码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/反码/">反码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/叠加/">叠加</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/命令/">命令</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式设计/">响应式设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/囚犯与灯泡/">囚犯与灯泡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/圆规/">圆规</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/块框/">块框</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/塌陷/">塌陷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多行匹配/">多行匹配</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字体/">字体</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安装步骤/">安装步骤</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小数/">小数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/居中/">居中</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/幻灯片/">幻灯片</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/循环依赖/">循环依赖</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/换行/">换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/换行符/">换行符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/整数/">整数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/新浪微博/">新浪微博</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/替换元素/">替换元素</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试框架/">测试框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/浮点数计算/">浮点数计算</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/灰阶化/">灰阶化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/着重符/">着重符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/移码/">移码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/空白符/">空白符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/等高布局/">等高布局</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/类型推理/">类型推理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/约束验证/">约束验证</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程模型/">线程模型</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缩放/">缩放</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/能力域/">能力域</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/行内元素/">行内元素</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/补码/">补码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观察者模式/">观察者模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/记住密码/">记住密码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/跨域/">跨域</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/跨域请求/">跨域请求</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/转换/">转换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/通知/">通知</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/重构/">重构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/钢之炼金术师/">钢之炼金术师</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/闭包/">闭包</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/霓虹灯/">霓虹灯</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/非替换元素/">非替换元素</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面向对象/">面向对象</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面向方面/">面向方面</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/风格/">风格</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高宽自动扩展/">高宽自动扩展</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/&gt;/" style="font-size: 10.00px;">&gt;</a><a href="/tags/&lt;/" style="font-size: 10.00px;">&lt;</a><a href="/tags/++/" style="font-size: 10.00px;">++</a><a href="/tags/16/" style="font-size: 10.00px;">1.6</a><a href="/tags/invalid/" style="font-size: 10.00px;">:invalid</a><a href="/tags/valid/" style="font-size: 10.00px;">:valid</a><a href="/tags/@PostConstruct/" style="font-size: 10.00px;">@PostConstruct</a><a href="/tags/AOP/" style="font-size: 13.33px;">AOP</a><a href="/tags/Android/" style="font-size: 10.00px;">Android</a><a href="/tags/Closures/" style="font-size: 10.00px;">Closures</a><a href="/tags/Constraint-Validation/" style="font-size: 10.00px;">Constraint Validation</a><a href="/tags/DSL/" style="font-size: 10.00px;">DSL</a><a href="/tags/Delete/" style="font-size: 10.00px;">Delete</a><a href="/tags/DoctorJS/" style="font-size: 10.00px;">DoctorJS</a><a href="/tags/ECMAScript-6/" style="font-size: 10.00px;">ECMAScript 6</a><a href="/tags/File/" style="font-size: 10.00px;">File</a><a href="/tags/Geolocation/" style="font-size: 10.00px;">Geolocation</a><a href="/tags/Get/" style="font-size: 10.00px;">Get</a><a href="/tags/H5F/" style="font-size: 10.00px;">H5F</a><a href="/tags/Hibernate/" style="font-size: 16.67px;">Hibernate</a><a href="/tags/Hql/" style="font-size: 10.00px;">Hql</a><a href="/tags/IE/" style="font-size: 10.00px;">IE</a><a href="/tags/JSLint/" style="font-size: 10.00px;">JSLint</a><a href="/tags/JSONP/" style="font-size: 10.00px;">JSONP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Javascript/" style="font-size: 10.00px;">Javascript</a><a href="/tags/Math/" style="font-size: 10.00px;">Math</a><a href="/tags/Mobile-Safari/" style="font-size: 10.00px;">Mobile Safari</a><a href="/tags/NodeList/" style="font-size: 10.00px;">NodeList</a><a href="/tags/OAuth/" style="font-size: 10.00px;">OAuth</a><a href="/tags/OOP/" style="font-size: 10.00px;">OOP</a><a href="/tags/ObjectdefineProperty/" style="font-size: 10.00px;">Object.defineProperty</a><a href="/tags/OneTask/" style="font-size: 10.00px;">OneTask</a><a href="/tags/Other/" style="font-size: 10.00px;">Other</a><a href="/tags/PPT/" style="font-size: 10.00px;">PPT</a><a href="/tags/Package/" style="font-size: 10.00px;">Package</a><a href="/tags/PrototypeJS/" style="font-size: 10.00px;">PrototypeJS</a><a href="/tags/SimpleSVGMap/" style="font-size: 10.00px;">SimpleSVGMap</a><a href="/tags/Sinon/" style="font-size: 10.00px;">Sinon</a><a href="/tags/SyntaxHighlighter/" style="font-size: 10.00px;">SyntaxHighlighter</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">March 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">February 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10">October 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09">September 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06">June 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/03">March 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12">December 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07">July 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06">June 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05">May 2011</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03">March 2011</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01">January 2011</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12">December 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11">November 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10">October 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09">September 2010</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08">August 2010</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06">June 2010</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2014/09/02/Atom-Shell入门/">Atom Shell入门</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/让你的站点支持触屏/">让你的站点支持触屏</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/[译]学习CSS布局/">[译]学习CSS布局</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/中文排版二三事/">中文排版二三事</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/01/hello-world/">CSS Counters</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 mzhou / zmmbreeze<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
